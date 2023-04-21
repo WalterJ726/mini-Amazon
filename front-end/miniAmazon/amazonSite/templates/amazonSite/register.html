@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <div class="header">Join us</div>
+            <div class="form-wrapper">
+                <form action="/amazonSite/register/" method="post">
+                    {% for message in messages%}
+                        <p id="messages"><small>{{message}}</p> 
+                    {% endfor %}
+                    {% csrf_token %}
+                    <input type="text" id="id_username" name="username" placeholder="Username" class="input-item" required>
+                    <input type="text" id="id_first_name"  name="first_name" placeholder="Firstname" class="input-item" required>
+                    <input type="text" id="id_last_name"  name="last_name" placeholder="Lastname" class="input-item" required>
+                    <input type="password" id="id_password" name="password" placeholder="Your password" class="input-item" required>
+                    <input type="password" id="id_password2" name="password2" placeholder="Repeat password" class="input-item" required> 
+                    <input type="email" id="id_email" name="email" placeholder="Email" class="input-item" required>
+                    <button class="button" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="msg">
+                Don't want to create now?
+                <a href="/amazonSite/">Go back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

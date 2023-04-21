@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper">
+            <div class="header" style="line-height: 270px;">Ride & Share</div>
+            <div class="form-wrapper">
+                <form action="/amazonSite/" method="post">
+                    {% for message in messages%}
+                        {% if message is not None%}
+                            <p id="messages"><small>{{message}}</p> 
+                        {% endif %}
+                    {% endfor %}
+                    {% csrf_token %}
+                    <input type="text" name="username" placeholder="username" class="input-item" required>
+                    <input type="password" name="password" placeholder="password" class="input-item" required>
+                    <button class="button" type="submit">Login</button>
+                </form>
+            </div>
+            <div class="msg">
+                Don't have account?
+                <a href="/amazonSite/register/">Sign up</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>
