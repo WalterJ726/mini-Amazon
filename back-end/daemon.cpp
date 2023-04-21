@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-
 int main()
 {
     // if(daemon(1, 0) == -1){

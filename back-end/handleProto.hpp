@@ -1,10 +1,11 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
-
+#include "protobuf/world_amazon.pb.h"
 
 // referenced from pdf
 typedef google::protobuf::io::FileOutputStream proto_out;
 typedef google::protobuf::io::FileInputStream proto_in;
+
 
 //this is adapated from code that a Google engineer posted online
 template<typename T>

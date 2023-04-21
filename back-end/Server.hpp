@@ -6,14 +6,12 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <vector>
 #include <mutex>
 #include <memory>
-#include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
-#include "protobuf/world_amazon.pb.h"
+#include <queue>
+#include <thread>
 #include "handleProto.hpp"
+#include "WareHouse.hpp"
 #include "client.hpp"
 
 #define MAX_TCP_PACKET_SIZE 65535
@@ -30,6 +28,8 @@ class Server {
 
   // event variable
   int world_id; 
+  long SeqNum;
+  int world_fd;
 
   
 private:
@@ -39,6 +39,11 @@ private:
 	Server& operator=(const Server&);
 
  public:
+  // ware house
+  std::vector<WareHouse> WH_list;
+  std::queue<ACommands> A2W_send_queue;
+  std::unordered_set<int> finished_SeqNum_set;
+
   void startRun();
 
   // create a socket to listen
@@ -64,9 +69,17 @@ private:
   // initialized world
   void initWareHouse();
   void initWorld();
+  void purchaseMore(const int& wh_id, const int& p_id, const std::string& p_name, const int& p_num);
+  
+  // get seqNum
+  long getSeqNum();
   
   // handle request
+  void sendMsgToWorld();
+  void recvMsgFromWorld();
 
 
+  // periodically thread
+  void trySendMsgToWorld(ACommands& ac, int seq_num);
   // int connectToServer();
 };

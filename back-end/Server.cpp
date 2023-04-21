@@ -1,6 +1,5 @@
 #include "Server.hpp"
 std::mutex mtx;
-#define NUM_WH 5
 #define zj78_host "vcm-30576.vm.duke.edu"
 
 void Server::startRun() {
@@ -10,15 +9,14 @@ void Server::startRun() {
   // db.initialize();
   // db.disconnect();
   initWareHouse();
-  initWorld();
   // recv msg from UPS (their hostname)
   
   // initialize the world, send AConnect
-
+  initWorld();
   // send msg to world simulator
-
+  std::thread t_A2W_request(sendMsgToWorld).detach();
   // recv response from world simulator
-
+  std::thread t_W2A_response(recvMsgFromWorld).detach();
   // send msg to UPS
 
   // recv response from UPS
@@ -28,21 +26,27 @@ void Server::startRun() {
 
 void Server::initWareHouse(){
   // initialized the product that shows in front end
-
+  for (int i = 0; i < NUM_WH; i ++ ){
+    WareHouse wh;
+    wh.wh_id = i;
+    wh.loc_x = i + 1;
+    wh.loc_y = i + 1;
+    WH_list.push_back(wh);
+  }
 }
 
 void Server::initWorld(){
   GOOGLE_PROTOBUF_VERIFY_VERSION;  // use macro to check environment
   Client client = Client(23456, zj78_host);
-  int world_fd = client.getSockfd();
+  world_fd = client.getSockfd();
   AConnect ac;
   if (world_id != -1) ac.set_worldid(world_id);
 
   for (int i = 0; i < NUM_WH; i ++ ){
     AInitWarehouse* ainit_wh = ac.add_initwh();
-    ainit_wh->set_id(i);
-    ainit_wh->set_x(i + 1);
-    ainit_wh->set_y(i + 1);
+    ainit_wh->set_id(WH_list[i].wh_id);
+    ainit_wh->set_x(WH_list[i].loc_x);
+    ainit_wh->set_y(WH_list[i].loc_y);
   }
   ac.set_isamazon(true);
   // send AConnect to world
@@ -71,8 +75,93 @@ void Server::initWorld(){
 
   int connected_world_id = aconnected.worldid();
   std::cout << "connected to world: " << connected_world_id <<  std::endl;
+
+  // buy some initial products
+  for (auto const& warehouse : WH_list) {
+      for (auto const& product : warehouse.products) {
+          std::thread(purchaseMore, warehouse.wh_id, product.p_id, product.p_name,
+                        product.num);
+      }
+  }
 }
 
+void Server::purchaseMore(const int& wh_id, const int& p_id, const std::string& p_name, const int& p_num){
+  ACommands acommand;
+  APurchaseMore* apurchase = acommand.add_buy();
+  AProduct* aproduct = apurchase->add_things();
+  aproduct->set_id(p_id);
+  aproduct->set_count(p_num);
+  aproduct->set_description(p_name);
+  apurchase->set_whnum(wh_id);
+  Server server = Server::getInstance();
+  int seq_num = server.getSeqNum();
+  apurchase->set_seqnum(seq_num);
+  trySendMsgToWorld(acommand, seq_num);
+}
+
+
+void Server::sendMsgToWorld(){
+  std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
+  while (1){
+    if (!A2W_send_queue.empty()){
+      ACommands acommand = A2W_send_queue.front();
+      // send AConnect to world
+      if (sendMesgTo<ACommands>(acommand, world_out.get()) == false){
+        std::cout << "failed to send msg to world in sendMsgToWorld()" << std::endl;
+        continue;
+      }
+      std::cout << "send msg to world successful in sendMsgToWorld()" << std::endl;
+    }
+  }
+}
+
+void Server::recvMsgFromWorld(){
+  // get AResponses from world
+    AResponses aresponses;
+    std::unique_ptr<proto_in> world_in(new proto_in(world_fd));
+    Server server = Server::getInstance();
+    while (1){
+    if (recvMesgFrom<AResponses>(aresponses, world_in.get()) == false){
+      std::cout << "failed to recv msg from world in recvMsgFromWorld()" << std::endl;
+      continue;
+    }
+      std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
+      for (int i = 0; i < aresponses.acks_size(); i ++ ){
+        if (server.finished_SeqNum_set.find(aresponses.acks(i)) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        server.finished_SeqNum_set.insert(aresponses.acks(i));
+      }
+    
+
+      // start to parse response
+      for (int i = 0; i < aresponses.arrived_size(); i ++ ){
+        APurchaseMore arrived = aresponses.arrived(i);
+        int seqnum = arrived.seqnum();
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processPurchaseMore()
+      }
+    }
+}
+
+void Server::trySendMsgToWorld(ACommands& ac, int seq_num){
+  // periodically thread, for at least once
+  Server server = Server::getInstance();
+  while (1){
+      server.A2W_send_queue.push(ac);
+      this_thread::sleep_for(std::chrono::milliseconds(1000));
+      if (server.finished_SeqNum_set.find(seq_num) != server.finished_SeqNum_set.end()){
+        break;
+      }
+  }
+}
+
+long Server::getSeqNum(){
+  std::lock_guard<std::mutex> lck (mtx);
+  return SeqNum++;
+}
 
 Server::Server() : port_num(8888), world_id(-1) {
   hasError = 0;

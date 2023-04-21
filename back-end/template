@@ -1,0 +1,19 @@
+  if (world_id != -1) ac.set_worldid(world_id);
+
+  for (int i = 0; i < NUM_WH; i ++ ){
+    AInitWarehouse* ainit_wh = ac.add_initwh();
+    ainit_wh->set_id(WH_list[i].wh_id);
+    ainit_wh->set_x(WH_list[i].loc_x);
+    ainit_wh->set_y(WH_list[i].loc_y);
+  }
+  ac.set_isamazon(true);
+
+  message ACommands {
+  repeated APurchaseMore buy = 1;
+  repeated APack topack = 2; 
+  repeated APutOnTruck load = 3;
+  repeated AQuery queries = 4;
+  optional uint32 simspeed = 5; 
+  optional bool disconnect = 6;
+  repeated int64 acks =7;
+}
