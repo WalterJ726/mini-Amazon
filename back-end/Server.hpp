@@ -10,6 +10,7 @@
 #include <memory>
 #include <queue>
 #include <thread>
+#include <chrono>
 #include "handleProto.hpp"
 #include "WareHouse.hpp"
 #include "client.hpp"
@@ -34,10 +35,9 @@ class Server {
   
 private:
 	Server();
-	~Server() {};
+  ~Server() {};
 	Server(const Server&);
 	Server& operator=(const Server&);
-
  public:
   // ware house
   std::vector<WareHouse> WH_list;
@@ -69,20 +69,20 @@ private:
   // initialized world
   void initWareHouse();
   void initWorld();
-  void purchaseMore(const int& wh_id, const int& p_id, const std::string& p_name, const int& p_num);
+  static void purchaseMore(const int wh_id, const int p_id, const std::string p_name, const int p_num);
   
   // get seqNum
   long getSeqNum();
   
   // handle request
-  void sendMsgToWorld();
+  static void sendMsgToWorld();
 
   // handle response 
-  void recvMsgFromWorld();
-  void processPurchaseMore(APurchaseMore& apurchasemore);
-  void processPacked(APacked& apacked);
-  void processLoaded(ALoaded& aloaded);
+  static void recvMsgFromWorld();
+  static void processPurchaseMore(APurchaseMore& apurchasemore);
+  static void processPacked(APacked& apacked);
+  static void processLoaded(ALoaded& aloaded);
   // periodically thread
-  void trySendMsgToWorld(ACommands& ac, int seq_num);
+  static void trySendMsgToWorld(ACommands& ac, int seq_num);
   // int connectToServer();
 };

@@ -14,9 +14,11 @@ void Server::startRun() {
   // initialize the world, send AConnect
   initWorld();
   // send msg to world simulator
-  std::thread t_A2W_request(sendMsgToWorld).detach();
+  std::thread t_A2W_request(sendMsgToWorld);
+  t_A2W_request.detach();
   // recv response from world simulator
-  std::thread t_W2A_response(recvMsgFromWorld).detach();
+  std::thread t_W2A_response(recvMsgFromWorld);
+  t_W2A_response.detach();
   // send msg to UPS
 
   // recv response from UPS
@@ -79,13 +81,14 @@ void Server::initWorld(){
   // buy some initial products
   for (auto const& warehouse : WH_list) {
       for (auto const& product : warehouse.products) {
-          std::thread(purchaseMore, warehouse.wh_id, product.p_id, product.p_name,
-                        product.num);
+          std::thread t_purchase(purchaseMore, warehouse.wh_id, product.p_id, product.p_name,
+                        product.p_num);
       }
   }
+  // TODO: wait for all threads finishing
 }
 
-void Server::purchaseMore(const int& wh_id, const int& p_id, const std::string& p_name, const int& p_num){
+void Server::purchaseMore(const int wh_id, const int p_id, const std::string p_name, const int p_num){
   ACommands acommand;
   APurchaseMore* apurchase = acommand.add_buy();
   AProduct* aproduct = apurchase->add_things();
@@ -93,7 +96,7 @@ void Server::purchaseMore(const int& wh_id, const int& p_id, const std::string& 
   aproduct->set_count(p_num);
   aproduct->set_description(p_name);
   apurchase->set_whnum(wh_id);
-  Server server = Server::getInstance();
+  Server& server = Server::getInstance();
   int seq_num = server.getSeqNum();
   apurchase->set_seqnum(seq_num);
   trySendMsgToWorld(acommand, seq_num);
@@ -101,10 +104,11 @@ void Server::purchaseMore(const int& wh_id, const int& p_id, const std::string& 
 
 
 void Server::sendMsgToWorld(){
-  std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
+  Server& server = Server::getInstance();
+  std::unique_ptr<proto_out> world_out(new proto_out(server.world_fd));
   while (1){
-    if (!A2W_send_queue.empty()){
-      ACommands acommand = A2W_send_queue.front();
+    if (!server.A2W_send_queue.empty()){
+      ACommands acommand = server.A2W_send_queue.front();
       // send AConnect to world
       if (sendMesgTo<ACommands>(acommand, world_out.get()) == false){
         std::cout << "failed to send msg to world in sendMsgToWorld()" << std::endl;
@@ -118,13 +122,14 @@ void Server::sendMsgToWorld(){
 void Server::recvMsgFromWorld(){
   // get AResponses from world
     AResponses aresponses;
-    std::unique_ptr<proto_in> world_in(new proto_in(world_fd));
-    Server server = Server::getInstance();
+    Server& server = Server::getInstance();
+    std::unique_ptr<proto_in> world_in(new proto_in(server.world_fd));
     while (1){
     if (recvMesgFrom<AResponses>(aresponses, world_in.get()) == false){
       std::cout << "failed to recv msg from world in recvMsgFromWorld()" << std::endl;
       continue;
     }
+
       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
       for (int i = 0; i < aresponses.acks_size(); i ++ ){
         if (server.finished_SeqNum_set.find(aresponses.acks(i)) != server.finished_SeqNum_set.end()){
@@ -142,6 +147,7 @@ void Server::recvMsgFromWorld(){
           continue;
         }
         processPurchaseMore(arrived);
+        server.finished_SeqNum_set.insert(seqnum); 
       }
 
       // start to parse APacked
@@ -152,6 +158,7 @@ void Server::recvMsgFromWorld(){
           continue;
         }
         processPacked(ready);
+        server.finished_SeqNum_set.insert(seqnum); 
       }
 
       // start to parse ALoaded
@@ -162,16 +169,17 @@ void Server::recvMsgFromWorld(){
           continue;
         }
         processLoaded(loaded);
+        server.finished_SeqNum_set.insert(seqnum); 
       }
     }
 }
 
 void Server::trySendMsgToWorld(ACommands& ac, int seq_num){
   // periodically thread, for at least once
-  Server server = Server::getInstance();
+  Server& server = Server::getInstance();
   while (1){
       server.A2W_send_queue.push(ac);
-      this_thread::sleep_for(std::chrono::milliseconds(1000));
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       if (server.finished_SeqNum_set.find(seq_num) != server.finished_SeqNum_set.end()){
         break;
       }
@@ -179,19 +187,28 @@ void Server::trySendMsgToWorld(ACommands& ac, int seq_num){
 }
 
 void Server::processPurchaseMore(APurchaseMore& apurchasemore){
-    // if seq num exists in unordered_set, then continue (idempotent)
-
     // parse whnum, products
-
+    std::cout << "start to processPurchaseMore" << std::endl;
+    int wh_id = apurchasemore.whnum();
+    for (int i = 0; i < apurchasemore.things_size(); i ++ ){
+      long p_id = apurchasemore.things(i).id();
+      std::string p_name = apurchasemore.things(i).description();
+      int p_num = apurchasemore.things(i).count();
+      // add this product to Inventory
+      std::cout << "add " << p_id << " this product to Inventory " << wh_id << std::endl;
+    }
     // add products to whnum
+
+    // send ack back to the world
     std::cout << "success add products into warehouse" << std::endl;
 }
 
 void Server::processPacked(APacked& apacked){
+  std::cout << "start to processPacked" << std::endl;
 }
 
-void processLoaded(ALoaded& aloaded){
-
+void Server::processLoaded(ALoaded& aloaded){
+  std::cout << "start to processLoaded" << std::endl;
 }
 
 long Server::getSeqNum(){
