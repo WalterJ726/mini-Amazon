@@ -1,3 +1,5 @@
+#ifndef _SERVER_HPP
+#define _SERVER_HPP
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -12,6 +14,8 @@
 #include <thread>
 #include <chrono>
 #include "handleProto.hpp"
+#include "handleWorld.hpp"
+#include "threadsafe_queue.h"
 #include "WareHouse.hpp"
 #include "client.hpp"
 
@@ -41,7 +45,7 @@ private:
  public:
   // ware house
   std::vector<WareHouse> WH_list;
-  std::queue<ACommands> A2W_send_queue;
+  ThreadSafe_queue<ACommands> A2W_send_queue;
   std::unordered_set<int> finished_SeqNum_set;
 
   void startRun();
@@ -69,20 +73,19 @@ private:
   // initialized world
   void initWareHouse();
   void initWorld();
-  static void purchaseMore(const int wh_id, const int p_id, const std::string p_name, const int p_num);
   
   // get seqNum
   long getSeqNum();
   
   // handle request
-  static void sendMsgToWorld();
+  void sendMsgToWorld();
 
   // handle response 
-  static void recvMsgFromWorld();
-  static void processPurchaseMore(APurchaseMore& apurchasemore);
-  static void processPacked(APacked& apacked);
-  static void processLoaded(ALoaded& aloaded);
+  void recvMsgFromWorld();
   // periodically thread
-  static void trySendMsgToWorld(ACommands& ac, int seq_num);
+  static void trySendMsgToWorld(ACommands ac, int seq_num);
   // int connectToServer();
 };
+
+
+#endif // _SERVER_HPP

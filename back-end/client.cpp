@@ -128,12 +128,4 @@ int Client::getHasError() const{
 }
 
 Client::~Client()
-{
-    try
-    {
-        closeClient();
-    }
-    catch (const std::exception &e)
-    {
-    }
-}
+{}

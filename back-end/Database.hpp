@@ -1,5 +1,4 @@
 #include <assert.h>
-
 #include <iostream>
 #include <pqxx/pqxx>
 #include <set>
