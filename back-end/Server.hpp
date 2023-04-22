@@ -76,9 +76,12 @@ private:
   
   // handle request
   void sendMsgToWorld();
+
+  // handle response 
   void recvMsgFromWorld();
-
-
+  void processPurchaseMore(APurchaseMore& apurchasemore);
+  void processPacked(APacked& apacked);
+  void processLoaded(ALoaded& aloaded);
   // periodically thread
   void trySendMsgToWorld(ACommands& ac, int seq_num);
   // int connectToServer();

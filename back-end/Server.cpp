@@ -134,14 +134,34 @@ void Server::recvMsgFromWorld(){
       }
     
 
-      // start to parse response
+      // start to parse APurchaseMore
       for (int i = 0; i < aresponses.arrived_size(); i ++ ){
         APurchaseMore arrived = aresponses.arrived(i);
         int seqnum = arrived.seqnum();
         if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
           continue;
         }
-        processPurchaseMore()
+        processPurchaseMore(arrived);
+      }
+
+      // start to parse APacked
+      for (int i = 0; i < aresponses.ready_size(); i ++ ){
+        APacked ready = aresponses.ready(i);
+        int seqnum = ready.seqnum();
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processPacked(ready);
+      }
+
+      // start to parse ALoaded
+      for (int i = 0; i < aresponses.loaded_size(); i ++ ){
+        ALoaded loaded = aresponses.loaded(i);
+        int seqnum = loaded.seqnum();
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processLoaded(loaded);
       }
     }
 }
@@ -156,6 +176,22 @@ void Server::trySendMsgToWorld(ACommands& ac, int seq_num){
         break;
       }
   }
+}
+
+void Server::processPurchaseMore(APurchaseMore& apurchasemore){
+    // if seq num exists in unordered_set, then continue (idempotent)
+
+    // parse whnum, products
+
+    // add products to whnum
+    std::cout << "success add products into warehouse" << std::endl;
+}
+
+void Server::processPacked(APacked& apacked){
+}
+
+void processLoaded(ALoaded& aloaded){
+
 }
 
 long Server::getSeqNum(){
