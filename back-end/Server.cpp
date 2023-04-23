@@ -30,6 +30,7 @@ void Server::startRun() {
 
     // initlize products
     initProductsAmount();
+    listenFrontEndRequest();
     t_W2A_response.join();
     t_A2W_request.join();
     // handle request from django customer
@@ -124,54 +125,21 @@ void Server::recvMsgFromWorld(){
         continue;
       }
       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
-      for (int i = 0; i < aresponses.acks_size(); i ++ ){
-        // if (server.finished_SeqNum_set.find(aresponses.acks(i)) != server.finished_SeqNum_set.end()){
-        //   continue;
-        // }
-        std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
-        server.finished_SeqNum_set.insert(aresponses.acks(i));
-      }
-    
-      std::cout << "start to parse APurchaseMore" << std::endl;
-      // start to parse APurchaseMore
-      for (int i = 0; i < aresponses.arrived_size(); i ++ ){
-        APurchaseMore arrived = aresponses.arrived(i);
-        int seqnum = arrived.seqnum();
-        std::cout << "arrived.seqnum() is " << seqnum << std::endl;
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
-        }
-        processPurchaseMore(arrived);
-        server.finished_SeqNum_set.insert(seqnum); 
-      }
-
-      std::cout << "start to parse APacked" << std::endl;
-      ACommands response_ack;
-      // start to parse APacked
-      for (int i = 0; i < aresponses.ready_size(); i ++ ){
-        APacked ready = aresponses.ready(i);
-        int seqnum = ready.seqnum();
-        response_ack.add_acks(seqnum);
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
-        }
-        processPacked(ready);
-        server.finished_SeqNum_set.insert(seqnum); 
-      }
-      server.A2W_send_queue.push(response_ack);
-
-      std::cout << "start to parse ALoaded" << std::endl;
-      // start to parse ALoaded
-      for (int i = 0; i < aresponses.loaded_size(); i ++ ){
-        ALoaded loaded = aresponses.loaded(i);
-        int seqnum = loaded.seqnum();
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
-        }
-        processLoaded(loaded);
-        server.finished_SeqNum_set.insert(seqnum); 
-      }
+      handleWorldResponse(aresponses);
     }
+}
+
+void Server::listenFrontEndRequest(){
+  // start to listen
+  while (1){
+    int client_connection_fd = tryAccept();
+    if (client_connection_fd == -1) {
+      std::cout << "accpet failed" << std::endl;
+      continue;
+    }
+    std::string recv_str_front_end = recvData(0);
+    std::cout << recv_str_front_end << std::endl;
+  }
 }
 
 long Server::getSeqNum(){
@@ -179,7 +147,7 @@ long Server::getSeqNum(){
   return SeqNum++;
 }
 
-Server::Server() : port_num(8888), world_id(-1) {
+Server::Server() : port_num(6969), world_id(-1) {
   hasError = 0;
   if (setUpStruct() == -1) {
     hasError = 1;

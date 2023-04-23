@@ -41,6 +41,60 @@ void initProductsAmount(){
   // TODO: wait for all threads finishing
 }
 
+void handleWorldResponse(AResponses& aresponses){
+      Server& server = Server::getInstance();
+      for (int i = 0; i < aresponses.acks_size(); i ++ ){
+        // if (server.finished_SeqNum_set.find(aresponses.acks(i)) != server.finished_SeqNum_set.end()){
+        //   continue;
+        // }
+        std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
+        server.finished_SeqNum_set.insert(aresponses.acks(i));
+      }
+    
+      std::cout << "start to parse APurchaseMore" << std::endl;
+      // start to parse APurchaseMore
+      ACommands APurchaseMore_ack;
+      for (int i = 0; i < aresponses.arrived_size(); i ++ ){
+        APurchaseMore arrived = aresponses.arrived(i);
+        int seqnum = arrived.seqnum();
+        std::cout << "arrived.seqnum() is " << seqnum << std::endl;
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processPurchaseMore(arrived);
+        APurchaseMore_ack.add_acks(seqnum);
+      }
+      server.A2W_send_queue.push(APurchaseMore_ack);
+
+      ACommands APacked_ack;
+      std::cout << "start to parse APacked" << std::endl;
+      // start to parse APacked
+      for (int i = 0; i < aresponses.ready_size(); i ++ ){
+        APacked ready = aresponses.ready(i);
+        int seqnum = ready.seqnum();
+
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processPacked(ready);
+        APacked_ack.add_acks(seqnum);
+      }
+      server.A2W_send_queue.push(APacked_ack);
+      std::cout << "start to parse ALoaded" << std::endl;
+      ACommands ALoaded_ack;
+      // start to parse ALoaded
+      for (int i = 0; i < aresponses.loaded_size(); i ++ ){
+        ALoaded loaded = aresponses.loaded(i);
+        int seqnum = loaded.seqnum();
+        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+          continue;
+        }
+        processLoaded(loaded);
+        ALoaded_ack.add_acks(seqnum);
+      }
+      server.A2W_send_queue.push(ALoaded_ack);
+}
+
 void purchaseMore(const int wh_id, const int p_id, const std::string p_name, const int p_num){
   std::cout << "start to purchaseMore: at wh_id " << wh_id << " of p_id " << p_id <<  std::endl;
   ACommands acommand;
@@ -55,7 +109,6 @@ void purchaseMore(const int wh_id, const int p_id, const std::string p_name, con
   apurchase->set_seqnum(seq_num);
   trySendMsgToWorld(acommand, seq_num);
 }
-
 
 void processPurchaseMore(APurchaseMore& apurchasemore){
     // parse whnum, products

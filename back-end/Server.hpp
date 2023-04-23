@@ -85,6 +85,9 @@ private:
   // periodically thread
   static void trySendMsgToWorld(ACommands ac, int seq_num);
   // int connectToServer();
+
+
+  void listenFrontEndRequest();
 };
 
 
