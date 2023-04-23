@@ -1,0 +1,194 @@
+{% extends './base.html' %}
+
+{% block sidebar %}
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/amazonSite/dashboard/">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/amazonSite/shopping_mall/">
+              <span data-feather="slack" class="align-text-bottom"></span>
+              Shopping mall
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ride/rideReq/">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Shopping cart
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ride/user_rideInfo/">
+              <span data-feather="file" class="align-text-bottom"></span>
+              My orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ride/profile/">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Profile
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>>
+</div>>
+{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h1">Always the good choice</h1>
+    </div>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;    
+      }
+
+    .button {
+        background-color: #c2fbd7;
+        border-radius: 100px;
+        box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;;
+        cursor: pointer;
+        display: inline-block;
+        font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+        padding: 7px 20px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 16px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: 100%;
+        margin-top: 40px;
+        background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
+        color: #fff;
+    }
+
+    .button:hover {
+        box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+        transform: scale(1.05) rotate(-1deg);
+    }
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="/static/css/checkout.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+<main>
+
+
+    <div class="row g-5">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="/static/images/driver.gif" alt="" width="400" height="300">
+                <p class="lead">It's your road to own. Get out there with mini-Amazon.</p>
+            </div>
+        </div>
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Products</h4>
+        <form class="needs-validation" action="/amazonSite/shopping_mall/" method="post" validate>
+        {% csrf_token %}
+        {% for message in messages%}
+            <h6 class="h6" id="messages">{{message}}</h6>
+        {% endfor %}
+          <div class="row g-3">
+
+            <div class="col-sm-6">
+              <label name="apple" class="form-label">Apple</label>
+              <input type="number" min="0" class="form-control" id="apple_id" name="1_apple_quantity"  placeholder="" value="">
+              <div class="invalid-feedback">
+                Valid quantity is required.
+              </div>
+          </div>
+
+            <div class="col-sm-6">
+                <label for="banana" class="form-label">Banana</label>
+                <input type="number" min="0" class="form-control" id="banana_id" name="2_banana_quantity"  placeholder="" value="">
+                <div class="invalid-feedback">
+                  Valid quantity is required.
+                </div>
+            </div>
+
+          </div>
+
+          <hr class="my-4">
+          <a href="/amazonSite/dashboard/" class="button">Back to dashboard</a>
+          <button class="button" type="submit">Submit order</button>
+        </form>
+      </div>
+    </div>
+</main>
+
+</div>
+
+<script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="/static/bootstrap/js/checkout.js"></script>
+
+{% endblock %}
