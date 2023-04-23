@@ -1,3 +1,5 @@
+#ifndef _WAREHOUSE_HPP
+#define _WAREHOUSE_HPP
 #include <string>
 #include <vector>
 #define NUM_WH 5
@@ -27,6 +29,9 @@ public:
             product.p_num = PRODUCT_INIT_NUM;
             product.p_id = j;
             product.p_name = std::to_string(j);
+            products.push_back(product);
         }
     };
 };
+
+#endif // _HANDLEPROTO_HPP
