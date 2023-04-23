@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'miniamazon',
         'USER': 'postgres',
         'PASSWORD': 'passw0rd',
-        'HOST': '127.0.0.1',
+        'HOST': 'vcm-30819.vm.duke.edu',
         'PORT': '5432',
     }
 }

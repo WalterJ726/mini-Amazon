@@ -90,7 +90,7 @@ def shopping_mall(request):
                     tosend += "product_id:" + str(product_id) + "\n" + "product_name:" + product_name + "\n" + "quantity:" + str(quantity) + "\n"
         
         print(tosend)
-       # sendToServer(tosend)
+        sendToServer(tosend)
         
         messages.success(request, 'Submit successfully!')
         return render(request, 'amazonSite/shopping_mall.html', locals())
