@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
+import socket
 # Create your views here.
 
 @login_required
@@ -63,3 +64,36 @@ def register(request):
 def logout(request):
     auth.logout(request)
     return redirect('/amazonSite/')
+
+def sendToServer(message):
+    ip_port = ('vcm-30576.vm.duke.edu', 6969)
+    s = socket.socket()
+    s.connect(ip_port)
+    s.sendall(message.encode())
+    s.close()
+
+
+
+@login_required
+def shopping_mall(request):
+    if request.method=="POST":
+        print(request.POST)
+        user = request.user
+        tosend = "user_id:" + str(user.id) + "\n" + "user_name:" + str(user.username) + "\n"
+        for field_name, field_value in request.POST.items():
+            if field_name.endswith('_quantity') and len(field_value) != 0 :
+                parts = field_name.split('_')
+                product_id = int(parts[0])
+                product_name = parts[1]
+                quantity = int(field_value)
+                if quantity > 0:
+                    tosend += "product_id:" + str(product_id) + "\n" + "product_name:" + product_name + "\n" + "quantity:" + str(quantity) + "\n"
+        
+        print(tosend)
+       # sendToServer(tosend)
+        
+        messages.success(request, 'Submit successfully!')
+        return render(request, 'amazonSite/shopping_mall.html', locals())
+
+    return render(request, 'amazonSite/shopping_mall.html')
+
