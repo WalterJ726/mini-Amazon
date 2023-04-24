@@ -15,6 +15,7 @@
 #include <chrono>
 #include "handleProto.hpp"
 #include "handleWorld.hpp"
+#include "Database.hpp"
 #include "threadsafe_queue.h"
 #include "WareHouse.hpp"
 #include "client.hpp"
@@ -87,8 +88,8 @@ private:
   // int connectToServer();
 
 
-  void listenFrontEndRequest();
+  // void listenFrontEndRequest();
 };
 
-
+void listenFrontEndRequest();
 #endif // _SERVER_HPP
