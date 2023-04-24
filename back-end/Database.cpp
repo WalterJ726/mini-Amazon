@@ -71,27 +71,9 @@ void dropTables(connection * c, const vector<string> & tables) {
 
 void Database::initialize() {
   // initialize the products item and amounts
-  // dropTables(this->c, tables);
-  // createTables(this->c);
-  string sql = "DROP TABLE IF EXISTS \"amazonSite_inventory\" CASCADE";
-  executeSQL(c, sql);
 }
 
 bool Database::initialize_inventory(const int wh_id, const int p_id, const int quantity){
-  // string sql;
-  // try
-  // {
-  //   sql = "ALTER TABLE \"amazonSite_inventory\" ALTER COLUMN quantity SET DEFAULT 5;"; 
-  //   std::cout << "start to execute sql" << std::endl;
-  //   executeSQL(c, sql);
-  //   std::cout << "finished executing sql" << std::endl;
-  // }
-  // catch(const std::exception& e)
-  // {
-  //   std::cerr << e.what() << '\n';
-  //   return false;
-  // }
-  // return true;
   string sql;
   try
   {
@@ -142,8 +124,8 @@ bool Database::insert_and_update_product(const int p_id, const string& p_name, c
     sql = "INSERT INTO \"amazonSite_product\" (product_id, name, description) ";
     sql += string("VALUES (");
     sql += std::to_string(p_id) + ",";
-    sql += p_name + ",";
-    sql += p_description;
+    sql += c->quote(p_name) + ",";
+    sql += c->quote(p_description);
     sql += string(") ON CONFLICT (product_id) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description; ");
     std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);

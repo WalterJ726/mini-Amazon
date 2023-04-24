@@ -5,7 +5,6 @@ Client client(23456, zj78_host);
 
 void Server::startRun() {
   std::cout << "start Run server" << std::endl;
-  // Database db("miniamazon", "postgres", "passw0rd");
   Database& db = Database::getInstance();
   // db.connect();
   // db.initialize();
@@ -61,8 +60,12 @@ void Server::initWareHouse(){
     std::cout << "start to init ware house, wh_id: " << wh.wh_id << std::endl;
     WH_list.push_back(wh);
     db.insert_and_update_warehouse(wh.wh_id, wh.loc_x, wh.loc_y);
-    for (int j = 0; j < NUM_PRODUCT; j ++ ){
-      db.initialize_inventory(wh.wh_id, j, PRODUCT_INIT_NUM);
+    
+    if (i == 0){
+        for (int j = 0; j < NUM_PRODUCT; j ++ ){
+          db.insert_and_update_product(j, wh.products[j].p_name, wh.products[j].p_name);
+          db.initialize_inventory(wh.wh_id, j, PRODUCT_INIT_NUM);
+        }
     }
   }
 }
