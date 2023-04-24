@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
+from .models import Inventory
 import socket
 # Create your views here.
 
@@ -96,4 +97,11 @@ def shopping_mall(request):
         return render(request, 'amazonSite/shopping_mall.html', locals())
 
     return render(request, 'amazonSite/shopping_mall.html')
+
+@login_required
+def inventory(request):
+    inventories = Inventory.objects.all()
+    context = {'inventories': inventories}
+    print(context)
+    return render(request, 'amazonSite/inventory.html', context)
 
