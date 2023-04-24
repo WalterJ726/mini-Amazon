@@ -150,18 +150,19 @@
 
 
     <div class="row g-5">
-        <ul>
-          {% for inventory in inventories %}
+      <ul>
+        {% for warehouse_id, product_quantity in warehouse_products_dict.items %}
           <li>
-              <strong>warehouse_id: {{ inventory.warehouse.id }}</strong><br>
-              {% for product in inventory.warehouse.product_set.all %}
-              <span style="margin-left: 15px;">
-                  <strong>product_id: {{ product.id }}</strong>
-                  <strong>quantity: {{ inventory.quantity }}</strong><br>
-              </span>
+            <strong>warehouse_id: {{ warehouse_id }}</strong><br>
+            {% if product_quantity %}
+              {% for product, quantity in product_quantity %}
+                product_id: {{ product.product_id }} | name: {{ product.name }} | quantity: {{ quantity }}<br>
               {% endfor %}
+            {% else %}
+              No products available.
+            {% endif %}
           </li>
-          {% endfor %}
+        {% endfor %}
       </ul>
     </div>
 </main>
@@ -171,5 +172,6 @@
 <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="/static/bootstrap/js/checkout.js"></script>
+
 
 {% endblock %}

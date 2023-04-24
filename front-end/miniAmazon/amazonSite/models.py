@@ -7,12 +7,15 @@ class Warehouse(models.Model):
     address_y = models.IntegerField(null=True)
 
     def __str__(self) -> str:
-        return "({warehouse_id = self.warehouse_id}, {address_x = self.address_x}, {address_y = self.address_y})".format(self = self)
+        return f"({self.warehouse_id}, {self.address_x}, {self.address_y})"
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True, default=0)
     name = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=1000, null=True)
+
+    def __str__(self) -> str:
+        return f"({self.product_id}, {self.name}, {self.description})"
 
 
 class Order(models.Model):

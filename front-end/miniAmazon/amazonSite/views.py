@@ -101,7 +101,18 @@ def shopping_mall(request):
 @login_required
 def inventory(request):
     inventories = Inventory.objects.all()
-    context = {'inventories': inventories}
-    print(context)
-    return render(request, 'amazonSite/inventory.html', context)
+    warehouse_products_dict = {}  # Create an empty dictionary to store warehouse_id as keys and products as values
+    for inventory in inventories:
+        warehouse_id = inventory.warehouse.warehouse_id
+        product = inventory.product
+        quantity = inventory.quantity
+        if warehouse_id not in warehouse_products_dict:
+            warehouse_products_dict[warehouse_id] = []
+        warehouse_products_dict[warehouse_id].append((product, quantity))
+
+    # Sort the products list for each warehouse_id by product_id in ascending order
+    for warehouse_id in warehouse_products_dict:
+        warehouse_products_dict[warehouse_id].sort(key=lambda x: x[0].product_id)
+
+    return render(request, 'amazonSite/inventory.html', {'warehouse_products_dict': warehouse_products_dict})
 
