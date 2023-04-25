@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
-from .models import Inventory
-import socket
+from .models import Inventory, Product
+from .utils import try_place_order
 # Create your views here.
 
 @login_required
@@ -66,37 +66,41 @@ def logout(request):
     auth.logout(request)
     return redirect('/amazonSite/')
 
-def sendToServer(message):
-    ip_port = ('vcm-30576.vm.duke.edu', 6969)
-    s = socket.socket()
-    s.connect(ip_port)
-    s.sendall(message.encode())
-    s.close()
-
-
-
 @login_required
 def shopping_mall(request):
-    if request.method=="POST":
-        print(request.POST)
-        user = request.user
-        tosend = "user_id:" + str(user.id) + "\n" + "user_name:" + str(user.username) + "\n"
+    inventories = Inventory.objects.all()  # Fetch all inventories from the Inventory model
+    product_stock = {}
+    for inventory in inventories:
+        product_id = inventory.product.product_id
+        quantity = inventory.quantity
+        if product_id not in product_stock:
+            product = Product.objects.get(product_id=product_id)  # Fetch the related product
+            product_stock[product_id] = {'name': product.name, 'description': product.description, 'stock': 0}
+        product_stock[product_id]['stock'] += quantity
+
+    if request.method == "POST":
+        product_quantities = []
         for field_name, field_value in request.POST.items():
-            if field_name.endswith('_quantity') and len(field_value) != 0 :
-                parts = field_name.split('_')
-                product_id = int(parts[0])
-                product_name = parts[1]
+            if field_name.endswith('_quantity') and len(field_value) != 0:
+                product_id = int(field_name.split('_')[0])
+                product_name = field_name.split('_')[1]
                 quantity = int(field_value)
                 if quantity > 0:
-                    tosend += "product_id:" + str(product_id) + "\n" + "product_name:" + product_name + "\n" + "quantity:" + str(quantity) + "\n"
-        
-        print(tosend)
-        sendToServer(tosend)
-        
-        messages.success(request, 'Submit successfully!')
-        return render(request, 'amazonSite/shopping_mall.html', locals())
+                    product_quantities.append((product_id, product_name, quantity))
 
-    return render(request, 'amazonSite/shopping_mall.html')
+        print(product_quantities)
+        feedback = try_place_order(request.user, product_quantities)
+
+        if feedback == "success" :
+            messages.success(request, 'Order placed successfully!')
+        else:
+            messages.error(request, feedback)
+
+        return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
+
+    return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
+
+
 
 @login_required
 def inventory(request):

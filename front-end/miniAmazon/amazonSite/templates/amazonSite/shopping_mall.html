@@ -150,12 +150,6 @@
 
 
     <div class="row g-5">
-        <div class="col-md-5 col-lg-4 order-md-last">
-            <div class="py-5 text-center">
-                <img class="d-block mx-auto mb-4" src="/static/images/driver.gif" alt="" width="400" height="300">
-                <p class="lead">It's your road to own. Get out there with mini-Amazon.</p>
-            </div>
-        </div>
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Products</h4>
         <form class="needs-validation" action="/amazonSite/shopping_mall/" method="post" validate>
@@ -163,28 +157,31 @@
         {% for message in messages%}
             <h6 class="h6" id="messages">{{message}}</h6>
         {% endfor %}
-          <div class="row g-3">
-
-            <div class="col-sm-6">
-              <label name="apple" class="form-label">Apple</label>
-              <input type="number" min="0" class="form-control" id="apple_id" name="1_apple_quantity"  placeholder="" value="">
-              <div class="invalid-feedback">
-                Valid quantity is required.
-              </div>
-          </div>
-
-            <div class="col-sm-6">
-                <label for="banana" class="form-label">Banana</label>
-                <input type="number" min="0" class="form-control" id="banana_id" name="2_banana_quantity"  placeholder="" value="">
-                <div class="invalid-feedback">
-                  Valid quantity is required.
-                </div>
-            </div>
-
-          </div>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Product ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Stock</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product_id, product_info in product_stock.items %}
+            <tr>
+              <td>{{ product_id }}</td>
+              <td>{{ product_info.name }}</td>
+              <td>{{ product_info.description }}</td>
+              <td>{{ product_info.stock }}</td>
+              <td><input type="number" name="{{ product_id }}_{{product_info.name}}_quantity" min="0" max="{{ product_info.stock }}" value="0"></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 
           <hr class="my-4">
-          <a href="/amazonSite/dashboard/" class="button">Back to dashboard</a>
           <button class="button" type="submit">Submit order</button>
         </form>
       </div>
