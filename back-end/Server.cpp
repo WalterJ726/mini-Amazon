@@ -30,10 +30,11 @@ void Server::startRun() {
 
     // initlize products
     // initProductsAmount();
+
+    // handle request from django customer
     listenFrontEndRequest();
     t_W2A_response.join();
     t_A2W_request.join();
-    // handle request from django customer
   }
   catch(const std::exception& e)
   {
@@ -109,7 +110,6 @@ void Server::initWorld(){
   int connected_world_id = aconnected.worldid();
   std::cout << "connected to world: " << connected_world_id <<  std::endl;
 }
-
 
 void Server::sendMsgToWorld(){
   Server& server = Server::getInstance();

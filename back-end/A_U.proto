@@ -1,0 +1,97 @@
+syntax = "proto2";
+package gpb; // add this line
+message AProduct{
+  required int64 id = 1;
+  required string description = 2;
+  required int32 count = 3;
+}
+
+message UAinitWorld{
+ required int64 worldID = 1;
+ required int64 seqNum = 2;
+ 
+}
+
+message AUconnectedWorld{
+ required bool success = 1;
+ repeated int64 acks = 2;
+}
+
+
+message AUreqPickup {
+ required int32 whID = 1;
+ required int32 destinationX = 2;
+ required int32 destinationY = 3;
+ required int64 shipID = 4;  //Amazon generate shipID
+ repeated AProduct products = 5;
+ required int64 seqNum = 6;
+
+}
+
+message UAtruckArrived {
+ required int32 whID = 1;
+ required int64 shipID = 2;
+ required int32 truckID = 3;
+ required int64 seqNum = 4;
+}
+
+
+message AUreqDelivery {
+ required int64 shipID = 1;
+ required int64 seqNum = 2;
+}
+
+
+message AUquery {
+ required int64 shipID = 1;
+ required int64 seqNum = 2;
+}
+
+message UAstatus {
+ required string status = 1;
+ required int64 acks = 2;
+}
+
+message UAdelivered {
+ required int64 shipID = 1;
+ required int64 seqNum = 2;
+}
+
+
+message AUchangeDestn {
+ required int64 shipID = 1;
+ required int32 destinationX = 2;
+ required int32 destinationY = 3;
+ required int64 seqNum = 4;
+}
+
+message UAchangeResp {
+ required bool success = 1;
+ required int64 seqNum = 2;
+}
+
+message Err{
+ required string err = 1;
+ required int64 originseqnum = 2;
+ required int64 seqnum = 3;
+}
+
+message UAcommands{
+ repeated UAtruckArrived truckArr = 1;
+ repeated UAstatus status = 2;
+ repeated UAdelivered delivered = 3;
+ repeated UAchangeResp changeResp = 4;
+ repeated Err err = 5;
+ optional bool disconnect = 6;
+ repeated int64 acks = 7;
+}
+
+message AUcommands{
+ repeated AUreqPickup pickup = 1;
+ repeated AUreqDelivery delivery =  2;
+ repeated AUquery query = 3;
+ repeated AUchangeDestn changeDest = 4;
+ repeated Err err = 5;
+ optional bool disconnect = 6;
+ repeated int64 acks = 7;
+}
