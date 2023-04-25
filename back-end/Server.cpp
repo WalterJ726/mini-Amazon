@@ -23,10 +23,13 @@ void Server::startRun() {
     std::thread t_A2W_request(&Server::sendMsgToWorld, this);
     // t_A2W_request.detach();
     // t_W2A_response.detach();
-    
-    // send msg to UPS
 
-    // recv response from UPS
+    // // recv response from UPS
+    // std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
+
+    // // send msg to UPS
+    // std::thread t_A2U_request(&Server::sendMsgToUPS, this);
+
 
     // initlize products
     // initProductsAmount();
@@ -142,9 +145,47 @@ void Server::recvMsgFromWorld(){
     }
 }
 
+
+// void Server::sendMsgToUPS(){
+//   Server& server = Server::getInstance();
+//   std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
+//   while (1){
+//     std::cout << "start to sendMsgToWorld()" << std::endl;
+//       ACommands acommand;
+//       A2W_send_queue.wait_and_pop(acommand);
+//       // send AConnect to world
+//       if (sendMesgTo<ACommands>(acommand, world_out.get()) == false){
+//         std::cout << "failed to send msg to world in sendMsgToWorld()" << std::endl;
+//         throw std::exception();
+//       }
+//       std::cout << "send msg to world successful in sendMsgToWorld()" << std::endl;
+//   }
+// }
+
+// void Server::recvMsgFromUPS(){
+//   // get AResponses from world
+//     Server& server = Server::getInstance();
+//     std::unique_ptr<proto_in> world_in(new proto_in(server.world_fd));
+//     while (1){
+//       AResponses aresponses;
+//       if (recvMesgFrom<AResponses>(aresponses, world_in.get()) == false){
+//         // std::cout << "failed to recv msg from world in recvMsgFromWorld()" << std::endl;
+//         continue;
+//       }
+//       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
+//       handleWorldResponse(aresponses);
+//     }
+// }
+
+
 long Server::getSeqNum(){
   std::lock_guard<std::mutex> lck (mtx);
   return SeqNum++;
+}
+
+long Server::getOrderNum(){
+  std::lock_guard<std::mutex> lck (mtx);
+  return OrderNum++;
 }
 
 Server::Server() : port_num(6969), world_id(-1) {

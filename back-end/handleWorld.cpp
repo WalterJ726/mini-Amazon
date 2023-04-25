@@ -126,11 +126,18 @@ void processPurchaseMore(APurchaseMore& apurchasemore){
 void processPacked(APacked& apacked){
   std::cout << "start to processPacked" << std::endl;
   int ship_id = apacked.shipid();
-  
+  Database& db = Database::getInstance();
+  std::string status = "packed";
+  db.update_package_status(ship_id, status);
 }
 
 void processLoaded(ALoaded& aloaded){
   std::cout << "start to processLoaded" << std::endl;
+  int ship_id = aloaded.shipid();
+  Database& db = Database::getInstance();
+  std::string status = "loadeded";
+  db.update_package_status(ship_id, status);
+  // try send AUreqDelivery to UPS
 }
 
 void trySendMsgToWorld(ACommands& ac, int seq_num){

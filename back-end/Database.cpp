@@ -165,7 +165,7 @@ bool Database::update_package_status(const int ship_id, const string status){
     string sql;
   try
   {
-    sql = "UPDATE \"amazonSite_order\" SET order_status=" + status + ",";
+    sql = "UPDATE \"amazonSite_order\" SET order_status=" + c->quote(status);
     sql += string("WHERE package_id=") + std::to_string(ship_id) + ";";
     std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
