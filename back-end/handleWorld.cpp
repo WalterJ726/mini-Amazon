@@ -44,9 +44,6 @@ void initProductsAmount(){
 void handleWorldResponse(AResponses& aresponses){
       Server& server = Server::getInstance();
       for (int i = 0; i < aresponses.acks_size(); i ++ ){
-        // if (server.finished_SeqNum_set.find(aresponses.acks(i)) != server.finished_SeqNum_set.end()){
-        //   continue;
-        // }
         std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
         server.finished_SeqNum_set.insert(aresponses.acks(i));
       }
@@ -72,7 +69,6 @@ void handleWorldResponse(AResponses& aresponses){
       for (int i = 0; i < aresponses.ready_size(); i ++ ){
         APacked ready = aresponses.ready(i);
         int seqnum = ready.seqnum();
-
         if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
           continue;
         }
@@ -80,6 +76,7 @@ void handleWorldResponse(AResponses& aresponses){
         APacked_ack.add_acks(seqnum);
       }
       server.A2W_send_queue.push(APacked_ack);
+
       std::cout << "start to parse ALoaded" << std::endl;
       ACommands ALoaded_ack;
       // start to parse ALoaded
@@ -112,6 +109,7 @@ void purchaseMore(const int wh_id, const int p_id, const std::string p_name, con
 
 void processPurchaseMore(APurchaseMore& apurchasemore){
     // parse whnum, products
+    Database& db = Database::getInstance();
     std::cout << "start to processPurchaseMore" << std::endl;
     int wh_id = apurchasemore.whnum();
     for (int i = 0; i < apurchasemore.things_size(); i ++ ){
@@ -120,15 +118,15 @@ void processPurchaseMore(APurchaseMore& apurchasemore){
       int p_num = apurchasemore.things(i).count();
       // add this product to Inventory
       std::cout << "add " << p_id << " this product to Inventory " << wh_id << std::endl;
+      db.insert_and_update_inventory(wh_id, p_id, p_num);
     }
-    // add products to whnum
-
-    // send ack back to the world
     std::cout << "success add products into warehouse" << std::endl;
 }
 
 void processPacked(APacked& apacked){
   std::cout << "start to processPacked" << std::endl;
+  int ship_id = apacked.shipid();
+  
 }
 
 void processLoaded(ALoaded& aloaded){

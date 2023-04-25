@@ -15,9 +15,12 @@
 #include <chrono>
 #include "handleProto.hpp"
 #include "handleWorld.hpp"
+#include "Database.hpp"
 #include "threadsafe_queue.h"
 #include "WareHouse.hpp"
 #include "client.hpp"
+#include "ServerRequest.hpp"
+#include "handleCustomer.h"
 
 #define MAX_TCP_PACKET_SIZE 65535
 
@@ -34,6 +37,7 @@ class Server {
   // event variable
   int world_id; 
   long SeqNum;
+  long OrderNum;
   int world_fd;
 
   
@@ -76,6 +80,7 @@ private:
   
   // get seqNum
   long getSeqNum();
+  long getOrderNum();
   
   // handle request
   void sendMsgToWorld();
@@ -87,8 +92,7 @@ private:
   // int connectToServer();
 
 
-  void listenFrontEndRequest();
+  // void listenFrontEndRequest();
 };
-
 
 #endif // _SERVER_HPP

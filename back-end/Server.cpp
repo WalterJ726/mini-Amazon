@@ -5,7 +5,7 @@ Client client(23456, zj78_host);
 
 void Server::startRun() {
   std::cout << "start Run server" << std::endl;
-  // Database db("exchange", "postgres", "passw0rd");
+  Database& db = Database::getInstance();
   // db.connect();
   // db.initialize();
   // db.disconnect();
@@ -29,11 +29,12 @@ void Server::startRun() {
     // recv response from UPS
 
     // initlize products
-    initProductsAmount();
+    // initProductsAmount();
+
+    // handle request from django customer
     listenFrontEndRequest();
     t_W2A_response.join();
     t_A2W_request.join();
-    // handle request from django customer
   }
   catch(const std::exception& e)
   {
@@ -46,6 +47,12 @@ void Server::startRun() {
 
 void Server::initWareHouse(){
   // initialized the product that shows in front end
+  Database& db = Database::getInstance();
+  db.connect();
+  // db.initialize();
+  for (int i = 0; i < NUM_PRODUCT; i ++ ){
+    db.insert_and_update_product(i, std::to_string(i), std::to_string(i));
+  }
   for (int i = 0; i < NUM_WH; i ++ ){
     WareHouse wh;
     wh.wh_id = i;
@@ -53,8 +60,15 @@ void Server::initWareHouse(){
     wh.loc_y = i + 1;
     std::cout << "start to init ware house, wh_id: " << wh.wh_id << std::endl;
     WH_list.push_back(wh);
+    db.insert_and_update_warehouse(wh.wh_id, wh.loc_x, wh.loc_y);
+    
+    if (i == 0){
+        for (int j = 0; j < NUM_PRODUCT; j ++ ){
+          db.insert_and_update_product(j, wh.products[j].p_name, wh.products[j].p_name);
+          db.initialize_inventory(wh.wh_id, j, PRODUCT_INIT_NUM);
+        }
+    }
   }
-
 }
 
 void Server::initWorld(){
@@ -97,7 +111,6 @@ void Server::initWorld(){
   std::cout << "connected to world: " << connected_world_id <<  std::endl;
 }
 
-
 void Server::sendMsgToWorld(){
   Server& server = Server::getInstance();
   std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
@@ -127,19 +140,6 @@ void Server::recvMsgFromWorld(){
       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
       handleWorldResponse(aresponses);
     }
-}
-
-void Server::listenFrontEndRequest(){
-  // start to listen
-  while (1){
-    int client_connection_fd = tryAccept();
-    if (client_connection_fd == -1) {
-      std::cout << "accpet failed" << std::endl;
-      continue;
-    }
-    std::string recv_str_front_end = recvData(0);
-    std::cout << recv_str_front_end << std::endl;
-  }
 }
 
 long Server::getSeqNum(){
