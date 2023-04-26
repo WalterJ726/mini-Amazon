@@ -150,30 +150,30 @@ void Server::recvMsgFromWorld(){
 //   Server& server = Server::getInstance();
 //   std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
 //   while (1){
-//     std::cout << "start to sendMsgToWorld()" << std::endl;
-//       ACommands acommand;
-//       A2W_send_queue.wait_and_pop(acommand);
+//     std::cout << "start to sendMsgToUPS()" << std::endl;
+//       AUcommands aucommand;
+//       A2U_send_queue.wait_and_pop(aucommand);
 //       // send AConnect to world
-//       if (sendMesgTo<ACommands>(acommand, world_out.get()) == false){
-//         std::cout << "failed to send msg to world in sendMsgToWorld()" << std::endl;
+//       if (sendMesgTo<AUcommands>(aucommand, world_out.get()) == false){
+//         std::cout << "failed to send msg to world in sendMsgToUPS()" << std::endl;
 //         throw std::exception();
 //       }
-//       std::cout << "send msg to world successful in sendMsgToWorld()" << std::endl;
+//       std::cout << "send msg to world successful in sendMsgToUPS()" << std::endl;
 //   }
 // }
 
 // void Server::recvMsgFromUPS(){
-//   // get AResponses from world
+//   // get UAcommands from UPS
 //     Server& server = Server::getInstance();
-//     std::unique_ptr<proto_in> world_in(new proto_in(server.world_fd));
+//     std::unique_ptr<proto_in> world_in(new proto_in(server.world_fd)); // change world_fd to ups_fd
 //     while (1){
-//       AResponses aresponses;
-//       if (recvMesgFrom<AResponses>(aresponses, world_in.get()) == false){
-//         // std::cout << "failed to recv msg from world in recvMsgFromWorld()" << std::endl;
+//       UAcommands UAresponses;
+//       if (recvMesgFrom<UAcommands>(UAresponses, world_in.get()) == false){
+//         // std::cout << "failed to recv msg from world in recvMsgFromUPS()" << std::endl;
 //         continue;
 //       }
-//       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
-//       handleWorldResponse(aresponses);
+//       std::cout << "recv msg from world successful in recvMsgFromUPS()" << std::endl;
+//       handleUPSResponse(UAresponses);
 //     }
 // }
 

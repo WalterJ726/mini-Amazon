@@ -17,7 +17,7 @@ message AUconnectedWorld{
 }
 
 message AUbindUPS {
-required int32 ownerID = 1;
+	required int32 ownerID = 1;
 	required int32 upsID = 2;
 	required int64 seqNum = 3; // ack = success (exist), Err = fail (not exist)
 }
@@ -32,23 +32,23 @@ message UAbindUPSResponse {
 message AUreqPickup {
 	required int32 whID = 1;
 	required int32 destinationX = 2;
-  required int32 destinationY = 3;
-  required int64 shipID = 4;  //Amazon generate shipID
-  optional int32 upsID = 5  //Amazon check whether bind exist. Otherwise don’t add upsID 
-  repeated AProduct products = 6;
-  required int64 seqNum = 7;
+	required int32 destinationY = 3;
+	required int64 shipID = 4;  //Amazon generate shipID
+	optional int32 upsID = 5  //Amazon check whether bind exist. Otherwise don’t add upsID 
+	repeated AProduct products = 6;
+	required int64 seqNum = 7;
 }
 
 message UAtruckArrived {
 	required int32 whID = 1;
-  required int64 shipID = 2;
-  required int32 truckID = 3;
-  required int64 seqNum = 4;
+	required int64 shipID = 2;
+	required int32 truckID = 3;
+	required int64 seqNum = 4;
 }
 
 message AUreqDelivery {
 	required int64 shipID = 1;
-  required int64 seqNum = 2;
+	required int64 seqNum = 2;
 }
 
 message AUquery {
@@ -80,20 +80,20 @@ message UAchangeResp {
 }
 
 message Err{
-required string err = 1;
-required int64 originseqnum = 2;
-required int64 seqnum = 3;
+	required string err = 1;
+	required int64 originseqnum = 2;
+	required int64 seqnum = 3;
 }
 
 message UAcommands{
 	repeated UAtruckArrived truckArr = 1;
-repeated UAstatus status = 2;
-repeated UAdelivered delivered = 3;
-repeated UAchangeResp changeResp = 4;
-repeated UAbindUPSResponse bindUPSResponse = 5;
-repeated Err err = 6;
-optional bool disconnect = 7;
-repeated int64 acks = 8;
+	repeated UAstatus status = 2;
+	repeated UAdelivered delivered = 3;
+	repeated UAchangeResp changeResp = 4;
+	repeated UAbindUPSResponse bindUPSResponse = 5;
+	repeated Err err = 6;
+	optional bool disconnect = 7;
+	repeated int64 acks = 8;
 }
 
 message AUcommands{

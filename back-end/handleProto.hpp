@@ -4,6 +4,7 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include "protobuf/world_amazon.pb.h"
+#include "protobuf/ups_amazon.pb.h"
 
 // referenced from pdf
 typedef google::protobuf::io::FileOutputStream proto_out;
