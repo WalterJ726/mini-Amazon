@@ -30,6 +30,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "world_amazon.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_ups_5famazon_2eproto
@@ -44,9 +45,6 @@ struct TableStruct_ups_5famazon_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_ups_5famazon_2eproto;
-class AProduct;
-struct AProductDefaultTypeInternal;
-extern AProductDefaultTypeInternal _AProduct_default_instance_;
 class AUbindUPS;
 struct AUbindUPSDefaultTypeInternal;
 extern AUbindUPSDefaultTypeInternal _AUbindUPS_default_instance_;
@@ -93,7 +91,6 @@ class UAtruckArrived;
 struct UAtruckArrivedDefaultTypeInternal;
 extern UAtruckArrivedDefaultTypeInternal _UAtruckArrived_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AProduct* Arena::CreateMaybeMessage<::AProduct>(Arena*);
 template<> ::AUbindUPS* Arena::CreateMaybeMessage<::AUbindUPS>(Arena*);
 template<> ::AUchangeDestn* Arena::CreateMaybeMessage<::AUchangeDestn>(Arena*);
 template<> ::AUcommands* Arena::CreateMaybeMessage<::AUcommands>(Arena*);
@@ -112,199 +109,6 @@ template<> ::UAtruckArrived* Arena::CreateMaybeMessage<::UAtruckArrived>(Arena*)
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
-
-class AProduct final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AProduct) */ {
- public:
-  inline AProduct() : AProduct(nullptr) {}
-  ~AProduct() override;
-  explicit PROTOBUF_CONSTEXPR AProduct(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  AProduct(const AProduct& from);
-  AProduct(AProduct&& from) noexcept
-    : AProduct() {
-    *this = ::std::move(from);
-  }
-
-  inline AProduct& operator=(const AProduct& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline AProduct& operator=(AProduct&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const AProduct& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const AProduct* internal_default_instance() {
-    return reinterpret_cast<const AProduct*>(
-               &_AProduct_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(AProduct& a, AProduct& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(AProduct* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(AProduct* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  AProduct* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<AProduct>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const AProduct& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const AProduct& from);
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(AProduct* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AProduct";
-  }
-  protected:
-  explicit AProduct(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kDescriptionFieldNumber = 2,
-    kIdFieldNumber = 1,
-    kCountFieldNumber = 3,
-  };
-  // required string description = 2;
-  bool has_description() const;
-  private:
-  bool _internal_has_description() const;
-  public:
-  void clear_description();
-  const std::string& description() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_description(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_description();
-  PROTOBUF_NODISCARD std::string* release_description();
-  void set_allocated_description(std::string* description);
-  private:
-  const std::string& _internal_description() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
-  std::string* _internal_mutable_description();
-  public:
-
-  // required int64 id = 1;
-  bool has_id() const;
-  private:
-  bool _internal_has_id() const;
-  public:
-  void clear_id();
-  int64_t id() const;
-  void set_id(int64_t value);
-  private:
-  int64_t _internal_id() const;
-  void _internal_set_id(int64_t value);
-  public:
-
-  // required int32 count = 3;
-  bool has_count() const;
-  private:
-  bool _internal_has_count() const;
-  public:
-  void clear_count();
-  int32_t count() const;
-  void set_count(int32_t value);
-  private:
-  int32_t _internal_count() const;
-  void _internal_set_count(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:AProduct)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
-  int64_t id_;
-  int32_t count_;
-  friend struct ::TableStruct_ups_5famazon_2eproto;
-};
-// -------------------------------------------------------------------
 
 class UAinitWorld final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UAinitWorld) */ {
@@ -361,7 +165,7 @@ class UAinitWorld final :
                &_UAinitWorld_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(UAinitWorld& a, UAinitWorld& b) {
     a.Swap(&b);
@@ -433,7 +237,6 @@ class UAinitWorld final :
 
   enum : int {
     kWorldIDFieldNumber = 1,
-    kSeqNumFieldNumber = 2,
   };
   // required int64 worldID = 1;
   bool has_worldid() const;
@@ -448,25 +251,9 @@ class UAinitWorld final :
   void _internal_set_worldid(int64_t value);
   public:
 
-  // required int64 seqNum = 2;
-  bool has_seqnum() const;
-  private:
-  bool _internal_has_seqnum() const;
-  public:
-  void clear_seqnum();
-  int64_t seqnum() const;
-  void set_seqnum(int64_t value);
-  private:
-  int64_t _internal_seqnum() const;
-  void _internal_set_seqnum(int64_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:UAinitWorld)
  private:
   class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -474,7 +261,6 @@ class UAinitWorld final :
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   int64_t worldid_;
-  int64_t seqnum_;
   friend struct ::TableStruct_ups_5famazon_2eproto;
 };
 // -------------------------------------------------------------------
@@ -534,7 +320,7 @@ class AUconnectedWorld final :
                &_AUconnectedWorld_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(AUconnectedWorld& a, AUconnectedWorld& b) {
     a.Swap(&b);
@@ -605,31 +391,8 @@ class AUconnectedWorld final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kAcksFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated int64 acks = 2;
-  int acks_size() const;
-  private:
-  int _internal_acks_size() const;
-  public:
-  void clear_acks();
-  private:
-  int64_t _internal_acks(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-      _internal_acks() const;
-  void _internal_add_acks(int64_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-      _internal_mutable_acks();
-  public:
-  int64_t acks(int index) const;
-  void set_acks(int index, int64_t value);
-  void add_acks(int64_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-      acks() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-      mutable_acks();
-
   // required bool success = 1;
   bool has_success() const;
   private:
@@ -652,7 +415,6 @@ class AUconnectedWorld final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > acks_;
   bool success_;
   friend struct ::TableStruct_ups_5famazon_2eproto;
 };
@@ -713,7 +475,7 @@ class AUbindUPS final :
                &_AUbindUPS_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    2;
 
   friend void swap(AUbindUPS& a, AUbindUPS& b) {
     a.Swap(&b);
@@ -901,7 +663,7 @@ class UAbindUPSResponse final :
                &_UAbindUPSResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(UAbindUPSResponse& a, UAbindUPSResponse& b) {
     a.Swap(&b);
@@ -1104,7 +866,7 @@ class AUreqPickup final :
                &_AUreqPickup_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(AUreqPickup& a, AUreqPickup& b) {
     a.Swap(&b);
@@ -1357,7 +1119,7 @@ class UAtruckArrived final :
                &_UAtruckArrived_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    5;
 
   friend void swap(UAtruckArrived& a, UAtruckArrived& b) {
     a.Swap(&b);
@@ -1560,7 +1322,7 @@ class AUreqDelivery final :
                &_AUreqDelivery_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    6;
 
   friend void swap(AUreqDelivery& a, AUreqDelivery& b) {
     a.Swap(&b);
@@ -1733,7 +1495,7 @@ class AUquery final :
                &_AUquery_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    7;
 
   friend void swap(AUquery& a, AUquery& b) {
     a.Swap(&b);
@@ -1906,7 +1668,7 @@ class UAstatus final :
                &_UAstatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    8;
 
   friend void swap(UAstatus& a, UAstatus& b) {
     a.Swap(&b);
@@ -2084,7 +1846,7 @@ class UAdelivered final :
                &_UAdelivered_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    9;
 
   friend void swap(UAdelivered& a, UAdelivered& b) {
     a.Swap(&b);
@@ -2257,7 +2019,7 @@ class AUchangeDestn final :
                &_AUchangeDestn_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    10;
 
   friend void swap(AUchangeDestn& a, AUchangeDestn& b) {
     a.Swap(&b);
@@ -2460,7 +2222,7 @@ class UAchangeResp final :
                &_UAchangeResp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    11;
 
   friend void swap(UAchangeResp& a, UAchangeResp& b) {
     a.Swap(&b);
@@ -2633,7 +2395,7 @@ class Err final :
                &_Err_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    12;
 
   friend void swap(Err& a, Err& b) {
     a.Swap(&b);
@@ -2826,7 +2588,7 @@ class UAcommands final :
                &_UAcommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    13;
 
   friend void swap(UAcommands& a, UAcommands& b) {
     a.Swap(&b);
@@ -3125,7 +2887,7 @@ class AUcommands final :
                &_AUcommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    14;
 
   friend void swap(AUcommands& a, AUcommands& b) {
     a.Swap(&b);
@@ -3376,134 +3138,6 @@ class AUcommands final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// AProduct
-
-// required int64 id = 1;
-inline bool AProduct::_internal_has_id() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool AProduct::has_id() const {
-  return _internal_has_id();
-}
-inline void AProduct::clear_id() {
-  id_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline int64_t AProduct::_internal_id() const {
-  return id_;
-}
-inline int64_t AProduct::id() const {
-  // @@protoc_insertion_point(field_get:AProduct.id)
-  return _internal_id();
-}
-inline void AProduct::_internal_set_id(int64_t value) {
-  _has_bits_[0] |= 0x00000002u;
-  id_ = value;
-}
-inline void AProduct::set_id(int64_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:AProduct.id)
-}
-
-// required string description = 2;
-inline bool AProduct::_internal_has_description() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool AProduct::has_description() const {
-  return _internal_has_description();
-}
-inline void AProduct::clear_description() {
-  description_.ClearToEmpty();
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& AProduct::description() const {
-  // @@protoc_insertion_point(field_get:AProduct.description)
-  return _internal_description();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void AProduct::set_description(ArgT0&& arg0, ArgT... args) {
- _has_bits_[0] |= 0x00000001u;
- description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:AProduct.description)
-}
-inline std::string* AProduct::mutable_description() {
-  std::string* _s = _internal_mutable_description();
-  // @@protoc_insertion_point(field_mutable:AProduct.description)
-  return _s;
-}
-inline const std::string& AProduct::_internal_description() const {
-  return description_.Get();
-}
-inline void AProduct::_internal_set_description(const std::string& value) {
-  _has_bits_[0] |= 0x00000001u;
-  description_.Set(value, GetArenaForAllocation());
-}
-inline std::string* AProduct::_internal_mutable_description() {
-  _has_bits_[0] |= 0x00000001u;
-  return description_.Mutable(GetArenaForAllocation());
-}
-inline std::string* AProduct::release_description() {
-  // @@protoc_insertion_point(field_release:AProduct.description)
-  if (!_internal_has_description()) {
-    return nullptr;
-  }
-  _has_bits_[0] &= ~0x00000001u;
-  auto* p = description_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (description_.IsDefault()) {
-    description_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void AProduct::set_allocated_description(std::string* description) {
-  if (description != nullptr) {
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  description_.SetAllocated(description, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (description_.IsDefault()) {
-    description_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:AProduct.description)
-}
-
-// required int32 count = 3;
-inline bool AProduct::_internal_has_count() const {
-  bool value = (_has_bits_[0] & 0x00000004u) != 0;
-  return value;
-}
-inline bool AProduct::has_count() const {
-  return _internal_has_count();
-}
-inline void AProduct::clear_count() {
-  count_ = 0;
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline int32_t AProduct::_internal_count() const {
-  return count_;
-}
-inline int32_t AProduct::count() const {
-  // @@protoc_insertion_point(field_get:AProduct.count)
-  return _internal_count();
-}
-inline void AProduct::_internal_set_count(int32_t value) {
-  _has_bits_[0] |= 0x00000004u;
-  count_ = value;
-}
-inline void AProduct::set_count(int32_t value) {
-  _internal_set_count(value);
-  // @@protoc_insertion_point(field_set:AProduct.count)
-}
-
-// -------------------------------------------------------------------
-
 // UAinitWorld
 
 // required int64 worldID = 1;
@@ -3532,34 +3166,6 @@ inline void UAinitWorld::_internal_set_worldid(int64_t value) {
 inline void UAinitWorld::set_worldid(int64_t value) {
   _internal_set_worldid(value);
   // @@protoc_insertion_point(field_set:UAinitWorld.worldID)
-}
-
-// required int64 seqNum = 2;
-inline bool UAinitWorld::_internal_has_seqnum() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool UAinitWorld::has_seqnum() const {
-  return _internal_has_seqnum();
-}
-inline void UAinitWorld::clear_seqnum() {
-  seqnum_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline int64_t UAinitWorld::_internal_seqnum() const {
-  return seqnum_;
-}
-inline int64_t UAinitWorld::seqnum() const {
-  // @@protoc_insertion_point(field_get:UAinitWorld.seqNum)
-  return _internal_seqnum();
-}
-inline void UAinitWorld::_internal_set_seqnum(int64_t value) {
-  _has_bits_[0] |= 0x00000002u;
-  seqnum_ = value;
-}
-inline void UAinitWorld::set_seqnum(int64_t value) {
-  _internal_set_seqnum(value);
-  // @@protoc_insertion_point(field_set:UAinitWorld.seqNum)
 }
 
 // -------------------------------------------------------------------
@@ -3592,53 +3198,6 @@ inline void AUconnectedWorld::_internal_set_success(bool value) {
 inline void AUconnectedWorld::set_success(bool value) {
   _internal_set_success(value);
   // @@protoc_insertion_point(field_set:AUconnectedWorld.success)
-}
-
-// repeated int64 acks = 2;
-inline int AUconnectedWorld::_internal_acks_size() const {
-  return acks_.size();
-}
-inline int AUconnectedWorld::acks_size() const {
-  return _internal_acks_size();
-}
-inline void AUconnectedWorld::clear_acks() {
-  acks_.Clear();
-}
-inline int64_t AUconnectedWorld::_internal_acks(int index) const {
-  return acks_.Get(index);
-}
-inline int64_t AUconnectedWorld::acks(int index) const {
-  // @@protoc_insertion_point(field_get:AUconnectedWorld.acks)
-  return _internal_acks(index);
-}
-inline void AUconnectedWorld::set_acks(int index, int64_t value) {
-  acks_.Set(index, value);
-  // @@protoc_insertion_point(field_set:AUconnectedWorld.acks)
-}
-inline void AUconnectedWorld::_internal_add_acks(int64_t value) {
-  acks_.Add(value);
-}
-inline void AUconnectedWorld::add_acks(int64_t value) {
-  _internal_add_acks(value);
-  // @@protoc_insertion_point(field_add:AUconnectedWorld.acks)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-AUconnectedWorld::_internal_acks() const {
-  return acks_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >&
-AUconnectedWorld::acks() const {
-  // @@protoc_insertion_point(field_list:AUconnectedWorld.acks)
-  return _internal_acks();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-AUconnectedWorld::_internal_mutable_acks() {
-  return &acks_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
-AUconnectedWorld::mutable_acks() {
-  // @@protoc_insertion_point(field_mutable_list:AUconnectedWorld.acks)
-  return _internal_mutable_acks();
 }
 
 // -------------------------------------------------------------------
@@ -3995,9 +3554,6 @@ inline int AUreqPickup::_internal_products_size() const {
 }
 inline int AUreqPickup::products_size() const {
   return _internal_products_size();
-}
-inline void AUreqPickup::clear_products() {
-  products_.Clear();
 }
 inline ::AProduct* AUreqPickup::mutable_products(int index) {
   // @@protoc_insertion_point(field_mutable:AUreqPickup.products)
@@ -5398,8 +4954,6 @@ AUcommands::mutable_acks() {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

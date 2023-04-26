@@ -1,19 +1,12 @@
 syntax = "proto2";
-message AProduct{
-  required int64 id = 1;
-  required string description = 2;
-  required int32 count = 3;
-}
+import public "world_amazon.proto";
 
 message UAinitWorld{
 	required int64 worldID = 1;
-	required int64 seqNum = 2;
-	
 }
 
 message AUconnectedWorld{
 	required bool success = 1;
-	repeated int64 acks = 2;
 }
 
 message AUbindUPS {
@@ -34,7 +27,7 @@ message AUreqPickup {
 	required int32 destinationX = 2;
 	required int32 destinationY = 3;
 	required int64 shipID = 4;  //Amazon generate shipID
-	optional int32 upsID = 5  //Amazon check whether bind exist. Otherwise don’t add upsID 
+	optional int32 upsID = 5;  //Amazon check whether bind exist. Otherwise don’t add upsID 
 	repeated AProduct products = 6;
 	required int64 seqNum = 7;
 }

@@ -20,24 +20,9 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
-PROTOBUF_CONSTEXPR AProduct::AProduct(
-    ::_pbi::ConstantInitialized)
-  : description_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
-  , id_(int64_t{0})
-  , count_(0){}
-struct AProductDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR AProductDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~AProductDefaultTypeInternal() {}
-  union {
-    AProduct _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AProductDefaultTypeInternal _AProduct_default_instance_;
 PROTOBUF_CONSTEXPR UAinitWorld::UAinitWorld(
     ::_pbi::ConstantInitialized)
-  : worldid_(int64_t{0})
-  , seqnum_(int64_t{0}){}
+  : worldid_(int64_t{0}){}
 struct UAinitWorldDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UAinitWorldDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -49,8 +34,7 @@ struct UAinitWorldDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UAinitWorldDefaultTypeInternal _UAinitWorld_default_instance_;
 PROTOBUF_CONSTEXPR AUconnectedWorld::AUconnectedWorld(
     ::_pbi::ConstantInitialized)
-  : acks_()
-  , success_(false){}
+  : success_(false){}
 struct AUconnectedWorldDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AUconnectedWorldDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -254,23 +238,11 @@ struct AUcommandsDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AUcommandsDefaultTypeInternal _AUcommands_default_instance_;
-static ::_pb::Metadata file_level_metadata_ups_5famazon_2eproto[16];
+static ::_pb::Metadata file_level_metadata_ups_5famazon_2eproto[15];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_ups_5famazon_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ups_5famazon_2eproto = nullptr;
 
 const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::AProduct, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::AProduct, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::AProduct, id_),
-  PROTOBUF_FIELD_OFFSET(::AProduct, description_),
-  PROTOBUF_FIELD_OFFSET(::AProduct, count_),
-  1,
-  0,
-  2,
   PROTOBUF_FIELD_OFFSET(::UAinitWorld, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::UAinitWorld, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -278,9 +250,7 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::UAinitWorld, worldid_),
-  PROTOBUF_FIELD_OFFSET(::UAinitWorld, seqnum_),
   0,
-  1,
   PROTOBUF_FIELD_OFFSET(::AUconnectedWorld, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::AUconnectedWorld, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -288,9 +258,7 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::AUconnectedWorld, success_),
-  PROTOBUF_FIELD_OFFSET(::AUconnectedWorld, acks_),
   0,
-  ~0u,
   PROTOBUF_FIELD_OFFSET(::AUbindUPS, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::AUbindUPS, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -473,26 +441,24 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 9, -1, sizeof(::AProduct)},
-  { 12, 20, -1, sizeof(::UAinitWorld)},
-  { 22, 30, -1, sizeof(::AUconnectedWorld)},
-  { 32, 41, -1, sizeof(::AUbindUPS)},
-  { 44, 54, -1, sizeof(::UAbindUPSResponse)},
-  { 58, 71, -1, sizeof(::AUreqPickup)},
-  { 78, 88, -1, sizeof(::UAtruckArrived)},
-  { 92, 100, -1, sizeof(::AUreqDelivery)},
-  { 102, 110, -1, sizeof(::AUquery)},
-  { 112, 120, -1, sizeof(::UAstatus)},
-  { 122, 130, -1, sizeof(::UAdelivered)},
-  { 132, 142, -1, sizeof(::AUchangeDestn)},
-  { 146, 154, -1, sizeof(::UAchangeResp)},
-  { 156, 165, -1, sizeof(::Err)},
-  { 168, 182, -1, sizeof(::UAcommands)},
-  { 190, 204, -1, sizeof(::AUcommands)},
+  { 0, 7, -1, sizeof(::UAinitWorld)},
+  { 8, 15, -1, sizeof(::AUconnectedWorld)},
+  { 16, 25, -1, sizeof(::AUbindUPS)},
+  { 28, 38, -1, sizeof(::UAbindUPSResponse)},
+  { 42, 55, -1, sizeof(::AUreqPickup)},
+  { 62, 72, -1, sizeof(::UAtruckArrived)},
+  { 76, 84, -1, sizeof(::AUreqDelivery)},
+  { 86, 94, -1, sizeof(::AUquery)},
+  { 96, 104, -1, sizeof(::UAstatus)},
+  { 106, 114, -1, sizeof(::UAdelivered)},
+  { 116, 126, -1, sizeof(::AUchangeDestn)},
+  { 130, 138, -1, sizeof(::UAchangeResp)},
+  { 140, 149, -1, sizeof(::Err)},
+  { 152, 166, -1, sizeof(::UAcommands)},
+  { 174, 188, -1, sizeof(::AUcommands)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::_AProduct_default_instance_._instance,
   &::_UAinitWorld_default_instance_._instance,
   &::_AUconnectedWorld_default_instance_._instance,
   &::_AUbindUPS_default_instance_._instance,
@@ -511,48 +477,49 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_ups_5famazon_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020ups_amazon.proto\":\n\010AProduct\022\n\n\002id\030\001 \002"
-  "(\003\022\023\n\013description\030\002 \002(\t\022\r\n\005count\030\003 \002(\005\"."
-  "\n\013UAinitWorld\022\017\n\007worldID\030\001 \002(\003\022\016\n\006seqNum"
-  "\030\002 \002(\003\"1\n\020AUconnectedWorld\022\017\n\007success\030\001 "
-  "\002(\010\022\014\n\004acks\030\002 \003(\003\";\n\tAUbindUPS\022\017\n\007ownerI"
-  "D\030\001 \002(\005\022\r\n\005upsID\030\002 \002(\005\022\016\n\006seqNum\030\003 \002(\003\"S"
-  "\n\021UAbindUPSResponse\022\016\n\006status\030\001 \002(\010\022\017\n\007o"
-  "wnerID\030\002 \002(\005\022\r\n\005upsID\030\003 \002(\005\022\016\n\006seqNum\030\004 "
-  "\002(\003\"\223\001\n\013AUreqPickup\022\014\n\004whID\030\001 \002(\005\022\024\n\014des"
-  "tinationX\030\002 \002(\005\022\024\n\014destinationY\030\003 \002(\005\022\016\n"
-  "\006shipID\030\004 \002(\003\022\r\n\005upsID\030\005 \001(\005\022\033\n\010products"
-  "\030\006 \003(\0132\t.AProduct\022\016\n\006seqNum\030\007 \002(\003\"O\n\016UAt"
-  "ruckArrived\022\014\n\004whID\030\001 \002(\005\022\016\n\006shipID\030\002 \002("
-  "\003\022\017\n\007truckID\030\003 \002(\005\022\016\n\006seqNum\030\004 \002(\003\"/\n\rAU"
-  "reqDelivery\022\016\n\006shipID\030\001 \002(\003\022\016\n\006seqNum\030\002 "
-  "\002(\003\")\n\007AUquery\022\016\n\006shipID\030\001 \002(\003\022\016\n\006seqNum"
-  "\030\002 \002(\003\"*\n\010UAstatus\022\016\n\006status\030\001 \002(\t\022\016\n\006se"
-  "qNum\030\002 \002(\003\"-\n\013UAdelivered\022\016\n\006shipID\030\001 \002("
-  "\003\022\016\n\006seqNum\030\002 \002(\003\"[\n\rAUchangeDestn\022\016\n\006sh"
-  "ipID\030\001 \002(\003\022\024\n\014destinationX\030\002 \002(\005\022\024\n\014dest"
-  "inationY\030\003 \002(\005\022\016\n\006seqNum\030\004 \002(\003\"/\n\014UAchan"
-  "geResp\022\017\n\007success\030\001 \002(\010\022\016\n\006seqNum\030\002 \002(\003\""
-  "8\n\003Err\022\013\n\003err\030\001 \002(\t\022\024\n\014originseqnum\030\002 \002("
-  "\003\022\016\n\006seqnum\030\003 \002(\003\"\360\001\n\nUAcommands\022!\n\010truc"
-  "kArr\030\001 \003(\0132\017.UAtruckArrived\022\031\n\006status\030\002 "
-  "\003(\0132\t.UAstatus\022\037\n\tdelivered\030\003 \003(\0132\014.UAde"
-  "livered\022!\n\nchangeResp\030\004 \003(\0132\r.UAchangeRe"
-  "sp\022+\n\017bindUPSResponse\030\005 \003(\0132\022.UAbindUPSR"
-  "esponse\022\021\n\003err\030\006 \003(\0132\004.Err\022\022\n\ndisconnect"
-  "\030\007 \001(\010\022\014\n\004acks\030\010 \003(\003\"\333\001\n\nAUcommands\022\034\n\006p"
-  "ickup\030\001 \003(\0132\014.AUreqPickup\022 \n\010delivery\030\002 "
-  "\003(\0132\016.AUreqDelivery\022\027\n\005query\030\003 \003(\0132\010.AUq"
-  "uery\022\"\n\nchangeDest\030\004 \003(\0132\016.AUchangeDestn"
-  "\022\033\n\007bindUPS\030\005 \003(\0132\n.AUbindUPS\022\021\n\003err\030\006 \003"
-  "(\0132\004.Err\022\022\n\ndisconnect\030\007 \001(\010\022\014\n\004acks\030\010 \003"
-  "(\003"
+  "\n\020ups_amazon.proto\032\022world_amazon.proto\"\036"
+  "\n\013UAinitWorld\022\017\n\007worldID\030\001 \002(\003\"#\n\020AUconn"
+  "ectedWorld\022\017\n\007success\030\001 \002(\010\";\n\tAUbindUPS"
+  "\022\017\n\007ownerID\030\001 \002(\005\022\r\n\005upsID\030\002 \002(\005\022\016\n\006seqN"
+  "um\030\003 \002(\003\"S\n\021UAbindUPSResponse\022\016\n\006status\030"
+  "\001 \002(\010\022\017\n\007ownerID\030\002 \002(\005\022\r\n\005upsID\030\003 \002(\005\022\016\n"
+  "\006seqNum\030\004 \002(\003\"\223\001\n\013AUreqPickup\022\014\n\004whID\030\001 "
+  "\002(\005\022\024\n\014destinationX\030\002 \002(\005\022\024\n\014destination"
+  "Y\030\003 \002(\005\022\016\n\006shipID\030\004 \002(\003\022\r\n\005upsID\030\005 \001(\005\022\033"
+  "\n\010products\030\006 \003(\0132\t.AProduct\022\016\n\006seqNum\030\007 "
+  "\002(\003\"O\n\016UAtruckArrived\022\014\n\004whID\030\001 \002(\005\022\016\n\006s"
+  "hipID\030\002 \002(\003\022\017\n\007truckID\030\003 \002(\005\022\016\n\006seqNum\030\004"
+  " \002(\003\"/\n\rAUreqDelivery\022\016\n\006shipID\030\001 \002(\003\022\016\n"
+  "\006seqNum\030\002 \002(\003\")\n\007AUquery\022\016\n\006shipID\030\001 \002(\003"
+  "\022\016\n\006seqNum\030\002 \002(\003\"*\n\010UAstatus\022\016\n\006status\030\001"
+  " \002(\t\022\016\n\006seqNum\030\002 \002(\003\"-\n\013UAdelivered\022\016\n\006s"
+  "hipID\030\001 \002(\003\022\016\n\006seqNum\030\002 \002(\003\"[\n\rAUchangeD"
+  "estn\022\016\n\006shipID\030\001 \002(\003\022\024\n\014destinationX\030\002 \002"
+  "(\005\022\024\n\014destinationY\030\003 \002(\005\022\016\n\006seqNum\030\004 \002(\003"
+  "\"/\n\014UAchangeResp\022\017\n\007success\030\001 \002(\010\022\016\n\006seq"
+  "Num\030\002 \002(\003\"8\n\003Err\022\013\n\003err\030\001 \002(\t\022\024\n\014origins"
+  "eqnum\030\002 \002(\003\022\016\n\006seqnum\030\003 \002(\003\"\360\001\n\nUAcomman"
+  "ds\022!\n\010truckArr\030\001 \003(\0132\017.UAtruckArrived\022\031\n"
+  "\006status\030\002 \003(\0132\t.UAstatus\022\037\n\tdelivered\030\003 "
+  "\003(\0132\014.UAdelivered\022!\n\nchangeResp\030\004 \003(\0132\r."
+  "UAchangeResp\022+\n\017bindUPSResponse\030\005 \003(\0132\022."
+  "UAbindUPSResponse\022\021\n\003err\030\006 \003(\0132\004.Err\022\022\n\n"
+  "disconnect\030\007 \001(\010\022\014\n\004acks\030\010 \003(\003\"\333\001\n\nAUcom"
+  "mands\022\034\n\006pickup\030\001 \003(\0132\014.AUreqPickup\022 \n\010d"
+  "elivery\030\002 \003(\0132\016.AUreqDelivery\022\027\n\005query\030\003"
+  " \003(\0132\010.AUquery\022\"\n\nchangeDest\030\004 \003(\0132\016.AUc"
+  "hangeDestn\022\033\n\007bindUPS\030\005 \003(\0132\n.AUbindUPS\022"
+  "\021\n\003err\030\006 \003(\0132\004.Err\022\022\n\ndisconnect\030\007 \001(\010\022\014"
+  "\n\004acks\030\010 \003(\003P\000"
   ;
+static const ::_pbi::DescriptorTable* const descriptor_table_ups_5famazon_2eproto_deps[1] = {
+  &::descriptor_table_world_5famazon_2eproto,
+};
 static ::_pbi::once_flag descriptor_table_ups_5famazon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ups_5famazon_2eproto = {
-    false, false, 1402, descriptor_table_protodef_ups_5famazon_2eproto,
+    false, false, 1334, descriptor_table_protodef_ups_5famazon_2eproto,
     "ups_amazon.proto",
-    &descriptor_table_ups_5famazon_2eproto_once, nullptr, 0, 16,
+    &descriptor_table_ups_5famazon_2eproto_once, descriptor_table_ups_5famazon_2eproto_deps, 1, 15,
     schemas, file_default_instances, TableStruct_ups_5famazon_2eproto::offsets,
     file_level_metadata_ups_5famazon_2eproto, file_level_enum_descriptors_ups_5famazon_2eproto,
     file_level_service_descriptors_ups_5famazon_2eproto,
@@ -566,326 +533,14 @@ PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_in
 
 // ===================================================================
 
-class AProduct::_Internal {
- public:
-  using HasBits = decltype(std::declval<AProduct>()._has_bits_);
-  static void set_has_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static void set_has_description(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_count(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
-  }
-};
-
-AProduct::AProduct(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor();
-  // @@protoc_insertion_point(arena_constructor:AProduct)
-}
-AProduct::AProduct(const AProduct& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  description_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    description_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_description()) {
-    description_.Set(from._internal_description(), 
-      GetArenaForAllocation());
-  }
-  ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&count_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(count_));
-  // @@protoc_insertion_point(copy_constructor:AProduct)
-}
-
-inline void AProduct::SharedCtor() {
-description_.InitDefault();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  description_.Set("", GetArenaForAllocation());
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&id_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&count_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(count_));
-}
-
-AProduct::~AProduct() {
-  // @@protoc_insertion_point(destructor:AProduct)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void AProduct::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  description_.Destroy();
-}
-
-void AProduct::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void AProduct::Clear() {
-// @@protoc_insertion_point(message_clear_start:AProduct)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    description_.ClearNonDefaultToEmpty();
-  }
-  if (cached_has_bits & 0x00000006u) {
-    ::memset(&id_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&count_) -
-        reinterpret_cast<char*>(&id_)) + sizeof(count_));
-  }
-  _has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* AProduct::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // required int64 id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _Internal::set_has_id(&has_bits);
-          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required string description = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_description();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          #ifndef NDEBUG
-          ::_pbi::VerifyUTF8(str, "AProduct.description");
-          #endif  // !NDEBUG
-        } else
-          goto handle_unusual;
-        continue;
-      // required int32 count = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _Internal::set_has_count(&has_bits);
-          count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* AProduct::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:AProduct)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required int64 id = 1;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_id(), target);
-  }
-
-  // required string description = 2;
-  if (cached_has_bits & 0x00000001u) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "AProduct.description");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_description(), target);
-  }
-
-  // required int32 count = 3;
-  if (cached_has_bits & 0x00000004u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_count(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:AProduct)
-  return target;
-}
-
-size_t AProduct::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AProduct)
-  size_t total_size = 0;
-
-  if (_internal_has_description()) {
-    // required string description = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_description());
-  }
-
-  if (_internal_has_id()) {
-    // required int64 id = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_id());
-  }
-
-  if (_internal_has_count()) {
-    // required int32 count = 3;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_count());
-  }
-
-  return total_size;
-}
-size_t AProduct::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:AProduct)
-  size_t total_size = 0;
-
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required string description = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_description());
-
-    // required int64 id = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_id());
-
-    // required int32 count = 3;
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_count());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AProduct::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    AProduct::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AProduct::GetClassData() const { return &_class_data_; }
-
-void AProduct::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<AProduct *>(to)->MergeFrom(
-      static_cast<const AProduct &>(from));
-}
-
-
-void AProduct::MergeFrom(const AProduct& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:AProduct)
-  GOOGLE_DCHECK_NE(&from, this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
-    if (cached_has_bits & 0x00000001u) {
-      _internal_set_description(from._internal_description());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      id_ = from.id_;
-    }
-    if (cached_has_bits & 0x00000004u) {
-      count_ = from.count_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void AProduct::CopyFrom(const AProduct& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:AProduct)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool AProduct::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  return true;
-}
-
-void AProduct::InternalSwap(AProduct* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &description_, lhs_arena,
-      &other->description_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(AProduct, count_)
-      + sizeof(AProduct::count_)
-      - PROTOBUF_FIELD_OFFSET(AProduct, id_)>(
-          reinterpret_cast<char*>(&id_),
-          reinterpret_cast<char*>(&other->id_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata AProduct::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[0]);
-}
-
-// ===================================================================
-
 class UAinitWorld::_Internal {
  public:
   using HasBits = decltype(std::declval<UAinitWorld>()._has_bits_);
   static void set_has_worldid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_seqnum(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
   }
 };
 
@@ -899,17 +554,12 @@ UAinitWorld::UAinitWorld(const UAinitWorld& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&worldid_, &from.worldid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
+  worldid_ = from.worldid_;
   // @@protoc_insertion_point(copy_constructor:UAinitWorld)
 }
 
 inline void UAinitWorld::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&worldid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
+worldid_ = int64_t{0};
 }
 
 UAinitWorld::~UAinitWorld() {
@@ -935,12 +585,7 @@ void UAinitWorld::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&worldid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&seqnum_) -
-        reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
-  }
+  worldid_ = int64_t{0};
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -957,15 +602,6 @@ const char* UAinitWorld::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_worldid(&has_bits);
           worldid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required int64 seqNum = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_seqnum(&has_bits);
-          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1007,12 +643,6 @@ uint8_t* UAinitWorld::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_worldid(), target);
   }
 
-  // required int64 seqNum = 2;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1021,35 +651,13 @@ uint8_t* UAinitWorld::_InternalSerialize(
   return target;
 }
 
-size_t UAinitWorld::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:UAinitWorld)
-  size_t total_size = 0;
-
-  if (_internal_has_worldid()) {
-    // required int64 worldID = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
-  }
-
-  if (_internal_has_seqnum()) {
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
-  return total_size;
-}
 size_t UAinitWorld::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:UAinitWorld)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required int64 worldID = 1;
+  // required int64 worldID = 1;
+  if (_internal_has_worldid()) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
-
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
   }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1077,15 +685,8 @@ void UAinitWorld::MergeFrom(const UAinitWorld& from) {
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      worldid_ = from.worldid_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
-    }
-    _has_bits_[0] |= cached_has_bits;
+  if (from._internal_has_worldid()) {
+    _internal_set_worldid(from._internal_worldid());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1106,18 +707,13 @@ void UAinitWorld::InternalSwap(UAinitWorld* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UAinitWorld, seqnum_)
-      + sizeof(UAinitWorld::seqnum_)
-      - PROTOBUF_FIELD_OFFSET(UAinitWorld, worldid_)>(
-          reinterpret_cast<char*>(&worldid_),
-          reinterpret_cast<char*>(&other->worldid_));
+  swap(worldid_, other->worldid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UAinitWorld::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[1]);
+      file_level_metadata_ups_5famazon_2eproto[0]);
 }
 
 // ===================================================================
@@ -1135,15 +731,13 @@ class AUconnectedWorld::_Internal {
 
 AUconnectedWorld::AUconnectedWorld(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  acks_(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
   // @@protoc_insertion_point(arena_constructor:AUconnectedWorld)
 }
 AUconnectedWorld::AUconnectedWorld(const AUconnectedWorld& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_),
-      acks_(from.acks_) {
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   success_ = from.success_;
   // @@protoc_insertion_point(copy_constructor:AUconnectedWorld)
@@ -1176,7 +770,6 @@ void AUconnectedWorld::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  acks_.Clear();
   success_ = false;
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -1194,22 +787,6 @@ const char* AUconnectedWorld::_InternalParse(const char* ptr, ::_pbi::ParseConte
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_success(&has_bits);
           success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated int64 acks = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            _internal_add_acks(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<16>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 18) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_acks(), ptr, ctx);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1251,12 +828,6 @@ uint8_t* AUconnectedWorld::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
   }
 
-  // repeated int64 acks = 2;
-  for (int i = 0, n = this->_internal_acks_size(); i < n; i++) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_acks(i), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1276,15 +847,6 @@ size_t AUconnectedWorld::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // repeated int64 acks = 2;
-  {
-    size_t data_size = ::_pbi::WireFormatLite::
-      Int64Size(this->acks_);
-    total_size += 1 *
-                  ::_pbi::FromIntSize(this->_internal_acks_size());
-    total_size += data_size;
-  }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
@@ -1308,7 +870,6 @@ void AUconnectedWorld::MergeFrom(const AUconnectedWorld& from) {
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  acks_.MergeFrom(from.acks_);
   if (from._internal_has_success()) {
     _internal_set_success(from._internal_success());
   }
@@ -1331,14 +892,13 @@ void AUconnectedWorld::InternalSwap(AUconnectedWorld* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  acks_.InternalSwap(&other->acks_);
   swap(success_, other->success_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AUconnectedWorld::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[2]);
+      file_level_metadata_ups_5famazon_2eproto[1]);
 }
 
 // ===================================================================
@@ -1614,7 +1174,7 @@ void AUbindUPS::InternalSwap(AUbindUPS* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUbindUPS::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[3]);
+      file_level_metadata_ups_5famazon_2eproto[2]);
 }
 
 // ===================================================================
@@ -1919,7 +1479,7 @@ void UAbindUPSResponse::InternalSwap(UAbindUPSResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAbindUPSResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[4]);
+      file_level_metadata_ups_5famazon_2eproto[3]);
 }
 
 // ===================================================================
@@ -1950,6 +1510,9 @@ class AUreqPickup::_Internal {
   }
 };
 
+void AUreqPickup::clear_products() {
+  products_.Clear();
+}
 AUreqPickup::AUreqPickup(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
@@ -2315,7 +1878,7 @@ void AUreqPickup::InternalSwap(AUreqPickup* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUreqPickup::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[5]);
+      file_level_metadata_ups_5famazon_2eproto[4]);
 }
 
 // ===================================================================
@@ -2620,7 +2183,7 @@ void UAtruckArrived::InternalSwap(UAtruckArrived* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAtruckArrived::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[6]);
+      file_level_metadata_ups_5famazon_2eproto[5]);
 }
 
 // ===================================================================
@@ -2867,7 +2430,7 @@ void AUreqDelivery::InternalSwap(AUreqDelivery* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUreqDelivery::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[7]);
+      file_level_metadata_ups_5famazon_2eproto[6]);
 }
 
 // ===================================================================
@@ -3114,7 +2677,7 @@ void AUquery::InternalSwap(AUquery* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUquery::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[8]);
+      file_level_metadata_ups_5famazon_2eproto[7]);
 }
 
 // ===================================================================
@@ -3380,7 +2943,7 @@ void UAstatus::InternalSwap(UAstatus* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAstatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[9]);
+      file_level_metadata_ups_5famazon_2eproto[8]);
 }
 
 // ===================================================================
@@ -3627,7 +3190,7 @@ void UAdelivered::InternalSwap(UAdelivered* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAdelivered::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[10]);
+      file_level_metadata_ups_5famazon_2eproto[9]);
 }
 
 // ===================================================================
@@ -3932,7 +3495,7 @@ void AUchangeDestn::InternalSwap(AUchangeDestn* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUchangeDestn::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[11]);
+      file_level_metadata_ups_5famazon_2eproto[10]);
 }
 
 // ===================================================================
@@ -4179,7 +3742,7 @@ void UAchangeResp::InternalSwap(UAchangeResp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAchangeResp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[12]);
+      file_level_metadata_ups_5famazon_2eproto[11]);
 }
 
 // ===================================================================
@@ -4488,7 +4051,7 @@ void Err::InternalSwap(Err* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Err::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[13]);
+      file_level_metadata_ups_5famazon_2eproto[12]);
 }
 
 // ===================================================================
@@ -4917,7 +4480,7 @@ void UAcommands::InternalSwap(UAcommands* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAcommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[14]);
+      file_level_metadata_ups_5famazon_2eproto[13]);
 }
 
 // ===================================================================
@@ -5346,15 +4909,11 @@ void AUcommands::InternalSwap(AUcommands* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUcommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[15]);
+      file_level_metadata_ups_5famazon_2eproto[14]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::AProduct*
-Arena::CreateMaybeMessage< ::AProduct >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::AProduct >(arena);
-}
 template<> PROTOBUF_NOINLINE ::UAinitWorld*
 Arena::CreateMaybeMessage< ::UAinitWorld >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UAinitWorld >(arena);

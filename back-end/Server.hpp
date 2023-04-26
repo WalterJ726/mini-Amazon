@@ -33,12 +33,13 @@ class Server {
   const int port_num;
   struct addrinfo host_info;
   struct addrinfo * host_info_list;
-
+  bool hasConnected;
   // event variable
   int world_id; 
   long SeqNum;
   long OrderNum;
   int world_fd;
+  int ups_fd;
 
   
 private:
@@ -50,7 +51,9 @@ private:
   // ware house
   std::vector<WareHouse> WH_list;
   ThreadSafe_queue<ACommands> A2W_send_queue;
+  ThreadSafe_queue<ACommands> A2U_send_queue;
   std::unordered_set<int> finished_SeqNum_set;
+  std::unordered_set<int> ups_finished_SeqNum_set;
 
   void startRun();
 
@@ -77,6 +80,7 @@ private:
   // initialized world
   void initWareHouse();
   void initWorld();
+  void initUPS();
   
   // get seqNum
   long getSeqNum();

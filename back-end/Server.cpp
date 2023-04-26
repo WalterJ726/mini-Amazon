@@ -1,7 +1,12 @@
 #include "Server.hpp"
 std::mutex mtx;
 #define zj78_host "vcm-30576.vm.duke.edu"
-Client client(23456, zj78_host);
+#define amazon_world_port 23456
+#define ups_host "vcm-32254.vm.duke.edu"
+#define ups_port 34567
+
+Client client(amazon_world_port, ups_host);
+Client client_ups(ups_port, ups_host);
 
 void Server::startRun() {
   std::cout << "start Run server" << std::endl;
@@ -13,10 +18,10 @@ void Server::startRun() {
   {
     // client = Client(23456, zj78_host);
     world_fd = client.getSockfd();
-    initWareHouse();
     // recv msg from UPS (their hostname)
-    // initialize the world, send AConnect
-    initWorld();
+    initWareHouse();
+    initUPS();
+    
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
     // send msg to world simulator
@@ -48,6 +53,39 @@ void Server::startRun() {
 
 }
 
+void Server::initUPS(){
+  GOOGLE_PROTOBUF_VERIFY_VERSION;  // use macro to check environment
+  // connect to UPS
+  ups_fd = client_ups.getSockfd();
+  std::cout << "ups_fd" << ups_fd << std::endl;
+  while (1){
+    // get UAinitWorld from UPS
+    UAinitWorld ups_initWorld;
+    std::unique_ptr<proto_in> world_in(new proto_in(ups_fd));
+    if (recvMesgFrom<UAinitWorld>(ups_initWorld, world_in.get()) == false){
+      std::cout << "failed to recv msg from UPS" << std::endl;
+      throw std::exception();
+    }
+    
+    std::cout << "recv msg from UPS successful" << std::endl;
+    world_id = ups_initWorld.worldid();
+    std::cout << "world_id is " << world_id << std::endl;
+    // initialize the world, send AConnect
+    initWorld();
+
+    AUconnectedWorld ups_connected_world;
+    ups_connected_world.set_success(hasConnected);
+    // send AUconnectedWorld to UPS
+    std::unique_ptr<proto_out> world_out(new proto_out(ups_fd));
+    if (sendMesgTo<AUconnectedWorld>(ups_connected_world, world_out.get()) == false){
+      std::cout << "failed to send msg to UPS" << std::endl;
+      throw std::exception();
+    }
+    std::cout << "send msg to UPS successful" << std::endl;
+    if (hasConnected) break;
+  }
+}
+
 void Server::initWareHouse(){
   // initialized the product that shows in front end
   Database& db = Database::getInstance();
@@ -75,10 +113,8 @@ void Server::initWareHouse(){
 }
 
 void Server::initWorld(){
-  GOOGLE_PROTOBUF_VERIFY_VERSION;  // use macro to check environment
   AConnect ac;
   if (world_id != -1) ac.set_worldid(world_id);
-
   for (int i = 0; i < NUM_WH; i ++ ){
     AInitWarehouse* ainit_wh = ac.add_initwh();
     ainit_wh->set_id(WH_list[i].wh_id);
@@ -107,9 +143,10 @@ void Server::initWorld(){
 
   if (aconnected.result() != "connected!"){
     std::cout << "fail to connected" << std::endl;
-    throw std::exception();
+    hasConnected = false;
+    return;
   }
-
+  hasConnected = true;
   int connected_world_id = aconnected.worldid();
   std::cout << "connected to world: " << connected_world_id <<  std::endl;
 }
