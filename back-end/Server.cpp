@@ -35,7 +35,7 @@ void Server::startRun() {
     // initProductsAmount();
 
     // handle request from django customer
-    listenFrontEndRequest();
+    // listenFrontEndRequest();
     t_W2A_response.join();
     t_A2W_request.join();
   }

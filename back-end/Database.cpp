@@ -48,6 +48,34 @@ result executeSQL(connection * c, const string & sql) {
   return result();  // if an error occurs, return an empty result
 }
 
+// select part for the use of "select for update"
+result select_for_update(const string & sql, work & w){
+    try{
+      result r(w.exec(sql));
+      if (r.empty()){
+        std::cout << "No rows selected." << std::endl;
+      }
+      return r;
+    }
+    catch (const std::exception & e) {
+    std::cerr << e.what() << '\n';
+    std::cout << "fail to execute SQL select_for_update" << std::endl;
+  }
+  return result();  // if an error occurs, return an empty result
+}
+
+// after updating the selectd rows, use this function to commit the changes
+void update_commit(work & w){
+  try{
+    w.commit();
+  }
+  catch (const std::exception & e) {
+    std::cerr << e.what() << '\n';
+    std::cout << "Failed to execute update_commit. Rolling back the transaction." << std::endl;
+    w.abort();
+  }
+}
+
 int getCurrTime() {
   // get the current time in seconds since the epoch
   std::time_t now = std::time(nullptr);
@@ -177,6 +205,41 @@ bool Database::update_package_status(const int ship_id, const string status){
     return false;
   }
   return true;
+}
+
+int Database::match_inventory(const int product_id, const int quantity){
+  try
+  {
+   stringstream ss_sql;
+  // select warehouse_id from "amazonSite_inventory" where product_id = product_id and quantity >= quantity limit 1;
+  ss_sql << "select warehouse_id from \"amazonSite_inventory\" ";
+  ss_sql << "where product_id = " << product_id << " and quantity >= " << quantity << " limit 1;";
+  std::cout << ss_sql.str() << std::endl;
+  work w(*c);
+  result r = select_for_update(ss_sql.str(), w);
+  if (r.empty()){
+    std::cout << "No matched inventory with product_id = " << product_id << " and quantity = " << quantity << std::endl;
+    return -100;  
+  }
+
+  int warehouse_id = r[0]["warehouse_id"].as<int>();
+  int stock = r[0]["quantity"].as<int>();
+  stock -= quantity;
+
+  stringstream ss_update_sql;
+  ss_update_sql << "update \"amazonSite_inventory\" set quantity = " << stock;
+  ss_update_sql << " where warehouse_id = " << warehouse_id << " and product_id = " << product_id << ";";
+  w.exec(ss_update_sql.str());
+
+  update_commit(w);
+
+  return warehouse_id;   
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return -200;
+  }
 }
 
 void Database::disconnect() {
