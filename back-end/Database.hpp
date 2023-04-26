@@ -49,6 +49,10 @@ class Database {
   
   // update package status
   bool update_package_status(const int ship_id, const string status);
+
+  // query inventory and update if quantity matches 
+  // NOTE USING SELECT FOR UPDATE, FUTURE MODIFICATION MAY NEEDED
+  int match_inventory(const int product_id, const int quantity);
   
   // disconnect
   void disconnect();

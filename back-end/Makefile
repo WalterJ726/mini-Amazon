@@ -7,8 +7,8 @@ PROTO_CC = ./protobuf/world_amazon.pb.cc
 PROTO_H = ./protobuf/world_amazon.pb.h
 
 all: $(PROGS)
-daemon: daemon.cpp Server.cpp client.cpp handleWorld.cpp Database.cpp handleCustomer.cpp ServerRequest.cpp $(PROTO_H) WareHouse.hpp handleProto.hpp
-	g++ -g $(CFLAGS) -o daemon daemon.cpp Server.cpp client.cpp handleWorld.cpp Database.cpp handleCustomer.cpp ServerRequest.cpp $(PROTO_CC) $(EXTRAFLAGS) $(GPB)
+daemon: daemon.cpp Server.cpp client.cpp handleWorld.cpp Database.cpp ServerRequest.cpp $(PROTO_H) WareHouse.hpp handleProto.hpp
+	g++ -g $(CFLAGS) -o daemon daemon.cpp Server.cpp client.cpp handleWorld.cpp Database.cpp ServerRequest.cpp $(PROTO_CC) $(EXTRAFLAGS) $(GPB)
 	
 ## DEBUG ServerRequest.cpp
 testServerRequest: testServerRequest.cpp ServerRequest.cpp
