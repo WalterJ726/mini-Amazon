@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <ctime>
 
 // using pqxx::connection;
 using namespace pqxx;
@@ -44,9 +45,10 @@ class Database {
   bool insert_and_update_product(const int p_id, const string& p_name, const string& p_description);
 
   // insert and update
-  bool insert_and_update_order();
+  bool insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const string & order_status, const int package_id, const time_t & create_time);
   bool insert_and_update_inventory(const int wh_id, const int p_id, const int quantity);
-  
+  bool insert_package(const int package_id, const int owner_id, const int warehouse_id,const int dest_x, const int dest_y);
+
   // update package status
   bool update_package_status(const int ship_id, const string status);
 

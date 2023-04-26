@@ -11,6 +11,19 @@ size_t get_user_id_order(const std::map<std::string, std::vector<std::string>> &
   }
 }
 
+std::pair<int, int> get_dest_x_y_order(const std::map<std::string, std::vector<std::string>> & headerMap){
+  try{
+    int dest_x = std::stoi(headerMap.at("dest_x").at(0));
+    int dest_y = std::stoi(headerMap.at("dest_y").at(0));
+    return std::pair<int,int>(dest_x, dest_y);
+  }
+  catch (const std::exception & e) {
+    std::cerr << e.what() << '\n';
+    std::cout << "dest_x or dest_y is invalid when using get_dest_x_y_order to parse it" << std::endl;
+    throw;
+  }
+}
+
 string get_user_name_order(const std::map<std::string, std::vector<std::string>> & headerMap){
   try{
     return headerMap.at("user_name").at(0);
@@ -42,21 +55,31 @@ std::vector<std::pair<std::pair<size_t, std::string>, size_t>> get_products_orde
   }
 }
 
-void send_to_world_buy_mroe(size_t warehouse_id, size_t product_id, std::string description, size_t quantity){
-  // ACommands buy_more;
-  // APurchaseMore* apurchase = buy_more.add_buy();
-  // Server& server = Server::getInstance();
-  // int seq_num = server.getSeqNum();
-  // apurchase->set_seqnum(seq_num);
-  // apurchase->set_whnum(warehouse_id);
-
-  // AProduct* aproduct = apurchase->add_things();
-  // aproduct->set_id(product_id);
-  // aproduct->set_count(quantity);
-  // aproduct->set_description(description);
-
-  // trySendMsgToWorld(buy_more, seq_num);
+void send_to_world_buy_more(size_t warehouse_id, size_t product_id, std::string description, size_t quantity){
   purchaseMore(warehouse_id, product_id, description, quantity);
+}
+
+void send_to_world_pack(long package_id, const std::pair<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> & warehouse_products){
+  ACommands pack;
+  APack* apack = pack.add_topack();
+  Server& server = Server::getInstance();
+  int seq_num = server.getSeqNum();
+  size_t warehouse_id = warehouse_products.first;
+  apack->set_seqnum(seq_num);
+  apack->set_whnum(warehouse_id);
+  apack->set_shipid(package_id);
+
+  for (std::vector<std::pair<std::pair<size_t, std::string>, size_t>>::const_iterator curr_product = warehouse_products.second.begin(); curr_product != warehouse_products.second.end(); ++curr_product){
+    size_t product_id = curr_product->first.first;
+    size_t quantity = curr_product->second;
+    const std::string product_name = curr_product->first.second;
+    AProduct* aproduct = apack->add_things();
+    aproduct->set_id(product_id);
+    aproduct->set_count(quantity);
+    aproduct->set_description(product_name);
+  }
+
+  trySendMsgToWorld(pack, seq_num);
 }
 
 void send_to_user(std::string message, int client_connection_fd){
@@ -71,11 +94,26 @@ void send_to_user_no_stock(size_t product_id, std::string product_name, int clie
   send_to_user(ss.str(), client_connection_fd);
 }
 
+void generate_insert_order_package(size_t user_id, const long order_num, const long package_id, const std::pair<int, int> & dest_x_y, const std::pair<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> & warehouse_products){
+  Database& db = Database::getInstance();
+  int dest_x = dest_x_y.first;
+  int dest_y = dest_x_y.second;
+  size_t warehouse_id = warehouse_products.first;
+  db.insert_package(package_id, user_id, warehouse_id, dest_x, dest_y);
+  for (std::vector<std::pair<std::pair<size_t, std::string>, size_t>>::const_iterator curr_product = warehouse_products.second.begin(); curr_product != warehouse_products.second.end(); ++curr_product){
+    size_t product_id = curr_product->first.first;
+    size_t quantity = curr_product->second;
+    const std::string order_status = "packing";
+    db.insert_order(order_num, product_id, user_id, quantity, order_status, package_id, time_t(NULL));
+  }
+}
+
 void handleOrder(const std::map<std::string, std::vector<std::string>> & headerMap, int client_connection_fd){
   try{
     Database& db = Database::getInstance();
     size_t user_id = get_user_id_order(headerMap);
     std::string user_name = get_user_name_order(headerMap);
+    std::pair<int, int> dest_x_y = get_dest_x_y_order(headerMap);
     std::vector<std::pair<std::pair<size_t, std::string>, size_t>> products = get_products_order(headerMap);
     std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> warehouse_products;
     bool all_enough = true;
@@ -86,7 +124,7 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       int warehouse_id = db.match_inventory(product_id, quantity);
       if (warehouse_id == -100){  // not enough stock for the current product
         // for now, just use product_name as its description and buy 10 more 
-        send_to_world_buy_mroe(warehouse_id, product_id, product_name, 10);
+        send_to_world_buy_more(warehouse_id, product_id, product_name, 10);
         send_to_user_no_stock(product_id, product_name, client_connection_fd);
         all_enough = false;
         break;
@@ -98,19 +136,23 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       }
     }
     if (all_enough && !warehouse_products.empty()){
-      for (item in map){
-        generate order entry with package_id and status = "packing";
-        send message to world: pack;
-    //    send pickup request to UPS;
+      Server& server = Server::getInstance();
+      long package_id = server.getPackageID();
+      long order_num = server.getOrderNum();
+      // send message to user: order placed successfully!
+
+      for (std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
+        generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
+        send_to_world_pack(package_id, *curr_warehouse);
+       //    send pickup request to UPS;
       }
     }
-
-    
-    
   }
-
-  
-} 
+  catch(const std::exception & e) {
+    std::cerr << e.what() << '\n';
+    std::cout << "error when handling order from user" << std::endl;
+  }
+}
 
 void listenFrontEndRequest(){
   // start to listen

@@ -167,6 +167,61 @@ bool Database::insert_and_update_product(const int p_id, const string& p_name, c
   return true;
 }
 
+bool Database::insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const string & order_status, const int package_id, const time_t & create_time){
+  string sql;
+  try
+  {
+    sql = "INSERT INTO \"amazonSite_order\" (order_num, product_id, user_id, quantity, order_status, package_id, create_time) ";
+    sql += string("VALUES (");
+    sql += std::to_string(order_num) + ",";
+    sql += std::to_string(product_id) + ",";
+    sql += std::to_string(user_id) + ",";
+    sql += std::to_string(quantity) + ",";
+    sql += c->quote(order_status) + ",";
+    sql += std::to_string(package_id) + ",";
+    sql += "CURRENT_TIME(2)";  //defalut current_time
+    sql += string(");");
+    std::cout << "start to execute sql" << std::endl;
+    std::cout << sql << std::endl;
+    executeSQL(c, sql);
+    std::cout << "finished executing sql" << std::endl;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return false;
+  }
+  return true;
+}
+
+bool Database::insert_package(const int package_id, const int owner_id, const int warehouse_id, const int dest_x, const int dest_y){
+  string sql;
+  try
+  {
+    sql = "INSERT INTO \"amazonSite_package\" (package_id, owner_id, warehouse_id, dest_x, dest_y, pack_time, ups_id, track_num) ";
+    sql += string("VALUES (");
+    sql += std::to_string(package_id) + ",";
+    sql += std::to_string(owner_id) + ",";
+    sql += std::to_string(warehouse_id) + ",";
+    sql += std::to_string(dest_x) + ",";
+    sql += std::to_string(dest_y) + ",";
+    sql += "NULL,";   // set pack_time to NULL
+    sql += "NULL,";   // set ups_id to NULL
+    sql += "NULL";    // set track_num to NULL
+    sql += string(");");
+    std::cout << "start to execute sql" << std::endl;
+    std::cout << sql << std::endl;
+    executeSQL(c, sql);
+    std::cout << "finished executing sql" << std::endl;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return false;
+  }
+  return true;
+}
+
 bool Database::insert_and_update_inventory(const int wh_id, const int p_id, const int quantity){
   string sql;
   try
