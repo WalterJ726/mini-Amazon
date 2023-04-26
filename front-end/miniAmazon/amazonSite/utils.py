@@ -5,6 +5,7 @@ serverPort = 6969
 
 def construct_order_message(user, product_quantities):
     message = f'order\nuser_id:{user.id}\nuser_name:{user.username}\n'
+    message = f'dest_x:{100}\ndest_y:{100}\n'
     for id_name_quantity in product_quantities:
         message += f'product_id:{id_name_quantity[0]}\nproduct_name:{id_name_quantity[1]}\nquantity:{id_name_quantity[2]}\n'
     message += "\n"

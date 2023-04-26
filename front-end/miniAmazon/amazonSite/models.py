@@ -36,6 +36,7 @@ class Order(models.Model):
 class Package(models.Model):
     package_id = models.AutoField(primary_key=True, default=0)
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    warehouse_id = models.IntegerField()
     dest_x = models.IntegerField()
     dest_y = models.IntegerField()
     pack_time = models.TimeField(null=True, blank=True)

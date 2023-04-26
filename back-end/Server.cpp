@@ -225,6 +225,11 @@ long Server::getOrderNum(){
   return OrderNum++;
 }
 
+long Server::getPackageID(){
+  std::lock_guard<std::mutex> lck (mtx);
+  return package_id++;
+}
+
 Server::Server() : port_num(6969), world_id(-1) {
   hasError = 0;
   if (setUpStruct() == -1) {

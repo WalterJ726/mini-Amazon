@@ -38,6 +38,7 @@ class Server {
   int world_id; 
   long SeqNum;
   long OrderNum;
+  long package_id;
   int world_fd;
   int ups_fd;
 
@@ -85,6 +86,7 @@ private:
   // get seqNum
   long getSeqNum();
   long getOrderNum();
+  long getPackageID();
   
   // handle request
   void sendMsgToWorld();
