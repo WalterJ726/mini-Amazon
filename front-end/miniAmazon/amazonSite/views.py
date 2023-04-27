@@ -79,6 +79,8 @@ def shopping_mall(request):
         product_stock[product_id]['stock'] += quantity
 
     if request.method == "POST":
+        dest_x = request.POST['dest_x']
+        dest_y = request.POST['dest_y']
         product_quantities = []
         for field_name, field_value in request.POST.items():
             if field_name.endswith('_quantity') and len(field_value) != 0:
@@ -89,9 +91,9 @@ def shopping_mall(request):
                     product_quantities.append((product_id, product_name, quantity))
 
         print(product_quantities)
-        feedback = try_place_order(request.user, product_quantities)
+        feedback = try_place_order(request.user, product_quantities, dest_x=dest_x, dest_y=dest_y)
 
-        if feedback == "success" :
+        if feedback == "Order placed successfully!" :
             messages.success(request, 'Order placed successfully!')
         else:
             messages.error(request, feedback)

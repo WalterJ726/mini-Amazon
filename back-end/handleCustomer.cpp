@@ -140,8 +140,8 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       long package_id = server.getPackageID();
       long order_num = server.getOrderNum();
       // send message to user: order placed successfully!
-
-      for (std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
+      send_to_user("Order placed successfully!", client_connection_fd);
+      for(std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
         send_to_world_pack(package_id, *curr_warehouse);
        //    send pickup request to UPS;
@@ -171,7 +171,6 @@ void listenFrontEndRequest(){
     } else {
       // start to process order
      const std::map<std::string, std::vector<std::string>> headerMap = customer_request.getHeaderMap();
-      // server.sendAllData(client_connection_fd, action.c_str(), action.size());
       for (auto it = headerMap.begin(); it != headerMap.end(); ++it) {
           std::cout << it->first << std::endl;
           for (int i = 0; i < it->second.size(); i ++ ){
@@ -179,6 +178,7 @@ void listenFrontEndRequest(){
           }
           std::cout << std::endl;
       }
+      handleOrder(headerMap, client_connection_fd);
     }
     close(client_connection_fd);
   }

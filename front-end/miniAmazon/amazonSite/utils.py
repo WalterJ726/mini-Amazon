@@ -3,25 +3,26 @@ import socket
 serverName = 'vcm-30576.vm.duke.edu'
 serverPort = 6969
 
-def construct_order_message(user, product_quantities):
+def construct_order_message(user, product_quantities, dest_x, dest_y):
     message = f'order\nuser_id:{user.id}\nuser_name:{user.username}\n'
-    message = f'dest_x:{100}\ndest_y:{100}\n'
+    message = f'dest_x:{dest_x}\ndest_y:{dest_y}\n'
     for id_name_quantity in product_quantities:
         message += f'product_id:{id_name_quantity[0]}\nproduct_name:{id_name_quantity[1]}\nquantity:{id_name_quantity[2]}\n'
     message += "\n"
 
     return message
 
-def try_place_order(user, product_quantity):
+def try_place_order(user, product_quantity, dest_x, dest_y):
     try:
-        message = construct_order_message(user=user, product_quantities=product_quantity)
+        message = construct_order_message(user=user, product_quantities=product_quantity, dest_x=dest_x, dest_y=dest_y)
         print(message)
         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.connect((serverName, serverPort))
         s.sendall(message.encode())
-        
+        text = s.recv(1024).decode()
+        print("Order reponse is: " + text)
         s.close()
-        return "success"
+        return text
     except socket.error as e:
         print(f'Socket error: {e}')
         return f'Socket error: {e}'
