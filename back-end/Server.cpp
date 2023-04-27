@@ -5,7 +5,7 @@ std::mutex mtx;
 #define ups_host "vcm-32254.vm.duke.edu"
 #define ups_port 34567
 
-Client client(amazon_world_port, ups_host);
+Client client(amazon_world_port, zj78_host);
 Client client_ups(ups_port, ups_host);
 
 void Server::startRun() {
@@ -20,7 +20,8 @@ void Server::startRun() {
     world_fd = client.getSockfd();
     // recv msg from UPS (their hostname)
     initWareHouse();
-    initUPS();
+    // initUPS();
+    initWorld();
     
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
@@ -29,20 +30,22 @@ void Server::startRun() {
     // t_A2W_request.detach();
     // t_W2A_response.detach();
 
-    // // recv response from UPS
-    // std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
+    // recv response from UPS
+    std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
 
-    // // send msg to UPS
-    // std::thread t_A2U_request(&Server::sendMsgToUPS, this);
+    // send msg to UPS
+    std::thread t_A2U_request(&Server::sendMsgToUPS, this);
 
 
     // initlize products
     // initProductsAmount();
 
     // handle request from django customer
-    // listenFrontEndRequest();
+    listenFrontEndRequest();
     t_W2A_response.join();
     t_A2W_request.join();
+    t_U2A_response.join();
+    t_A2U_request.join();
   }
   catch(const std::exception& e)
   {
@@ -90,25 +93,18 @@ void Server::initWareHouse(){
   // initialized the product that shows in front end
   Database& db = Database::getInstance();
   db.connect();
-  // db.initialize();
-  for (int i = 0; i < NUM_PRODUCT; i ++ ){
-    db.insert_and_update_product(i, std::to_string(i), std::to_string(i));
-  }
   for (int i = 0; i < NUM_WH; i ++ ){
-    WareHouse wh;
+    WareHouse wh(i);
     wh.wh_id = i;
     wh.loc_x = i + 1;
     wh.loc_y = i + 1;
     std::cout << "start to init ware house, wh_id: " << wh.wh_id << std::endl;
     WH_list.push_back(wh);
-    db.insert_and_update_warehouse(wh.wh_id, wh.loc_x, wh.loc_y);
-    
-    if (i == 0){
-        for (int j = 0; j < NUM_PRODUCT; j ++ ){
-          db.insert_and_update_product(j, wh.products[j].p_name, wh.products[j].p_name);
-          db.initialize_inventory(wh.wh_id, j, PRODUCT_INIT_NUM);
-        }
-    }
+    db.insert_and_update_warehouse(wh.wh_id, wh.loc_x, wh.loc_y); 
+    db.insert_and_update_product(wh.products.p_id, wh.products.p_name, wh.products.p_name);
+    std::cout << "start to init product, wh_id: " << wh.wh_id << " product id: " << wh.products.p_id << " product name: " << wh.products.p_name << std::endl;
+    db.initialize_inventory(wh.wh_id, wh.products.p_id, PRODUCT_INIT_NUM);
+    std::cout << "start to init product, wh_id: " << wh.wh_id << " product id: " << wh.products.p_id << std::endl;
   }
 }
 
@@ -183,36 +179,36 @@ void Server::recvMsgFromWorld(){
 }
 
 
-// void Server::sendMsgToUPS(){
-//   Server& server = Server::getInstance();
-//   std::unique_ptr<proto_out> world_out(new proto_out(world_fd));
-//   while (1){
-//     std::cout << "start to sendMsgToUPS()" << std::endl;
-//       AUcommands aucommand;
-//       A2U_send_queue.wait_and_pop(aucommand);
-//       // send AConnect to world
-//       if (sendMesgTo<AUcommands>(aucommand, world_out.get()) == false){
-//         std::cout << "failed to send msg to world in sendMsgToUPS()" << std::endl;
-//         throw std::exception();
-//       }
-//       std::cout << "send msg to world successful in sendMsgToUPS()" << std::endl;
-//   }
-// }
+void Server::sendMsgToUPS(){
+  Server& server = Server::getInstance();
+  std::unique_ptr<proto_out> world_out(new proto_out(server.ups_fd));
+  while (1){
+    std::cout << "start to sendMsgToUPS()" << std::endl;
+      AUcommands aucommand;
+      A2U_send_queue.wait_and_pop(aucommand);
+      // send AConnect to world
+      if (sendMesgTo<AUcommands>(aucommand, world_out.get()) == false){
+        std::cout << "failed to send msg to world in sendMsgToUPS()" << std::endl;
+        throw std::exception();
+      }
+      std::cout << "send msg to world successful in sendMsgToUPS()" << std::endl;
+  }
+}
 
-// void Server::recvMsgFromUPS(){
-//   // get UAcommands from UPS
-//     Server& server = Server::getInstance();
-//     std::unique_ptr<proto_in> world_in(new proto_in(server.world_fd)); // change world_fd to ups_fd
-//     while (1){
-//       UAcommands UAresponses;
-//       if (recvMesgFrom<UAcommands>(UAresponses, world_in.get()) == false){
-//         // std::cout << "failed to recv msg from world in recvMsgFromUPS()" << std::endl;
-//         continue;
-//       }
-//       std::cout << "recv msg from world successful in recvMsgFromUPS()" << std::endl;
-//       handleUPSResponse(UAresponses);
-//     }
-// }
+void Server::recvMsgFromUPS(){
+  // get UAcommands from UPS
+    Server& server = Server::getInstance();
+    std::unique_ptr<proto_in> world_in(new proto_in(server.ups_fd)); // change world_fd to ups_fd
+    while (1){
+      UAcommands UAresponses;
+      if (recvMesgFrom<UAcommands>(UAresponses, world_in.get()) == false){
+        // std::cout << "failed to recv msg from world in recvMsgFromUPS()" << std::endl;
+        continue;
+      }
+      std::cout << "recv msg from world successful in recvMsgFromUPS()" << std::endl;
+      handleUPSResponse(UAresponses);
+    }
+}
 
 
 long Server::getSeqNum(){

@@ -1,23 +1,23 @@
 #include "handleWorld.hpp"
 
-void initProductsAmount(){
-  Server& server = Server::getInstance();
-  // buy some initial products
-  for (auto const& warehouse : server.WH_list) {
-    ACommands acommand;
-    APurchaseMore* apurchase = acommand.add_buy();
-      Server& server = Server::getInstance();
-      int seq_num = server.getSeqNum();
-      apurchase->set_seqnum(seq_num);
-      apurchase->set_whnum(warehouse.wh_id);
-    for (auto const& product : warehouse.products) {
-      AProduct* aproduct = apurchase->add_things();
-      aproduct->set_id(product.p_id);
-      aproduct->set_count(product.p_num);
-      aproduct->set_description(product.p_name);
-    }
-    trySendMsgToWorld(acommand, seq_num);
-  }
+// void initProductsAmount(){
+//   Server& server = Server::getInstance();
+//   // buy some initial products
+//   for (auto const& warehouse : server.WH_list) {
+//     ACommands acommand;
+//     APurchaseMore* apurchase = acommand.add_buy();
+//       Server& server = Server::getInstance();
+//       int seq_num = server.getSeqNum();
+//       apurchase->set_seqnum(seq_num);
+//       apurchase->set_whnum(warehouse.wh_id);
+//     for (auto const& product : warehouse.products) {
+//       AProduct* aproduct = apurchase->add_things();
+//       aproduct->set_id(product.p_id);
+//       aproduct->set_count(product.p_num);
+//       aproduct->set_description(product.p_name);
+//     }
+//     trySendMsgToWorld(acommand, seq_num);
+//   }
 
 
   // for (auto const& warehouse : server.WH_list) {
@@ -39,7 +39,7 @@ void initProductsAmount(){
   //           product.p_num);
             // t_purchase.detach();
   // TODO: wait for all threads finishing
-}
+//}
 
 void handleWorldResponse(AResponses& aresponses){
       Server& server = Server::getInstance();
