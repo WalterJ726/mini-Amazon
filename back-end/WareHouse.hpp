@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #define NUM_WH 5
-#define NUM_PRODUCT 3
+#define NUM_PRODUCT 5
 #define PRODUCT_INIT_NUM 5
-
+static std::vector<std::string> p_name_lists = {"apple", "banana", "iPad", "iPhone", "Mattress"};
 class Product{
 public:
     int p_id;
@@ -20,17 +20,12 @@ public:
     int wh_id;
     int loc_x;
     int loc_y;
-    std::vector<Product> products;
-    std::vector<std::string> p_name_lists = {"apple", "banana", "iPad", "iPhone", "Mattress"};
+    Product products;
 
-    WareHouse(){
-        for (int j = 0; j < NUM_PRODUCT; j ++ ){
-            Product product;
-            product.p_num = PRODUCT_INIT_NUM;
-            product.p_id = j;
-            product.p_name = p_name_lists[j];
-            products.push_back(product);
-        }
+    explicit WareHouse(int idx){
+        products.p_num = PRODUCT_INIT_NUM;
+        products.p_id = idx;
+        products.p_name = p_name_lists[idx];
     };
 };
 

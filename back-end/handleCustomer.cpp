@@ -82,6 +82,29 @@ void send_to_world_pack(long package_id, const std::pair<size_t, std::vector<std
   trySendMsgToWorld(pack, seq_num);
 }
 
+void send_to_ups_pack(long package_id, const std::pair<int, int> & dest_x_y, const std::pair<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> & warehouse_products){
+  AUcommands aucommands;
+  AUreqPickup* pickup = aucommands.add_pickup();
+  Server& server = Server::getInstance();
+  int seq_num = server.getSeqNum();
+  size_t warehouse_id = warehouse_products.first;
+  pickup->set_seqnum(seq_num);
+  pickup->set_whid(warehouse_id);
+  pickup->set_shipid(package_id);
+  pickup->set_destinationx(dest_x_y.first);
+  pickup->set_destinationy(dest_x_y.second);
+  for (std::vector<std::pair<std::pair<size_t, std::string>, size_t>>::const_iterator curr_product = warehouse_products.second.begin(); curr_product != warehouse_products.second.end(); ++curr_product){
+    size_t product_id = curr_product->first.first;
+    size_t quantity = curr_product->second;
+    const std::string product_name = curr_product->first.second;
+    AProduct* aproduct = pickup->add_products();
+    aproduct->set_id(product_id);
+    aproduct->set_count(quantity);
+    aproduct->set_description(product_name);
+  }
+  trySendMsgToUPS(aucommands, seq_num);
+}
+
 void send_to_user(std::string message, int client_connection_fd){
   Server& server = Server::getInstance();
   server.sendAllData(client_connection_fd, message.c_str(), message.length());
@@ -144,7 +167,8 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       for(std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
         send_to_world_pack(package_id, *curr_warehouse);
-       //    send pickup request to UPS;
+        //    send pickup request to UPS;
+        send_to_ups_pack(package_id, dest_x_y, *curr_warehouse);
       }
     }
   }
@@ -164,6 +188,7 @@ void listenFrontEndRequest(){
       continue;
     }
     std::string recv_str_front_end = server.recvData(0);
+    std::cout << recv_str_front_end << std::endl;
     ServerRequest customer_request(recv_str_front_end);
     std::string action = customer_request.getAction();
     if (action == "bind"){
@@ -174,11 +199,11 @@ void listenFrontEndRequest(){
       for (auto it = headerMap.begin(); it != headerMap.end(); ++it) {
           std::cout << it->first << std::endl;
           for (int i = 0; i < it->second.size(); i ++ ){
-              std::cout << it->second[i];
+              std::cout << it->second[i] << " ";
           }
           std::cout << std::endl;
       }
-      handleOrder(headerMap, client_connection_fd);
+      handleOrder(headerMap, client_connection_fd); // create a new thread to handle customer order
     }
     close(client_connection_fd);
   }

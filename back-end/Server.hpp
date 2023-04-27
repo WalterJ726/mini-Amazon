@@ -21,6 +21,7 @@
 #include "client.hpp"
 #include "ServerRequest.hpp"
 #include "handleCustomer.h"
+#include "handleUPS.h"
 
 #define MAX_TCP_PACKET_SIZE 65535
 
@@ -52,7 +53,7 @@ private:
   // ware house
   std::vector<WareHouse> WH_list;
   ThreadSafe_queue<ACommands> A2W_send_queue;
-  ThreadSafe_queue<ACommands> A2U_send_queue;
+  ThreadSafe_queue<AUcommands> A2U_send_queue;
   std::unordered_set<int> finished_SeqNum_set;
   std::unordered_set<int> ups_finished_SeqNum_set;
 
@@ -90,9 +91,12 @@ private:
   
   // handle request
   void sendMsgToWorld();
-
+  void sendMsgToUPS();
+  
   // handle response 
   void recvMsgFromWorld();
+  void recvMsgFromUPS();
+
   // periodically thread
   static void trySendMsgToWorld(ACommands ac, int seq_num);
   // int connectToServer();

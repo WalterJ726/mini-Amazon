@@ -55,6 +55,7 @@ result select_for_update(const string & sql, work & w){
       if (r.empty()){
         std::cout << "No rows selected." << std::endl;
       }
+      std::cout << "selected for updated has founded results" << std::endl;
       return r;
     }
     catch (const std::exception & e) {
@@ -105,12 +106,12 @@ bool Database::initialize_inventory(const int wh_id, const int p_id, const int q
   string sql;
   try
   {
-    sql = "INSERT INTO \"amazonSite_inventory\" (quantity, warehouse_id, product_id) ";
+    sql = "INSERT INTO \"amazonSite_inventory\" (quantity, product_id, warehouse_id) ";
     sql += string("VALUES (");
     sql += std::to_string(quantity) + ",";
-    sql += std::to_string(wh_id) + ",";
-    sql += std::to_string(p_id);
-    sql += string(") ON CONFLICT (warehouse_id,product_id) DO UPDATE SET quantity = EXCLUDED.quantity; ");
+    sql += std::to_string(p_id) + ",";
+    sql += std::to_string(wh_id);
+    sql += string(") ON CONFLICT (product_id, warehouse_id) DO UPDATE SET quantity = EXCLUDED.quantity; ");
     std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
     std::cout << "finished executing sql" << std::endl;
@@ -245,7 +246,7 @@ bool Database::insert_and_update_inventory(const int wh_id, const int p_id, cons
 }
 
 bool Database::update_package_status(const int ship_id, const string status){
-    string sql;
+  string sql;
   try
   {
     sql = "UPDATE \"amazonSite_order\" SET order_status=" + c->quote(status);
@@ -267,8 +268,8 @@ int Database::match_inventory(const int product_id, const int quantity){
   {
    stringstream ss_sql;
   // select warehouse_id from "amazonSite_inventory" where product_id = product_id and quantity >= quantity limit 1;
-  ss_sql << "select warehouse_id from \"amazonSite_inventory\" ";
-  ss_sql << "where product_id = " << product_id << " and quantity >= " << quantity << " limit 1;";
+  ss_sql << "select warehouse_id from \"amazonSite_inventory\" as am_in ";
+  ss_sql << "where am_in.product_id=" << product_id << " and am_in.quantity>=" << quantity << " limit 1;";
   std::cout << ss_sql.str() << std::endl;
   work w(*c);
   result r = select_for_update(ss_sql.str(), w);
@@ -276,14 +277,16 @@ int Database::match_inventory(const int product_id, const int quantity){
     std::cout << "No matched inventory with product_id = " << product_id << " and quantity = " << quantity << std::endl;
     return -100;  
   }
-
-  int warehouse_id = r[0]["warehouse_id"].as<int>();
-  int stock = r[0]["quantity"].as<int>();
+  std::cout << "success select_for_update found" << std::endl;
+  result::const_iterator c = r.begin();
+  int warehouse_id = c[3].as<int>();
+  int stock = c[1].as<int>();
   stock -= quantity;
 
   stringstream ss_update_sql;
   ss_update_sql << "update \"amazonSite_inventory\" set quantity = " << stock;
   ss_update_sql << " where warehouse_id = " << warehouse_id << " and product_id = " << product_id << ";";
+  std::cout << ss_update_sql.str() << std::endl;
   w.exec(ss_update_sql.str());
 
   update_commit(w);
