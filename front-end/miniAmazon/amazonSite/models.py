@@ -27,7 +27,6 @@ class Order(models.Model):
     product = models.ForeignKey("Product",null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField()
-    order_status = models.CharField(max_length=100)
     package_id = models.IntegerField(null=True, blank=True)
     create_time = models.TimeField(null=True, blank=True)
 
@@ -46,6 +45,7 @@ class Package(models.Model):
     pack_time = models.TimeField(null=True, blank=True)
     ups_id = models.IntegerField(null=True, blank=True) # TODO: add foreign key
     truck_id = models.IntegerField(null=True, blank=True)
+    package_status = models.CharField(max_length=100)
 
 class Inventory(models.Model):
     warehouse = models.ForeignKey("Warehouse", on_delete=models.CASCADE)

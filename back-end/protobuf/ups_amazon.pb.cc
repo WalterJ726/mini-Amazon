@@ -119,32 +119,6 @@ struct AUreqDeliveryDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AUreqDeliveryDefaultTypeInternal _AUreqDelivery_default_instance_;
-PROTOBUF_CONSTEXPR AUquery::AUquery(
-    ::_pbi::ConstantInitialized)
-  : shipid_(int64_t{0})
-  , seqnum_(int64_t{0}){}
-struct AUqueryDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR AUqueryDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~AUqueryDefaultTypeInternal() {}
-  union {
-    AUquery _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AUqueryDefaultTypeInternal _AUquery_default_instance_;
-PROTOBUF_CONSTEXPR UAstatus::UAstatus(
-    ::_pbi::ConstantInitialized)
-  : status_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
-  , seqnum_(int64_t{0}){}
-struct UAstatusDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UAstatusDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UAstatusDefaultTypeInternal() {}
-  union {
-    UAstatus _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UAstatusDefaultTypeInternal _UAstatus_default_instance_;
 PROTOBUF_CONSTEXPR UAdelivered::UAdelivered(
     ::_pbi::ConstantInitialized)
   : shipid_(int64_t{0})
@@ -203,7 +177,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR UAcommands::UAcommands(
     ::_pbi::ConstantInitialized)
   : truckarr_()
-  , status_()
   , delivered_()
   , changeresp_()
   , bindupsresponse_()
@@ -223,9 +196,8 @@ PROTOBUF_CONSTEXPR AUcommands::AUcommands(
     ::_pbi::ConstantInitialized)
   : pickup_()
   , delivery_()
-  , query_()
   , changedest_()
-  , bindups_()
+  , bind_()
   , err_()
   , acks_()
   , disconnect_(false){}
@@ -238,7 +210,7 @@ struct AUcommandsDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AUcommandsDefaultTypeInternal _AUcommands_default_instance_;
-static ::_pb::Metadata file_level_metadata_ups_5famazon_2eproto[15];
+static ::_pb::Metadata file_level_metadata_ups_5famazon_2eproto[13];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_ups_5famazon_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ups_5famazon_2eproto = nullptr;
 
@@ -329,26 +301,6 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::AUreqDelivery, seqnum_),
   0,
   1,
-  PROTOBUF_FIELD_OFFSET(::AUquery, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::AUquery, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::AUquery, shipid_),
-  PROTOBUF_FIELD_OFFSET(::AUquery, seqnum_),
-  0,
-  1,
-  PROTOBUF_FIELD_OFFSET(::UAstatus, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::UAstatus, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::UAstatus, status_),
-  PROTOBUF_FIELD_OFFSET(::UAstatus, seqnum_),
-  0,
-  1,
   PROTOBUF_FIELD_OFFSET(::UAdelivered, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::UAdelivered, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -402,14 +354,12 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::UAcommands, truckarr_),
-  PROTOBUF_FIELD_OFFSET(::UAcommands, status_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, delivered_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, changeresp_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, bindupsresponse_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, err_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, disconnect_),
   PROTOBUF_FIELD_OFFSET(::UAcommands, acks_),
-  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -425,13 +375,11 @@ const uint32_t TableStruct_ups_5famazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::AUcommands, pickup_),
   PROTOBUF_FIELD_OFFSET(::AUcommands, delivery_),
-  PROTOBUF_FIELD_OFFSET(::AUcommands, query_),
   PROTOBUF_FIELD_OFFSET(::AUcommands, changedest_),
-  PROTOBUF_FIELD_OFFSET(::AUcommands, bindups_),
+  PROTOBUF_FIELD_OFFSET(::AUcommands, bind_),
   PROTOBUF_FIELD_OFFSET(::AUcommands, err_),
   PROTOBUF_FIELD_OFFSET(::AUcommands, disconnect_),
   PROTOBUF_FIELD_OFFSET(::AUcommands, acks_),
-  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -448,14 +396,12 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 42, 55, -1, sizeof(::AUreqPickup)},
   { 62, 72, -1, sizeof(::UAtruckArrived)},
   { 76, 84, -1, sizeof(::AUreqDelivery)},
-  { 86, 94, -1, sizeof(::AUquery)},
-  { 96, 104, -1, sizeof(::UAstatus)},
-  { 106, 114, -1, sizeof(::UAdelivered)},
-  { 116, 126, -1, sizeof(::AUchangeDestn)},
-  { 130, 138, -1, sizeof(::UAchangeResp)},
-  { 140, 149, -1, sizeof(::Err)},
-  { 152, 166, -1, sizeof(::UAcommands)},
-  { 174, 188, -1, sizeof(::AUcommands)},
+  { 86, 94, -1, sizeof(::UAdelivered)},
+  { 96, 106, -1, sizeof(::AUchangeDestn)},
+  { 110, 118, -1, sizeof(::UAchangeResp)},
+  { 120, 129, -1, sizeof(::Err)},
+  { 132, 145, -1, sizeof(::UAcommands)},
+  { 152, 165, -1, sizeof(::AUcommands)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -466,8 +412,6 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_AUreqPickup_default_instance_._instance,
   &::_UAtruckArrived_default_instance_._instance,
   &::_AUreqDelivery_default_instance_._instance,
-  &::_AUquery_default_instance_._instance,
-  &::_UAstatus_default_instance_._instance,
   &::_UAdelivered_default_instance_._instance,
   &::_AUchangeDestn_default_instance_._instance,
   &::_UAchangeResp_default_instance_._instance,
@@ -490,36 +434,32 @@ const char descriptor_table_protodef_ups_5famazon_2eproto[] PROTOBUF_SECTION_VAR
   "\002(\003\"O\n\016UAtruckArrived\022\014\n\004whID\030\001 \002(\005\022\016\n\006s"
   "hipID\030\002 \002(\003\022\017\n\007truckID\030\003 \002(\005\022\016\n\006seqNum\030\004"
   " \002(\003\"/\n\rAUreqDelivery\022\016\n\006shipID\030\001 \002(\003\022\016\n"
-  "\006seqNum\030\002 \002(\003\")\n\007AUquery\022\016\n\006shipID\030\001 \002(\003"
-  "\022\016\n\006seqNum\030\002 \002(\003\"*\n\010UAstatus\022\016\n\006status\030\001"
-  " \002(\t\022\016\n\006seqNum\030\002 \002(\003\"-\n\013UAdelivered\022\016\n\006s"
-  "hipID\030\001 \002(\003\022\016\n\006seqNum\030\002 \002(\003\"[\n\rAUchangeD"
-  "estn\022\016\n\006shipID\030\001 \002(\003\022\024\n\014destinationX\030\002 \002"
-  "(\005\022\024\n\014destinationY\030\003 \002(\005\022\016\n\006seqNum\030\004 \002(\003"
-  "\"/\n\014UAchangeResp\022\017\n\007success\030\001 \002(\010\022\016\n\006seq"
-  "Num\030\002 \002(\003\"8\n\003Err\022\013\n\003err\030\001 \002(\t\022\024\n\014origins"
-  "eqnum\030\002 \002(\003\022\016\n\006seqnum\030\003 \002(\003\"\360\001\n\nUAcomman"
-  "ds\022!\n\010truckArr\030\001 \003(\0132\017.UAtruckArrived\022\031\n"
-  "\006status\030\002 \003(\0132\t.UAstatus\022\037\n\tdelivered\030\003 "
-  "\003(\0132\014.UAdelivered\022!\n\nchangeResp\030\004 \003(\0132\r."
-  "UAchangeResp\022+\n\017bindUPSResponse\030\005 \003(\0132\022."
-  "UAbindUPSResponse\022\021\n\003err\030\006 \003(\0132\004.Err\022\022\n\n"
-  "disconnect\030\007 \001(\010\022\014\n\004acks\030\010 \003(\003\"\333\001\n\nAUcom"
-  "mands\022\034\n\006pickup\030\001 \003(\0132\014.AUreqPickup\022 \n\010d"
-  "elivery\030\002 \003(\0132\016.AUreqDelivery\022\027\n\005query\030\003"
-  " \003(\0132\010.AUquery\022\"\n\nchangeDest\030\004 \003(\0132\016.AUc"
-  "hangeDestn\022\033\n\007bindUPS\030\005 \003(\0132\n.AUbindUPS\022"
-  "\021\n\003err\030\006 \003(\0132\004.Err\022\022\n\ndisconnect\030\007 \001(\010\022\014"
-  "\n\004acks\030\010 \003(\003P\000"
+  "\006seqNum\030\002 \002(\003\"-\n\013UAdelivered\022\016\n\006shipID\030\001"
+  " \002(\003\022\016\n\006seqNum\030\002 \002(\003\"[\n\rAUchangeDestn\022\016\n"
+  "\006shipID\030\001 \002(\003\022\024\n\014destinationX\030\002 \002(\005\022\024\n\014d"
+  "estinationY\030\003 \002(\005\022\016\n\006seqNum\030\004 \002(\003\"/\n\014UAc"
+  "hangeResp\022\017\n\007success\030\001 \002(\010\022\016\n\006seqNum\030\002 \002"
+  "(\003\"8\n\003Err\022\013\n\003err\030\001 \002(\t\022\024\n\014originseqnum\030\002"
+  " \002(\003\022\016\n\006seqnum\030\003 \002(\003\"\325\001\n\nUAcommands\022!\n\010t"
+  "ruckArr\030\001 \003(\0132\017.UAtruckArrived\022\037\n\tdelive"
+  "red\030\002 \003(\0132\014.UAdelivered\022!\n\nchangeResp\030\003 "
+  "\003(\0132\r.UAchangeResp\022+\n\017bindUPSResponse\030\004 "
+  "\003(\0132\022.UAbindUPSResponse\022\021\n\003err\030\005 \003(\0132\004.E"
+  "rr\022\022\n\ndisconnect\030\006 \001(\010\022\014\n\004acks\030\007 \003(\003\"\277\001\n"
+  "\nAUcommands\022\034\n\006pickup\030\001 \003(\0132\014.AUreqPicku"
+  "p\022 \n\010delivery\030\002 \003(\0132\016.AUreqDelivery\022\"\n\nc"
+  "hangeDest\030\003 \003(\0132\016.AUchangeDestn\022\030\n\004bind\030"
+  "\004 \003(\0132\n.AUbindUPS\022\021\n\003err\030\005 \003(\0132\004.Err\022\022\n\n"
+  "disconnect\030\006 \001(\010\022\014\n\004acks\030\007 \003(\003P\000"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ups_5famazon_2eproto_deps[1] = {
   &::descriptor_table_world_5famazon_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_ups_5famazon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ups_5famazon_2eproto = {
-    false, false, 1334, descriptor_table_protodef_ups_5famazon_2eproto,
+    false, false, 1192, descriptor_table_protodef_ups_5famazon_2eproto,
     "ups_amazon.proto",
-    &descriptor_table_ups_5famazon_2eproto_once, descriptor_table_ups_5famazon_2eproto_deps, 1, 15,
+    &descriptor_table_ups_5famazon_2eproto_once, descriptor_table_ups_5famazon_2eproto_deps, 1, 13,
     schemas, file_default_instances, TableStruct_ups_5famazon_2eproto::offsets,
     file_level_metadata_ups_5famazon_2eproto, file_level_enum_descriptors_ups_5famazon_2eproto,
     file_level_service_descriptors_ups_5famazon_2eproto,
@@ -2435,519 +2375,6 @@ void AUreqDelivery::InternalSwap(AUreqDelivery* other) {
 
 // ===================================================================
 
-class AUquery::_Internal {
- public:
-  using HasBits = decltype(std::declval<AUquery>()._has_bits_);
-  static void set_has_shipid(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_seqnum(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
-  }
-};
-
-AUquery::AUquery(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor();
-  // @@protoc_insertion_point(arena_constructor:AUquery)
-}
-AUquery::AUquery(const AUquery& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&shipid_, &from.shipid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&shipid_)) + sizeof(seqnum_));
-  // @@protoc_insertion_point(copy_constructor:AUquery)
-}
-
-inline void AUquery::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&shipid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&shipid_)) + sizeof(seqnum_));
-}
-
-AUquery::~AUquery() {
-  // @@protoc_insertion_point(destructor:AUquery)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void AUquery::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
-
-void AUquery::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void AUquery::Clear() {
-// @@protoc_insertion_point(message_clear_start:AUquery)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&shipid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&seqnum_) -
-        reinterpret_cast<char*>(&shipid_)) + sizeof(seqnum_));
-  }
-  _has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* AUquery::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // required int64 shipID = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _Internal::set_has_shipid(&has_bits);
-          shipid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required int64 seqNum = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_seqnum(&has_bits);
-          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* AUquery::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:AUquery)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required int64 shipID = 1;
-  if (cached_has_bits & 0x00000001u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_shipid(), target);
-  }
-
-  // required int64 seqNum = 2;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:AUquery)
-  return target;
-}
-
-size_t AUquery::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AUquery)
-  size_t total_size = 0;
-
-  if (_internal_has_shipid()) {
-    // required int64 shipID = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_shipid());
-  }
-
-  if (_internal_has_seqnum()) {
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
-  return total_size;
-}
-size_t AUquery::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:AUquery)
-  size_t total_size = 0;
-
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required int64 shipID = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_shipid());
-
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AUquery::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    AUquery::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AUquery::GetClassData() const { return &_class_data_; }
-
-void AUquery::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<AUquery *>(to)->MergeFrom(
-      static_cast<const AUquery &>(from));
-}
-
-
-void AUquery::MergeFrom(const AUquery& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:AUquery)
-  GOOGLE_DCHECK_NE(&from, this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      shipid_ = from.shipid_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void AUquery::CopyFrom(const AUquery& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:AUquery)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool AUquery::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  return true;
-}
-
-void AUquery::InternalSwap(AUquery* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(AUquery, seqnum_)
-      + sizeof(AUquery::seqnum_)
-      - PROTOBUF_FIELD_OFFSET(AUquery, shipid_)>(
-          reinterpret_cast<char*>(&shipid_),
-          reinterpret_cast<char*>(&other->shipid_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata AUquery::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[7]);
-}
-
-// ===================================================================
-
-class UAstatus::_Internal {
- public:
-  using HasBits = decltype(std::declval<UAstatus>()._has_bits_);
-  static void set_has_status(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_seqnum(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
-  }
-};
-
-UAstatus::UAstatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor();
-  // @@protoc_insertion_point(arena_constructor:UAstatus)
-}
-UAstatus::UAstatus(const UAstatus& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  status_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    status_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_status()) {
-    status_.Set(from._internal_status(), 
-      GetArenaForAllocation());
-  }
-  seqnum_ = from.seqnum_;
-  // @@protoc_insertion_point(copy_constructor:UAstatus)
-}
-
-inline void UAstatus::SharedCtor() {
-status_.InitDefault();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  status_.Set("", GetArenaForAllocation());
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-seqnum_ = int64_t{0};
-}
-
-UAstatus::~UAstatus() {
-  // @@protoc_insertion_point(destructor:UAstatus)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void UAstatus::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  status_.Destroy();
-}
-
-void UAstatus::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void UAstatus::Clear() {
-// @@protoc_insertion_point(message_clear_start:UAstatus)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    status_.ClearNonDefaultToEmpty();
-  }
-  seqnum_ = int64_t{0};
-  _has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* UAstatus::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // required string status = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_status();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          #ifndef NDEBUG
-          ::_pbi::VerifyUTF8(str, "UAstatus.status");
-          #endif  // !NDEBUG
-        } else
-          goto handle_unusual;
-        continue;
-      // required int64 seqNum = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_seqnum(&has_bits);
-          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* UAstatus::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:UAstatus)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required string status = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->_internal_status().data(), static_cast<int>(this->_internal_status().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "UAstatus.status");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_status(), target);
-  }
-
-  // required int64 seqNum = 2;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:UAstatus)
-  return target;
-}
-
-size_t UAstatus::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:UAstatus)
-  size_t total_size = 0;
-
-  if (_internal_has_status()) {
-    // required string status = 1;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_status());
-  }
-
-  if (_internal_has_seqnum()) {
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
-  return total_size;
-}
-size_t UAstatus::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:UAstatus)
-  size_t total_size = 0;
-
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required string status = 1;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_status());
-
-    // required int64 seqNum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UAstatus::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    UAstatus::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UAstatus::GetClassData() const { return &_class_data_; }
-
-void UAstatus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<UAstatus *>(to)->MergeFrom(
-      static_cast<const UAstatus &>(from));
-}
-
-
-void UAstatus::MergeFrom(const UAstatus& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:UAstatus)
-  GOOGLE_DCHECK_NE(&from, this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _internal_set_status(from._internal_status());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void UAstatus::CopyFrom(const UAstatus& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:UAstatus)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool UAstatus::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  return true;
-}
-
-void UAstatus::InternalSwap(UAstatus* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &status_, lhs_arena,
-      &other->status_, rhs_arena
-  );
-  swap(seqnum_, other->seqnum_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata UAstatus::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[8]);
-}
-
-// ===================================================================
-
 class UAdelivered::_Internal {
  public:
   using HasBits = decltype(std::declval<UAdelivered>()._has_bits_);
@@ -3190,7 +2617,7 @@ void UAdelivered::InternalSwap(UAdelivered* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAdelivered::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[9]);
+      file_level_metadata_ups_5famazon_2eproto[7]);
 }
 
 // ===================================================================
@@ -3495,7 +2922,7 @@ void AUchangeDestn::InternalSwap(AUchangeDestn* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUchangeDestn::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[10]);
+      file_level_metadata_ups_5famazon_2eproto[8]);
 }
 
 // ===================================================================
@@ -3742,7 +3169,7 @@ void UAchangeResp::InternalSwap(UAchangeResp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAchangeResp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[11]);
+      file_level_metadata_ups_5famazon_2eproto[9]);
 }
 
 // ===================================================================
@@ -4051,7 +3478,7 @@ void Err::InternalSwap(Err* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Err::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[12]);
+      file_level_metadata_ups_5famazon_2eproto[10]);
 }
 
 // ===================================================================
@@ -4068,7 +3495,6 @@ UAcommands::UAcommands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
   truckarr_(arena),
-  status_(arena),
   delivered_(arena),
   changeresp_(arena),
   bindupsresponse_(arena),
@@ -4081,7 +3507,6 @@ UAcommands::UAcommands(const UAcommands& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_),
       truckarr_(from.truckarr_),
-      status_(from.status_),
       delivered_(from.delivered_),
       changeresp_(from.changeresp_),
       bindupsresponse_(from.bindupsresponse_),
@@ -4120,7 +3545,6 @@ void UAcommands::Clear() {
   (void) cached_has_bits;
 
   truckarr_.Clear();
-  status_.Clear();
   delivered_.Clear();
   changeresp_.Clear();
   bindupsresponse_.Clear();
@@ -4151,91 +3575,78 @@ const char* UAcommands::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // repeated .UAstatus status = 2;
+      // repeated .UAdelivered delivered = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_status(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .UAdelivered delivered = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_delivered(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // repeated .UAchangeResp changeResp = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+      // repeated .UAchangeResp changeResp = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_changeresp(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // repeated .UAbindUPSResponse bindUPSResponse = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+      // repeated .UAbindUPSResponse bindUPSResponse = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_bindupsresponse(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // repeated .Err err = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+      // repeated .Err err = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_err(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // optional bool disconnect = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+      // optional bool disconnect = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _Internal::set_has_disconnect(&has_bits);
           disconnect_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated int64 acks = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+      // repeated int64 acks = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           ptr -= 1;
           do {
             ptr += 1;
             _internal_add_acks(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<64>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 66) {
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<56>(ptr));
+        } else if (static_cast<uint8_t>(tag) == 58) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_acks(), ptr, ctx);
           CHK_(ptr);
         } else
@@ -4279,57 +3690,49 @@ uint8_t* UAcommands::_InternalSerialize(
         InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .UAstatus status = 2;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_status_size()); i < n; i++) {
-    const auto& repfield = this->_internal_status(i);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
-  }
-
-  // repeated .UAdelivered delivered = 3;
+  // repeated .UAdelivered delivered = 2;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_delivered_size()); i < n; i++) {
     const auto& repfield = this->_internal_delivered(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .UAchangeResp changeResp = 4;
+  // repeated .UAchangeResp changeResp = 3;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_changeresp_size()); i < n; i++) {
     const auto& repfield = this->_internal_changeresp(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .UAbindUPSResponse bindUPSResponse = 5;
+  // repeated .UAbindUPSResponse bindUPSResponse = 4;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_bindupsresponse_size()); i < n; i++) {
     const auto& repfield = this->_internal_bindupsresponse(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_err_size()); i < n; i++) {
     const auto& repfield = this->_internal_err(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(6, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   cached_has_bits = _has_bits_[0];
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(7, this->_internal_disconnect(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_disconnect(), target);
   }
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   for (int i = 0, n = this->_internal_acks_size(); i < n; i++) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(8, this->_internal_acks(i), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(7, this->_internal_acks(i), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4355,42 +3758,35 @@ size_t UAcommands::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .UAstatus status = 2;
-  total_size += 1UL * this->_internal_status_size();
-  for (const auto& msg : this->status_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // repeated .UAdelivered delivered = 3;
+  // repeated .UAdelivered delivered = 2;
   total_size += 1UL * this->_internal_delivered_size();
   for (const auto& msg : this->delivered_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .UAchangeResp changeResp = 4;
+  // repeated .UAchangeResp changeResp = 3;
   total_size += 1UL * this->_internal_changeresp_size();
   for (const auto& msg : this->changeresp_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .UAbindUPSResponse bindUPSResponse = 5;
+  // repeated .UAbindUPSResponse bindUPSResponse = 4;
   total_size += 1UL * this->_internal_bindupsresponse_size();
   for (const auto& msg : this->bindupsresponse_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   total_size += 1UL * this->_internal_err_size();
   for (const auto& msg : this->err_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   {
     size_t data_size = ::_pbi::WireFormatLite::
       Int64Size(this->acks_);
@@ -4399,7 +3795,7 @@ size_t UAcommands::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     total_size += 1 + 1;
@@ -4428,7 +3824,6 @@ void UAcommands::MergeFrom(const UAcommands& from) {
   (void) cached_has_bits;
 
   truckarr_.MergeFrom(from.truckarr_);
-  status_.MergeFrom(from.status_);
   delivered_.MergeFrom(from.delivered_);
   changeresp_.MergeFrom(from.changeresp_);
   bindupsresponse_.MergeFrom(from.bindupsresponse_);
@@ -4450,8 +3845,6 @@ void UAcommands::CopyFrom(const UAcommands& from) {
 bool UAcommands::IsInitialized() const {
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(truckarr_))
     return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(status_))
-    return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(delivered_))
     return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(changeresp_))
@@ -4468,7 +3861,6 @@ void UAcommands::InternalSwap(UAcommands* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   truckarr_.InternalSwap(&other->truckarr_);
-  status_.InternalSwap(&other->status_);
   delivered_.InternalSwap(&other->delivered_);
   changeresp_.InternalSwap(&other->changeresp_);
   bindupsresponse_.InternalSwap(&other->bindupsresponse_);
@@ -4480,7 +3872,7 @@ void UAcommands::InternalSwap(UAcommands* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAcommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[13]);
+      file_level_metadata_ups_5famazon_2eproto[11]);
 }
 
 // ===================================================================
@@ -4498,9 +3890,8 @@ AUcommands::AUcommands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
   pickup_(arena),
   delivery_(arena),
-  query_(arena),
   changedest_(arena),
-  bindups_(arena),
+  bind_(arena),
   err_(arena),
   acks_(arena) {
   SharedCtor();
@@ -4511,9 +3902,8 @@ AUcommands::AUcommands(const AUcommands& from)
       _has_bits_(from._has_bits_),
       pickup_(from.pickup_),
       delivery_(from.delivery_),
-      query_(from.query_),
       changedest_(from.changedest_),
-      bindups_(from.bindups_),
+      bind_(from.bind_),
       err_(from.err_),
       acks_(from.acks_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4550,9 +3940,8 @@ void AUcommands::Clear() {
 
   pickup_.Clear();
   delivery_.Clear();
-  query_.Clear();
   changedest_.Clear();
-  bindups_.Clear();
+  bind_.Clear();
   err_.Clear();
   acks_.Clear();
   disconnect_ = false;
@@ -4593,78 +3982,65 @@ const char* AUcommands::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // repeated .AUquery query = 3;
+      // repeated .AUchangeDestn changeDest = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_query(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .AUchangeDestn changeDest = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_changedest(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AUbindUPS bind = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_bind(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // repeated .AUbindUPS bindUPS = 5;
+      // repeated .Err err = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_bindups(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .Err err = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_err(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else
           goto handle_unusual;
         continue;
-      // optional bool disconnect = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+      // optional bool disconnect = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _Internal::set_has_disconnect(&has_bits);
           disconnect_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated int64 acks = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+      // repeated int64 acks = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           ptr -= 1;
           do {
             ptr += 1;
             _internal_add_acks(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<64>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 66) {
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<56>(ptr));
+        } else if (static_cast<uint8_t>(tag) == 58) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_acks(), ptr, ctx);
           CHK_(ptr);
         } else
@@ -4716,49 +4092,41 @@ uint8_t* AUcommands::_InternalSerialize(
         InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .AUquery query = 3;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_query_size()); i < n; i++) {
-    const auto& repfield = this->_internal_query(i);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
-  }
-
-  // repeated .AUchangeDestn changeDest = 4;
+  // repeated .AUchangeDestn changeDest = 3;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_changedest_size()); i < n; i++) {
     const auto& repfield = this->_internal_changedest(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .AUbindUPS bind = 4;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_bind_size()); i < n; i++) {
+    const auto& repfield = this->_internal_bind(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
         InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .AUbindUPS bindUPS = 5;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_bindups_size()); i < n; i++) {
-    const auto& repfield = this->_internal_bindups(i);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
-  }
-
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_err_size()); i < n; i++) {
     const auto& repfield = this->_internal_err(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(6, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   cached_has_bits = _has_bits_[0];
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(7, this->_internal_disconnect(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_disconnect(), target);
   }
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   for (int i = 0, n = this->_internal_acks_size(); i < n; i++) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(8, this->_internal_acks(i), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(7, this->_internal_acks(i), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4791,35 +4159,28 @@ size_t AUcommands::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .AUquery query = 3;
-  total_size += 1UL * this->_internal_query_size();
-  for (const auto& msg : this->query_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // repeated .AUchangeDestn changeDest = 4;
+  // repeated .AUchangeDestn changeDest = 3;
   total_size += 1UL * this->_internal_changedest_size();
   for (const auto& msg : this->changedest_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .AUbindUPS bindUPS = 5;
-  total_size += 1UL * this->_internal_bindups_size();
-  for (const auto& msg : this->bindups_) {
+  // repeated .AUbindUPS bind = 4;
+  total_size += 1UL * this->_internal_bind_size();
+  for (const auto& msg : this->bind_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   total_size += 1UL * this->_internal_err_size();
   for (const auto& msg : this->err_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   {
     size_t data_size = ::_pbi::WireFormatLite::
       Int64Size(this->acks_);
@@ -4828,7 +4189,7 @@ size_t AUcommands::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     total_size += 1 + 1;
@@ -4858,9 +4219,8 @@ void AUcommands::MergeFrom(const AUcommands& from) {
 
   pickup_.MergeFrom(from.pickup_);
   delivery_.MergeFrom(from.delivery_);
-  query_.MergeFrom(from.query_);
   changedest_.MergeFrom(from.changedest_);
-  bindups_.MergeFrom(from.bindups_);
+  bind_.MergeFrom(from.bind_);
   err_.MergeFrom(from.err_);
   acks_.MergeFrom(from.acks_);
   if (from._internal_has_disconnect()) {
@@ -4881,11 +4241,9 @@ bool AUcommands::IsInitialized() const {
     return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(delivery_))
     return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(query_))
-    return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(changedest_))
     return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(bindups_))
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(bind_))
     return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(err_))
     return false;
@@ -4898,9 +4256,8 @@ void AUcommands::InternalSwap(AUcommands* other) {
   swap(_has_bits_[0], other->_has_bits_[0]);
   pickup_.InternalSwap(&other->pickup_);
   delivery_.InternalSwap(&other->delivery_);
-  query_.InternalSwap(&other->query_);
   changedest_.InternalSwap(&other->changedest_);
-  bindups_.InternalSwap(&other->bindups_);
+  bind_.InternalSwap(&other->bind_);
   err_.InternalSwap(&other->err_);
   acks_.InternalSwap(&other->acks_);
   swap(disconnect_, other->disconnect_);
@@ -4909,7 +4266,7 @@ void AUcommands::InternalSwap(AUcommands* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUcommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_5famazon_2eproto_getter, &descriptor_table_ups_5famazon_2eproto_once,
-      file_level_metadata_ups_5famazon_2eproto[14]);
+      file_level_metadata_ups_5famazon_2eproto[12]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -4941,14 +4298,6 @@ Arena::CreateMaybeMessage< ::UAtruckArrived >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::AUreqDelivery*
 Arena::CreateMaybeMessage< ::AUreqDelivery >(Arena* arena) {
   return Arena::CreateMessageInternal< ::AUreqDelivery >(arena);
-}
-template<> PROTOBUF_NOINLINE ::AUquery*
-Arena::CreateMaybeMessage< ::AUquery >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::AUquery >(arena);
-}
-template<> PROTOBUF_NOINLINE ::UAstatus*
-Arena::CreateMaybeMessage< ::UAstatus >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::UAstatus >(arena);
 }
 template<> PROTOBUF_NOINLINE ::UAdelivered*
 Arena::CreateMaybeMessage< ::UAdelivered >(Arena* arena) {

@@ -45,13 +45,13 @@ class Database {
   bool insert_and_update_product(const int p_id, const string& p_name, const string& p_description);
 
   // insert and update
-  bool insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const string & order_status, const int package_id, const time_t & create_time);
+  bool insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const int package_id, const time_t & create_time);
   bool insert_and_update_inventory(const int wh_id, const int p_id, const int quantity);
-  bool insert_package(const int package_id, const int owner_id, const int warehouse_id,const int dest_x, const int dest_y);
+  bool insert_package(const int package_id, const int owner_id, const int warehouse_id,const int dest_x, const int dest_y, const string & package_status);
 
-  // update package status
+  // update and check package status
   bool update_package_status(const int ship_id, const string status);
-
+  bool check_package_status(const int ship_id, const string status);
   // query inventory and update if quantity matches 
   // NOTE USING SELECT FOR UPDATE, FUTURE MODIFICATION MAY NEEDED
   int match_inventory(const int product_id, const int quantity);

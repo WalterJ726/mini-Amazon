@@ -4,8 +4,8 @@ void initProductsAmount(){
   Server& server = Server::getInstance();
   // buy some initial products
   for (auto const& warehouse : server.WH_list) {
-    ACommands acommand;
-    APurchaseMore* apurchase = acommand.add_buy();
+      ACommands acommand;
+      APurchaseMore* apurchase = acommand.add_buy();
       Server& server = Server::getInstance();
       int seq_num = server.getSeqNum();
       apurchase->set_seqnum(seq_num);
@@ -20,53 +20,54 @@ void initProductsAmount(){
 
 void handleWorldResponse(AResponses& aresponses){
       Server& server = Server::getInstance();
+      std::cout << aresponses.DebugString() << std::endl;
       for (int i = 0; i < aresponses.acks_size(); i ++ ){
         std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
         server.finished_SeqNum_set.insert(aresponses.acks(i));
       }
     
-      std::cout << "start to parse APurchaseMore" << std::endl;
       // start to parse APurchaseMore
-      ACommands APurchaseMore_ack;
       for (int i = 0; i < aresponses.arrived_size(); i ++ ){
+        ACommands APurchaseMore_ack;
         APurchaseMore arrived = aresponses.arrived(i);
         int seqnum = arrived.seqnum();
         std::cout << "arrived.seqnum() is " << seqnum << std::endl;
         if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
           continue;
         }
-        processPurchaseMore(arrived);
+        std::cout << "start to parse APurchaseMore" << std::endl;
         APurchaseMore_ack.add_acks(seqnum);
+        server.A2W_send_queue.push(APurchaseMore_ack);
+        processPurchaseMore(arrived);
       }
-      server.A2W_send_queue.push(APurchaseMore_ack);
 
-      ACommands APacked_ack;
-      std::cout << "start to parse APacked" << std::endl;
       // start to parse APacked
       for (int i = 0; i < aresponses.ready_size(); i ++ ){
+        ACommands APacked_ack;
         APacked ready = aresponses.ready(i);
         int seqnum = ready.seqnum();
         if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
           continue;
         }
-        processPacked(ready);
+        std::cout << "start to parse APacked" << std::endl;
         APacked_ack.add_acks(seqnum);
+        server.A2W_send_queue.push(APacked_ack);
+        processPacked(ready);
       }
-      server.A2W_send_queue.push(APacked_ack);
 
-      std::cout << "start to parse ALoaded" << std::endl;
-      ACommands ALoaded_ack;
       // start to parse ALoaded
       for (int i = 0; i < aresponses.loaded_size(); i ++ ){
+        ACommands ALoaded_ack;
         ALoaded loaded = aresponses.loaded(i);
         int seqnum = loaded.seqnum();
         if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
           continue;
         }
-        processLoaded(loaded);
+        std::cout << "start to parse ALoaded" << std::endl;
         ALoaded_ack.add_acks(seqnum);
+        server.A2W_send_queue.push(ALoaded_ack);
+        processLoaded(loaded);
       }
-      server.A2W_send_queue.push(ALoaded_ack);
 }
 
 void purchaseMore(const int wh_id, const int p_id, const std::string p_name, const int p_num){
@@ -115,6 +116,7 @@ void processLoaded(ALoaded& aloaded){
   std::string status = "loadeded";
   db.update_package_status(ship_id, status);
   // try send AUreqDelivery to UPS
+  sendUPSReqDelivery(ship_id);
 }
 
 void trySendMsgToWorld(ACommands& ac, int seq_num){
@@ -124,6 +126,7 @@ void trySendMsgToWorld(ACommands& ac, int seq_num){
   while (1){
       // std::cout << "start to periodically thread" <<  std::endl;
       server.A2W_send_queue.push(ac);
+      std::cout << ac.DebugString() << std::endl;
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       if (server.finished_SeqNum_set.find(seq_num) != server.finished_SeqNum_set.end()){
         break;

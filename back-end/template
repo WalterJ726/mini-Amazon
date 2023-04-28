@@ -17,3 +17,7 @@
   optional bool disconnect = 6;
   repeated int64 acks =7;
 }
+
+
+
+protoc --proto_path=. --cpp_out=./protobuf world_amazon.proto ups_amazon.proto

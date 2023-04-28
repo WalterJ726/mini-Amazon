@@ -122,12 +122,12 @@ void generate_insert_order_package(size_t user_id, const long order_num, const l
   int dest_x = dest_x_y.first;
   int dest_y = dest_x_y.second;
   size_t warehouse_id = warehouse_products.first;
-  db.insert_package(package_id, user_id, warehouse_id, dest_x, dest_y);
+  const std::string package_status = "packing";
+  db.insert_package(package_id, user_id, warehouse_id, dest_x, dest_y, package_status);
   for (std::vector<std::pair<std::pair<size_t, std::string>, size_t>>::const_iterator curr_product = warehouse_products.second.begin(); curr_product != warehouse_products.second.end(); ++curr_product){
     size_t product_id = curr_product->first.first;
     size_t quantity = curr_product->second;
-    const std::string order_status = "packing";
-    db.insert_order(order_num, product_id, user_id, quantity, order_status, package_id, time_t(NULL));
+    db.insert_order(order_num, product_id, user_id, quantity, package_id, time_t(NULL));
   }
 }
 
@@ -154,17 +154,19 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       }
       if (warehouse_id >= 0){ // enough stock for the current product
         // add the current product to the map warehouse_products
+        // product_info: <<product_id, product_name>, quantity>
         std::pair<std::pair<size_t, std::string>, size_t> product_info = std::make_pair(std::make_pair(product_id, product_name), quantity);\
         warehouse_products[warehouse_id].push_back(product_info);
       }
     }
     if (all_enough && !warehouse_products.empty()){
       Server& server = Server::getInstance();
-      long package_id = server.getPackageID();
       long order_num = server.getOrderNum();
       // send message to user: order placed successfully!
       send_to_user("Order placed successfully!", client_connection_fd);
+      // warehouse_id, <product_info1, product_info2>
       for(std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
+        long package_id = server.getPackageID();
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
         send_to_world_pack(package_id, *curr_warehouse);
         //    send pickup request to UPS;
@@ -198,7 +200,7 @@ void listenFrontEndRequest(){
      const std::map<std::string, std::vector<std::string>> headerMap = customer_request.getHeaderMap();
       for (auto it = headerMap.begin(); it != headerMap.end(); ++it) {
           std::cout << it->first << std::endl;
-          for (int i = 0; i < it->second.size(); i ++ ){
+          for (size_t i = 0; i < it->second.size(); i ++ ){
               std::cout << it->second[i] << " ";
           }
           std::cout << std::endl;

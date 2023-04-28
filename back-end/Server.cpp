@@ -2,10 +2,10 @@
 std::mutex mtx;
 #define zj78_host "vcm-30576.vm.duke.edu"
 #define amazon_world_port 23456
-#define ups_host "vcm-32254.vm.duke.edu"
+#define ups_host "vcm-32254.vm.duke.edu" // 32254
 #define ups_port 34567
 
-Client client(amazon_world_port, zj78_host);
+Client client(amazon_world_port, ups_host);
 Client client_ups(ups_port, ups_host);
 
 void Server::startRun() {
@@ -20,27 +20,23 @@ void Server::startRun() {
     world_fd = client.getSockfd();
     // recv msg from UPS (their hostname)
     initWareHouse();
-    // initUPS();
-    initWorld();
+    
+    // UPS mode
+    initUPS();
+    // own test mode
+    //initWorld();
 
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
     // send msg to world simulator
     std::thread t_A2W_request(&Server::sendMsgToWorld, this);
-    // t_A2W_request.detach();
-    // t_W2A_response.detach();
+    // initlize products
     initProductsAmount();
         std::cout << "initialized all successful" << std::endl;
     // recv response from UPS
     std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
-
     // send msg to UPS
     std::thread t_A2U_request(&Server::sendMsgToUPS, this);
-
-
-    // initlize products
-    // initProductsAmount();
-
     // handle request from django customer
     listenFrontEndRequest();
     t_W2A_response.join();
@@ -103,8 +99,6 @@ void Server::initWareHouse(){
     db.insert_and_update_warehouse(wh.wh_id, wh.loc_x, wh.loc_y); 
     db.insert_and_update_product(wh.products.p_id, wh.products.p_name, wh.products.p_name);
     std::cout << "start to init product, wh_id: " << wh.wh_id << " product id: " << wh.products.p_id << " product name: " << wh.products.p_name << std::endl;
-    db.initialize_inventory(wh.wh_id, wh.products.p_id, PRODUCT_INIT_NUM);
-    std::cout << "start to init product, wh_id: " << wh.wh_id << " product id: " << wh.products.p_id << std::endl;
   }
 }
 
@@ -186,7 +180,6 @@ void Server::sendMsgToUPS(){
     std::cout << "start to sendMsgToUPS()" << std::endl;
       AUcommands aucommand;
       A2U_send_queue.wait_and_pop(aucommand);
-      // send AConnect to world
       if (sendMesgTo<AUcommands>(aucommand, world_out.get()) == false){
         std::cout << "failed to send msg to world in sendMsgToUPS()" << std::endl;
         throw std::exception();
@@ -209,7 +202,6 @@ void Server::recvMsgFromUPS(){
       handleUPSResponse(UAresponses);
     }
 }
-
 
 long Server::getSeqNum(){
   std::lock_guard<std::mutex> lck (mtx);

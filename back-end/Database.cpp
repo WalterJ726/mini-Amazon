@@ -118,9 +118,9 @@ bool Database::initialize_inventory(const int wh_id, const int p_id, const int q
     sql += std::to_string(p_id) + ",";
     sql += std::to_string(wh_id);
     sql += string(") ON CONFLICT (product_id, warehouse_id) DO UPDATE SET quantity = EXCLUDED.quantity; ");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -140,9 +140,9 @@ bool Database::insert_and_update_warehouse(const int wh_id, const int loc_x, con
     sql += std::to_string(loc_x) + ",";
     sql += std::to_string(loc_y);
     sql += string(") ON CONFLICT (warehouse_id) DO NOTHING; ");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -162,9 +162,9 @@ bool Database::insert_and_update_product(const int p_id, const string& p_name, c
     sql += c->quote(p_name) + ",";
     sql += c->quote(p_description);
     sql += string(") ON CONFLICT (product_id) DO UPDATE SET name = EXCLUDED.name, description = EXCLUDED.description; ");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -174,24 +174,23 @@ bool Database::insert_and_update_product(const int p_id, const string& p_name, c
   return true;
 }
 
-bool Database::insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const string & order_status, const int package_id, const time_t & create_time){
+bool Database::insert_order(const int order_num, const int product_id, const int user_id, const int quantity, const int package_id, const time_t & create_time){
   string sql;
   try
   {
-    sql = "INSERT INTO \"amazonSite_order\" (order_num, product_id, user_id, quantity, order_status, package_id, create_time) ";
+    sql = "INSERT INTO \"amazonSite_order\" (order_num, product_id, user_id, quantity, package_id, create_time) ";
     sql += string("VALUES (");
     sql += std::to_string(order_num) + ",";
     sql += std::to_string(product_id) + ",";
     sql += std::to_string(user_id) + ",";
     sql += std::to_string(quantity) + ",";
-    sql += c->quote(order_status) + ",";
     sql += std::to_string(package_id) + ",";
     sql += "CURRENT_TIME(2)";  //defalut current_time
     sql += string(");");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     std::cout << sql << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -201,11 +200,11 @@ bool Database::insert_order(const int order_num, const int product_id, const int
   return true;
 }
 
-bool Database::insert_package(const int package_id, const int owner_id, const int warehouse_id, const int dest_x, const int dest_y){
+bool Database::insert_package(const int package_id, const int owner_id, const int warehouse_id, const int dest_x, const int dest_y, const string & package_status){
   string sql;
   try
   {
-    sql = "INSERT INTO \"amazonSite_package\" (package_id, owner_id, warehouse_id, dest_x, dest_y, pack_time, ups_id, truck_id) ";
+    sql = "INSERT INTO \"amazonSite_package\" (package_id, owner_id, warehouse_id, dest_x, dest_y, pack_time, ups_id, truck_id, package_status) ";
     sql += string("VALUES (");
     sql += std::to_string(package_id) + ",";
     sql += std::to_string(owner_id) + ",";
@@ -214,12 +213,13 @@ bool Database::insert_package(const int package_id, const int owner_id, const in
     sql += std::to_string(dest_y) + ",";
     sql += "NULL,";   // set pack_time to NULL
     sql += "NULL,";   // set ups_id to NULL
-    sql += "NULL";    // set track_num to NULL
+    sql += "NULL,";    // set track_num to NULL
+    sql += c->quote(package_status);   
     sql += string(");");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     std::cout << sql << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -239,9 +239,9 @@ bool Database::insert_and_update_inventory(const int wh_id, const int p_id, cons
     sql += std::to_string(wh_id) + ",";
     sql += std::to_string(p_id);
     sql += string(") ON CONFLICT (warehouse_id,product_id) DO UPDATE SET quantity = \"amazonSite_inventory\".quantity + EXCLUDED.quantity; ");
-    std::cout << "start to execute sql" << std::endl;
+    // std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
-    std::cout << "finished executing sql" << std::endl;
+    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -255,11 +255,36 @@ bool Database::update_package_status(const int ship_id, const string status){
   string sql;
   try
   {
-    sql = "UPDATE \"amazonSite_order\" SET order_status=" + c->quote(status);
+    sql = "UPDATE \"amazonSite_package\" SET package_status=" + c->quote(status);
     sql += string("WHERE package_id=") + std::to_string(ship_id) + ";";
     std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
     std::cout << "finished executing sql" << std::endl;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return false;
+  }
+  return true;
+}
+
+
+bool Database::check_package_status(const int ship_id, const string status){
+  string sql;
+  try
+  {
+    sql = "SELECT package_status FROM \"amazonSite_package\"";
+    sql += string("WHERE package_id=") + std::to_string(ship_id);
+    sql += " AND package_status=" + c->quote(status) + ";";
+    // std::cout << "start to execute sql" << std::endl;
+    result r = executeSQL(c, sql);
+    // std::cout << "finished executing sql" << std::endl;
+    if (r.begin() == r.end()){
+      // package id does not exist 
+      // or package status does not match given status
+      return false;
+    }
   }
   catch(const std::exception& e)
   {

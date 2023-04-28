@@ -57,9 +57,6 @@ extern AUcommandsDefaultTypeInternal _AUcommands_default_instance_;
 class AUconnectedWorld;
 struct AUconnectedWorldDefaultTypeInternal;
 extern AUconnectedWorldDefaultTypeInternal _AUconnectedWorld_default_instance_;
-class AUquery;
-struct AUqueryDefaultTypeInternal;
-extern AUqueryDefaultTypeInternal _AUquery_default_instance_;
 class AUreqDelivery;
 struct AUreqDeliveryDefaultTypeInternal;
 extern AUreqDeliveryDefaultTypeInternal _AUreqDelivery_default_instance_;
@@ -84,9 +81,6 @@ extern UAdeliveredDefaultTypeInternal _UAdelivered_default_instance_;
 class UAinitWorld;
 struct UAinitWorldDefaultTypeInternal;
 extern UAinitWorldDefaultTypeInternal _UAinitWorld_default_instance_;
-class UAstatus;
-struct UAstatusDefaultTypeInternal;
-extern UAstatusDefaultTypeInternal _UAstatus_default_instance_;
 class UAtruckArrived;
 struct UAtruckArrivedDefaultTypeInternal;
 extern UAtruckArrivedDefaultTypeInternal _UAtruckArrived_default_instance_;
@@ -95,7 +89,6 @@ template<> ::AUbindUPS* Arena::CreateMaybeMessage<::AUbindUPS>(Arena*);
 template<> ::AUchangeDestn* Arena::CreateMaybeMessage<::AUchangeDestn>(Arena*);
 template<> ::AUcommands* Arena::CreateMaybeMessage<::AUcommands>(Arena*);
 template<> ::AUconnectedWorld* Arena::CreateMaybeMessage<::AUconnectedWorld>(Arena*);
-template<> ::AUquery* Arena::CreateMaybeMessage<::AUquery>(Arena*);
 template<> ::AUreqDelivery* Arena::CreateMaybeMessage<::AUreqDelivery>(Arena*);
 template<> ::AUreqPickup* Arena::CreateMaybeMessage<::AUreqPickup>(Arena*);
 template<> ::Err* Arena::CreateMaybeMessage<::Err>(Arena*);
@@ -104,7 +97,6 @@ template<> ::UAchangeResp* Arena::CreateMaybeMessage<::UAchangeResp>(Arena*);
 template<> ::UAcommands* Arena::CreateMaybeMessage<::UAcommands>(Arena*);
 template<> ::UAdelivered* Arena::CreateMaybeMessage<::UAdelivered>(Arena*);
 template<> ::UAinitWorld* Arena::CreateMaybeMessage<::UAinitWorld>(Arena*);
-template<> ::UAstatus* Arena::CreateMaybeMessage<::UAstatus>(Arena*);
 template<> ::UAtruckArrived* Arena::CreateMaybeMessage<::UAtruckArrived>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
@@ -1440,357 +1432,6 @@ class AUreqDelivery final :
 };
 // -------------------------------------------------------------------
 
-class AUquery final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AUquery) */ {
- public:
-  inline AUquery() : AUquery(nullptr) {}
-  ~AUquery() override;
-  explicit PROTOBUF_CONSTEXPR AUquery(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  AUquery(const AUquery& from);
-  AUquery(AUquery&& from) noexcept
-    : AUquery() {
-    *this = ::std::move(from);
-  }
-
-  inline AUquery& operator=(const AUquery& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline AUquery& operator=(AUquery&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const AUquery& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const AUquery* internal_default_instance() {
-    return reinterpret_cast<const AUquery*>(
-               &_AUquery_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    7;
-
-  friend void swap(AUquery& a, AUquery& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(AUquery* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(AUquery* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  AUquery* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<AUquery>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const AUquery& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const AUquery& from);
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(AUquery* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AUquery";
-  }
-  protected:
-  explicit AUquery(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kShipIDFieldNumber = 1,
-    kSeqNumFieldNumber = 2,
-  };
-  // required int64 shipID = 1;
-  bool has_shipid() const;
-  private:
-  bool _internal_has_shipid() const;
-  public:
-  void clear_shipid();
-  int64_t shipid() const;
-  void set_shipid(int64_t value);
-  private:
-  int64_t _internal_shipid() const;
-  void _internal_set_shipid(int64_t value);
-  public:
-
-  // required int64 seqNum = 2;
-  bool has_seqnum() const;
-  private:
-  bool _internal_has_seqnum() const;
-  public:
-  void clear_seqnum();
-  int64_t seqnum() const;
-  void set_seqnum(int64_t value);
-  private:
-  int64_t _internal_seqnum() const;
-  void _internal_set_seqnum(int64_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:AUquery)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  int64_t shipid_;
-  int64_t seqnum_;
-  friend struct ::TableStruct_ups_5famazon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class UAstatus final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UAstatus) */ {
- public:
-  inline UAstatus() : UAstatus(nullptr) {}
-  ~UAstatus() override;
-  explicit PROTOBUF_CONSTEXPR UAstatus(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  UAstatus(const UAstatus& from);
-  UAstatus(UAstatus&& from) noexcept
-    : UAstatus() {
-    *this = ::std::move(from);
-  }
-
-  inline UAstatus& operator=(const UAstatus& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UAstatus& operator=(UAstatus&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const UAstatus& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const UAstatus* internal_default_instance() {
-    return reinterpret_cast<const UAstatus*>(
-               &_UAstatus_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    8;
-
-  friend void swap(UAstatus& a, UAstatus& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UAstatus* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(UAstatus* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  UAstatus* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UAstatus>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UAstatus& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const UAstatus& from);
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UAstatus* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "UAstatus";
-  }
-  protected:
-  explicit UAstatus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kStatusFieldNumber = 1,
-    kSeqNumFieldNumber = 2,
-  };
-  // required string status = 1;
-  bool has_status() const;
-  private:
-  bool _internal_has_status() const;
-  public:
-  void clear_status();
-  const std::string& status() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_status(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_status();
-  PROTOBUF_NODISCARD std::string* release_status();
-  void set_allocated_status(std::string* status);
-  private:
-  const std::string& _internal_status() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_status(const std::string& value);
-  std::string* _internal_mutable_status();
-  public:
-
-  // required int64 seqNum = 2;
-  bool has_seqnum() const;
-  private:
-  bool _internal_has_seqnum() const;
-  public:
-  void clear_seqnum();
-  int64_t seqnum() const;
-  void set_seqnum(int64_t value);
-  private:
-  int64_t _internal_seqnum() const;
-  void _internal_set_seqnum(int64_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:UAstatus)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_;
-  int64_t seqnum_;
-  friend struct ::TableStruct_ups_5famazon_2eproto;
-};
-// -------------------------------------------------------------------
-
 class UAdelivered final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UAdelivered) */ {
  public:
@@ -1846,7 +1487,7 @@ class UAdelivered final :
                &_UAdelivered_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    7;
 
   friend void swap(UAdelivered& a, UAdelivered& b) {
     a.Swap(&b);
@@ -2019,7 +1660,7 @@ class AUchangeDestn final :
                &_AUchangeDestn_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    8;
 
   friend void swap(AUchangeDestn& a, AUchangeDestn& b) {
     a.Swap(&b);
@@ -2222,7 +1863,7 @@ class UAchangeResp final :
                &_UAchangeResp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    9;
 
   friend void swap(UAchangeResp& a, UAchangeResp& b) {
     a.Swap(&b);
@@ -2395,7 +2036,7 @@ class Err final :
                &_Err_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    10;
 
   friend void swap(Err& a, Err& b) {
     a.Swap(&b);
@@ -2588,7 +2229,7 @@ class UAcommands final :
                &_UAcommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    11;
 
   friend void swap(UAcommands& a, UAcommands& b) {
     a.Swap(&b);
@@ -2660,13 +2301,12 @@ class UAcommands final :
 
   enum : int {
     kTruckArrFieldNumber = 1,
-    kStatusFieldNumber = 2,
-    kDeliveredFieldNumber = 3,
-    kChangeRespFieldNumber = 4,
-    kBindUPSResponseFieldNumber = 5,
-    kErrFieldNumber = 6,
-    kAcksFieldNumber = 8,
-    kDisconnectFieldNumber = 7,
+    kDeliveredFieldNumber = 2,
+    kChangeRespFieldNumber = 3,
+    kBindUPSResponseFieldNumber = 4,
+    kErrFieldNumber = 5,
+    kAcksFieldNumber = 7,
+    kDisconnectFieldNumber = 6,
   };
   // repeated .UAtruckArrived truckArr = 1;
   int truckarr_size() const;
@@ -2686,25 +2326,7 @@ class UAcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAtruckArrived >&
       truckarr() const;
 
-  // repeated .UAstatus status = 2;
-  int status_size() const;
-  private:
-  int _internal_status_size() const;
-  public:
-  void clear_status();
-  ::UAstatus* mutable_status(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAstatus >*
-      mutable_status();
-  private:
-  const ::UAstatus& _internal_status(int index) const;
-  ::UAstatus* _internal_add_status();
-  public:
-  const ::UAstatus& status(int index) const;
-  ::UAstatus* add_status();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAstatus >&
-      status() const;
-
-  // repeated .UAdelivered delivered = 3;
+  // repeated .UAdelivered delivered = 2;
   int delivered_size() const;
   private:
   int _internal_delivered_size() const;
@@ -2722,7 +2344,7 @@ class UAcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAdelivered >&
       delivered() const;
 
-  // repeated .UAchangeResp changeResp = 4;
+  // repeated .UAchangeResp changeResp = 3;
   int changeresp_size() const;
   private:
   int _internal_changeresp_size() const;
@@ -2740,7 +2362,7 @@ class UAcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAchangeResp >&
       changeresp() const;
 
-  // repeated .UAbindUPSResponse bindUPSResponse = 5;
+  // repeated .UAbindUPSResponse bindUPSResponse = 4;
   int bindupsresponse_size() const;
   private:
   int _internal_bindupsresponse_size() const;
@@ -2758,7 +2380,7 @@ class UAcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAbindUPSResponse >&
       bindupsresponse() const;
 
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   int err_size() const;
   private:
   int _internal_err_size() const;
@@ -2776,7 +2398,7 @@ class UAcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Err >&
       err() const;
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   int acks_size() const;
   private:
   int _internal_acks_size() const;
@@ -2798,7 +2420,7 @@ class UAcommands final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
       mutable_acks();
 
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   bool has_disconnect() const;
   private:
   bool _internal_has_disconnect() const;
@@ -2821,7 +2443,6 @@ class UAcommands final :
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAtruckArrived > truckarr_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAstatus > status_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAdelivered > delivered_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAchangeResp > changeresp_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAbindUPSResponse > bindupsresponse_;
@@ -2887,7 +2508,7 @@ class AUcommands final :
                &_AUcommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    12;
 
   friend void swap(AUcommands& a, AUcommands& b) {
     a.Swap(&b);
@@ -2960,12 +2581,11 @@ class AUcommands final :
   enum : int {
     kPickupFieldNumber = 1,
     kDeliveryFieldNumber = 2,
-    kQueryFieldNumber = 3,
-    kChangeDestFieldNumber = 4,
-    kBindUPSFieldNumber = 5,
-    kErrFieldNumber = 6,
-    kAcksFieldNumber = 8,
-    kDisconnectFieldNumber = 7,
+    kChangeDestFieldNumber = 3,
+    kBindFieldNumber = 4,
+    kErrFieldNumber = 5,
+    kAcksFieldNumber = 7,
+    kDisconnectFieldNumber = 6,
   };
   // repeated .AUreqPickup pickup = 1;
   int pickup_size() const;
@@ -3003,25 +2623,7 @@ class AUcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUreqDelivery >&
       delivery() const;
 
-  // repeated .AUquery query = 3;
-  int query_size() const;
-  private:
-  int _internal_query_size() const;
-  public:
-  void clear_query();
-  ::AUquery* mutable_query(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUquery >*
-      mutable_query();
-  private:
-  const ::AUquery& _internal_query(int index) const;
-  ::AUquery* _internal_add_query();
-  public:
-  const ::AUquery& query(int index) const;
-  ::AUquery* add_query();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUquery >&
-      query() const;
-
-  // repeated .AUchangeDestn changeDest = 4;
+  // repeated .AUchangeDestn changeDest = 3;
   int changedest_size() const;
   private:
   int _internal_changedest_size() const;
@@ -3039,25 +2641,25 @@ class AUcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUchangeDestn >&
       changedest() const;
 
-  // repeated .AUbindUPS bindUPS = 5;
-  int bindups_size() const;
+  // repeated .AUbindUPS bind = 4;
+  int bind_size() const;
   private:
-  int _internal_bindups_size() const;
+  int _internal_bind_size() const;
   public:
-  void clear_bindups();
-  ::AUbindUPS* mutable_bindups(int index);
+  void clear_bind();
+  ::AUbindUPS* mutable_bind(int index);
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS >*
-      mutable_bindups();
+      mutable_bind();
   private:
-  const ::AUbindUPS& _internal_bindups(int index) const;
-  ::AUbindUPS* _internal_add_bindups();
+  const ::AUbindUPS& _internal_bind(int index) const;
+  ::AUbindUPS* _internal_add_bind();
   public:
-  const ::AUbindUPS& bindups(int index) const;
-  ::AUbindUPS* add_bindups();
+  const ::AUbindUPS& bind(int index) const;
+  ::AUbindUPS* add_bind();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS >&
-      bindups() const;
+      bind() const;
 
-  // repeated .Err err = 6;
+  // repeated .Err err = 5;
   int err_size() const;
   private:
   int _internal_err_size() const;
@@ -3075,7 +2677,7 @@ class AUcommands final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Err >&
       err() const;
 
-  // repeated int64 acks = 8;
+  // repeated int64 acks = 7;
   int acks_size() const;
   private:
   int _internal_acks_size() const;
@@ -3097,7 +2699,7 @@ class AUcommands final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t >*
       mutable_acks();
 
-  // optional bool disconnect = 7;
+  // optional bool disconnect = 6;
   bool has_disconnect() const;
   private:
   bool _internal_has_disconnect() const;
@@ -3121,9 +2723,8 @@ class AUcommands final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUreqPickup > pickup_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUreqDelivery > delivery_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUquery > query_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUchangeDestn > changedest_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS > bindups_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS > bind_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Err > err_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< int64_t > acks_;
   bool disconnect_;
@@ -3791,166 +3392,6 @@ inline void AUreqDelivery::set_seqnum(int64_t value) {
 
 // -------------------------------------------------------------------
 
-// AUquery
-
-// required int64 shipID = 1;
-inline bool AUquery::_internal_has_shipid() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool AUquery::has_shipid() const {
-  return _internal_has_shipid();
-}
-inline void AUquery::clear_shipid() {
-  shipid_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline int64_t AUquery::_internal_shipid() const {
-  return shipid_;
-}
-inline int64_t AUquery::shipid() const {
-  // @@protoc_insertion_point(field_get:AUquery.shipID)
-  return _internal_shipid();
-}
-inline void AUquery::_internal_set_shipid(int64_t value) {
-  _has_bits_[0] |= 0x00000001u;
-  shipid_ = value;
-}
-inline void AUquery::set_shipid(int64_t value) {
-  _internal_set_shipid(value);
-  // @@protoc_insertion_point(field_set:AUquery.shipID)
-}
-
-// required int64 seqNum = 2;
-inline bool AUquery::_internal_has_seqnum() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool AUquery::has_seqnum() const {
-  return _internal_has_seqnum();
-}
-inline void AUquery::clear_seqnum() {
-  seqnum_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline int64_t AUquery::_internal_seqnum() const {
-  return seqnum_;
-}
-inline int64_t AUquery::seqnum() const {
-  // @@protoc_insertion_point(field_get:AUquery.seqNum)
-  return _internal_seqnum();
-}
-inline void AUquery::_internal_set_seqnum(int64_t value) {
-  _has_bits_[0] |= 0x00000002u;
-  seqnum_ = value;
-}
-inline void AUquery::set_seqnum(int64_t value) {
-  _internal_set_seqnum(value);
-  // @@protoc_insertion_point(field_set:AUquery.seqNum)
-}
-
-// -------------------------------------------------------------------
-
-// UAstatus
-
-// required string status = 1;
-inline bool UAstatus::_internal_has_status() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool UAstatus::has_status() const {
-  return _internal_has_status();
-}
-inline void UAstatus::clear_status() {
-  status_.ClearToEmpty();
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& UAstatus::status() const {
-  // @@protoc_insertion_point(field_get:UAstatus.status)
-  return _internal_status();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void UAstatus::set_status(ArgT0&& arg0, ArgT... args) {
- _has_bits_[0] |= 0x00000001u;
- status_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:UAstatus.status)
-}
-inline std::string* UAstatus::mutable_status() {
-  std::string* _s = _internal_mutable_status();
-  // @@protoc_insertion_point(field_mutable:UAstatus.status)
-  return _s;
-}
-inline const std::string& UAstatus::_internal_status() const {
-  return status_.Get();
-}
-inline void UAstatus::_internal_set_status(const std::string& value) {
-  _has_bits_[0] |= 0x00000001u;
-  status_.Set(value, GetArenaForAllocation());
-}
-inline std::string* UAstatus::_internal_mutable_status() {
-  _has_bits_[0] |= 0x00000001u;
-  return status_.Mutable(GetArenaForAllocation());
-}
-inline std::string* UAstatus::release_status() {
-  // @@protoc_insertion_point(field_release:UAstatus.status)
-  if (!_internal_has_status()) {
-    return nullptr;
-  }
-  _has_bits_[0] &= ~0x00000001u;
-  auto* p = status_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (status_.IsDefault()) {
-    status_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void UAstatus::set_allocated_status(std::string* status) {
-  if (status != nullptr) {
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  status_.SetAllocated(status, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (status_.IsDefault()) {
-    status_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:UAstatus.status)
-}
-
-// required int64 seqNum = 2;
-inline bool UAstatus::_internal_has_seqnum() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool UAstatus::has_seqnum() const {
-  return _internal_has_seqnum();
-}
-inline void UAstatus::clear_seqnum() {
-  seqnum_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline int64_t UAstatus::_internal_seqnum() const {
-  return seqnum_;
-}
-inline int64_t UAstatus::seqnum() const {
-  // @@protoc_insertion_point(field_get:UAstatus.seqNum)
-  return _internal_seqnum();
-}
-inline void UAstatus::_internal_set_seqnum(int64_t value) {
-  _has_bits_[0] |= 0x00000002u;
-  seqnum_ = value;
-}
-inline void UAstatus::set_seqnum(int64_t value) {
-  _internal_set_seqnum(value);
-  // @@protoc_insertion_point(field_set:UAstatus.seqNum)
-}
-
-// -------------------------------------------------------------------
-
 // UAdelivered
 
 // required int64 shipID = 1;
@@ -4357,47 +3798,7 @@ UAcommands::truckarr() const {
   return truckarr_;
 }
 
-// repeated .UAstatus status = 2;
-inline int UAcommands::_internal_status_size() const {
-  return status_.size();
-}
-inline int UAcommands::status_size() const {
-  return _internal_status_size();
-}
-inline void UAcommands::clear_status() {
-  status_.Clear();
-}
-inline ::UAstatus* UAcommands::mutable_status(int index) {
-  // @@protoc_insertion_point(field_mutable:UAcommands.status)
-  return status_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAstatus >*
-UAcommands::mutable_status() {
-  // @@protoc_insertion_point(field_mutable_list:UAcommands.status)
-  return &status_;
-}
-inline const ::UAstatus& UAcommands::_internal_status(int index) const {
-  return status_.Get(index);
-}
-inline const ::UAstatus& UAcommands::status(int index) const {
-  // @@protoc_insertion_point(field_get:UAcommands.status)
-  return _internal_status(index);
-}
-inline ::UAstatus* UAcommands::_internal_add_status() {
-  return status_.Add();
-}
-inline ::UAstatus* UAcommands::add_status() {
-  ::UAstatus* _add = _internal_add_status();
-  // @@protoc_insertion_point(field_add:UAcommands.status)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::UAstatus >&
-UAcommands::status() const {
-  // @@protoc_insertion_point(field_list:UAcommands.status)
-  return status_;
-}
-
-// repeated .UAdelivered delivered = 3;
+// repeated .UAdelivered delivered = 2;
 inline int UAcommands::_internal_delivered_size() const {
   return delivered_.size();
 }
@@ -4437,7 +3838,7 @@ UAcommands::delivered() const {
   return delivered_;
 }
 
-// repeated .UAchangeResp changeResp = 4;
+// repeated .UAchangeResp changeResp = 3;
 inline int UAcommands::_internal_changeresp_size() const {
   return changeresp_.size();
 }
@@ -4477,7 +3878,7 @@ UAcommands::changeresp() const {
   return changeresp_;
 }
 
-// repeated .UAbindUPSResponse bindUPSResponse = 5;
+// repeated .UAbindUPSResponse bindUPSResponse = 4;
 inline int UAcommands::_internal_bindupsresponse_size() const {
   return bindupsresponse_.size();
 }
@@ -4517,7 +3918,7 @@ UAcommands::bindupsresponse() const {
   return bindupsresponse_;
 }
 
-// repeated .Err err = 6;
+// repeated .Err err = 5;
 inline int UAcommands::_internal_err_size() const {
   return err_.size();
 }
@@ -4557,7 +3958,7 @@ UAcommands::err() const {
   return err_;
 }
 
-// optional bool disconnect = 7;
+// optional bool disconnect = 6;
 inline bool UAcommands::_internal_has_disconnect() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -4585,7 +3986,7 @@ inline void UAcommands::set_disconnect(bool value) {
   // @@protoc_insertion_point(field_set:UAcommands.disconnect)
 }
 
-// repeated int64 acks = 8;
+// repeated int64 acks = 7;
 inline int UAcommands::_internal_acks_size() const {
   return acks_.size();
 }
@@ -4716,47 +4117,7 @@ AUcommands::delivery() const {
   return delivery_;
 }
 
-// repeated .AUquery query = 3;
-inline int AUcommands::_internal_query_size() const {
-  return query_.size();
-}
-inline int AUcommands::query_size() const {
-  return _internal_query_size();
-}
-inline void AUcommands::clear_query() {
-  query_.Clear();
-}
-inline ::AUquery* AUcommands::mutable_query(int index) {
-  // @@protoc_insertion_point(field_mutable:AUcommands.query)
-  return query_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUquery >*
-AUcommands::mutable_query() {
-  // @@protoc_insertion_point(field_mutable_list:AUcommands.query)
-  return &query_;
-}
-inline const ::AUquery& AUcommands::_internal_query(int index) const {
-  return query_.Get(index);
-}
-inline const ::AUquery& AUcommands::query(int index) const {
-  // @@protoc_insertion_point(field_get:AUcommands.query)
-  return _internal_query(index);
-}
-inline ::AUquery* AUcommands::_internal_add_query() {
-  return query_.Add();
-}
-inline ::AUquery* AUcommands::add_query() {
-  ::AUquery* _add = _internal_add_query();
-  // @@protoc_insertion_point(field_add:AUcommands.query)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUquery >&
-AUcommands::query() const {
-  // @@protoc_insertion_point(field_list:AUcommands.query)
-  return query_;
-}
-
-// repeated .AUchangeDestn changeDest = 4;
+// repeated .AUchangeDestn changeDest = 3;
 inline int AUcommands::_internal_changedest_size() const {
   return changedest_.size();
 }
@@ -4796,47 +4157,47 @@ AUcommands::changedest() const {
   return changedest_;
 }
 
-// repeated .AUbindUPS bindUPS = 5;
-inline int AUcommands::_internal_bindups_size() const {
-  return bindups_.size();
+// repeated .AUbindUPS bind = 4;
+inline int AUcommands::_internal_bind_size() const {
+  return bind_.size();
 }
-inline int AUcommands::bindups_size() const {
-  return _internal_bindups_size();
+inline int AUcommands::bind_size() const {
+  return _internal_bind_size();
 }
-inline void AUcommands::clear_bindups() {
-  bindups_.Clear();
+inline void AUcommands::clear_bind() {
+  bind_.Clear();
 }
-inline ::AUbindUPS* AUcommands::mutable_bindups(int index) {
-  // @@protoc_insertion_point(field_mutable:AUcommands.bindUPS)
-  return bindups_.Mutable(index);
+inline ::AUbindUPS* AUcommands::mutable_bind(int index) {
+  // @@protoc_insertion_point(field_mutable:AUcommands.bind)
+  return bind_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS >*
-AUcommands::mutable_bindups() {
-  // @@protoc_insertion_point(field_mutable_list:AUcommands.bindUPS)
-  return &bindups_;
+AUcommands::mutable_bind() {
+  // @@protoc_insertion_point(field_mutable_list:AUcommands.bind)
+  return &bind_;
 }
-inline const ::AUbindUPS& AUcommands::_internal_bindups(int index) const {
-  return bindups_.Get(index);
+inline const ::AUbindUPS& AUcommands::_internal_bind(int index) const {
+  return bind_.Get(index);
 }
-inline const ::AUbindUPS& AUcommands::bindups(int index) const {
-  // @@protoc_insertion_point(field_get:AUcommands.bindUPS)
-  return _internal_bindups(index);
+inline const ::AUbindUPS& AUcommands::bind(int index) const {
+  // @@protoc_insertion_point(field_get:AUcommands.bind)
+  return _internal_bind(index);
 }
-inline ::AUbindUPS* AUcommands::_internal_add_bindups() {
-  return bindups_.Add();
+inline ::AUbindUPS* AUcommands::_internal_add_bind() {
+  return bind_.Add();
 }
-inline ::AUbindUPS* AUcommands::add_bindups() {
-  ::AUbindUPS* _add = _internal_add_bindups();
-  // @@protoc_insertion_point(field_add:AUcommands.bindUPS)
+inline ::AUbindUPS* AUcommands::add_bind() {
+  ::AUbindUPS* _add = _internal_add_bind();
+  // @@protoc_insertion_point(field_add:AUcommands.bind)
   return _add;
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AUbindUPS >&
-AUcommands::bindups() const {
-  // @@protoc_insertion_point(field_list:AUcommands.bindUPS)
-  return bindups_;
+AUcommands::bind() const {
+  // @@protoc_insertion_point(field_list:AUcommands.bind)
+  return bind_;
 }
 
-// repeated .Err err = 6;
+// repeated .Err err = 5;
 inline int AUcommands::_internal_err_size() const {
   return err_.size();
 }
@@ -4876,7 +4237,7 @@ AUcommands::err() const {
   return err_;
 }
 
-// optional bool disconnect = 7;
+// optional bool disconnect = 6;
 inline bool AUcommands::_internal_has_disconnect() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -4904,7 +4265,7 @@ inline void AUcommands::set_disconnect(bool value) {
   // @@protoc_insertion_point(field_set:AUcommands.disconnect)
 }
 
-// repeated int64 acks = 8;
+// repeated int64 acks = 7;
 inline int AUcommands::_internal_acks_size() const {
   return acks_.size();
 }
@@ -4954,10 +4315,6 @@ AUcommands::mutable_acks() {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
