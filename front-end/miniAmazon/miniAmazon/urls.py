@@ -19,13 +19,4 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('amazonSite/', include('amazonSite.urls')),
-    #path('amazonSite/dashboard/', views.dashboard),
-    # path('login/', views.login, name='login'),
-    #path('ride', views.login, name='login'),
-    # path('ride/driver_reg/', views.driver_reg, name='driver_reg'),
-    # path('ride/driverHome/', views.driverHome, name='driverHome'),
-    # path('ride/d_search_ride/', views.driver_search_ride),
-    # path('driver_ride/', views.driver_ride),
-    # path('ride/driver_rideEdit/', views.driver_ride),
-    # path('ride/user_rideInfo/', views.user_rideInfo),
 ]

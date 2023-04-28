@@ -122,3 +122,51 @@ def inventory(request):
 
     return render(request, 'amazonSite/inventory.html', {'warehouse_products_dict': warehouse_products_dict})
 
+
+@login_required
+def userProfile(request):   
+    user = request.user
+    context = {'user_name':user.username, 'user_email':user.email,'last_name':user.last_name, 'first_name': user.first_name, 'ups_account': 10086}
+        
+    if request.method == 'POST':
+        password_old = request.POST['password1']
+        password_new1 = request.POST['password2']
+        password_new2 = request.POST['password3']
+        email = request.POST['email']
+        if password_old != '' and (password_new1 == '' or password_new2 == ''):
+            messages.info(request, 'Please input new password!')
+            return render(request, 'amazonSite/profile.html', context)
+        if password_old == '' and (password_new1 != '' or password_new2 != ''):
+            messages.info(request, 'Please input old password!')
+            return render(request, 'amazonSite/profile.html', context)
+        if password_old != '' and password_new1 != '' and password_new2 != '':
+            if auth.authenticate(username=request.user.username, password=password_old) is None:
+                messages.info(request, 'Wrong user old password!')
+                return render(request, 'amazonSite/profile.html', context)
+
+            if password_new1 != password_new2:
+                messages.info(request, 'Two password is not the same!')
+                return render(request, 'amazonSite/profile.html', context)
+            
+            user.set_password(password_new1) # old password is correct and new passwords match
+                 
+            if email != '':    
+                if User.objects.filter(email=email).exists():
+                    messages.info(request, 'The email address is used, please use another one!')
+                    return render(request, 'amazonSite/profile.html', context) 
+                user.email = email
+                context['user_email'] = email
+        if password_old == '' and password_new1 == '' and password_new2 == '':        
+            if email != '':    
+                if User.objects.filter(email=email).exists():
+                    messages.info(request, 'The email address is used, please use another one!')
+                    return render(request, 'amazonSite/profile.html', context) 
+                user.email = email
+                context['user_email'] = email
+        user.save()
+        messages.info(request, 'Changes saved!')
+        return render(request, 'amazonSite/profile.html', context)
+        
+    return render(request, 'amazonSite/profile.html', context)
+
+
