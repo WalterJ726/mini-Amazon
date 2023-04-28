@@ -268,8 +268,8 @@ int Database::match_inventory(const int product_id, const int quantity){
   {
    stringstream ss_sql;
   // select warehouse_id from "amazonSite_inventory" where product_id = product_id and quantity >= quantity limit 1;
-  ss_sql << "select warehouse_id from \"amazonSite_inventory\" as am_in ";
-  ss_sql << "where am_in.product_id=" << product_id << " and am_in.quantity>=" << quantity << " limit 1;";
+  ss_sql << "select warehouse_id,quantity from \"amazonSite_inventory\"";
+  ss_sql << "where product_id=" << product_id << " and quantity>=" << quantity << " limit 1;";
   std::cout << ss_sql.str() << std::endl;
   work w(*c);
   result r = select_for_update(ss_sql.str(), w);
@@ -279,7 +279,7 @@ int Database::match_inventory(const int product_id, const int quantity){
   }
   std::cout << "success select_for_update found" << std::endl;
   result::const_iterator c = r.begin();
-  int warehouse_id = c[3].as<int>();
+  int warehouse_id = c[0].as<int>();
   int stock = c[1].as<int>();
   stock -= quantity;
 

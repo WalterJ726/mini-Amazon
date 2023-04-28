@@ -60,7 +60,6 @@ void Server::initUPS(){
   GOOGLE_PROTOBUF_VERIFY_VERSION;  // use macro to check environment
   // connect to UPS
   ups_fd = client_ups.getSockfd();
-  std::cout << "ups_fd" << ups_fd << std::endl;
   while (1){
     // get UAinitWorld from UPS
     UAinitWorld ups_initWorld;

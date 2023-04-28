@@ -40,7 +40,7 @@ class Package(models.Model):
     dest_x = models.IntegerField()
     dest_y = models.IntegerField()
     pack_time = models.TimeField(null=True, blank=True)
-    ups_id = models.IntegerField()
+    ups_id = models.IntegerField(null=True, blank=True)
     track_num = models.IntegerField()
 
 class Inventory(models.Model):
