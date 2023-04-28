@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class user_ups(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    ups_id = models.IntegerField(null=True, blank=True)
+
 class Warehouse(models.Model):
     warehouse_id = models.AutoField(primary_key=True, default=0)
     address_x = models.IntegerField(null=True)
@@ -40,8 +44,8 @@ class Package(models.Model):
     dest_x = models.IntegerField()
     dest_y = models.IntegerField()
     pack_time = models.TimeField(null=True, blank=True)
-    ups_id = models.IntegerField(null=True, blank=True)
-    track_num = models.IntegerField()
+    ups_id = models.IntegerField(null=True, blank=True) # TODO: add foreign key
+    truck_id = models.IntegerField(null=True, blank=True)
 
 class Inventory(models.Model):
     warehouse = models.ForeignKey("Warehouse", on_delete=models.CASCADE)

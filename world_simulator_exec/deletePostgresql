@@ -1,0 +1,2 @@
+docker exec -it eb187cb4e774 psql -U postgres -W worldSim
+docker exec -it my-postgresql-container psql -U myuser -W mydb

@@ -100,6 +100,12 @@ void dropTables(connection * c, const vector<string> & tables) {
 
 void Database::initialize() {
   // initialize the products item and amounts
+  std::vector<std::string> table_name = {"\"amazonSite_inventory\"", "\"amazonSite_order\"", "\"amazonSite_package\"", "\"amazonSite_product\"", "\"amazonSite_warehouse\""};
+  for (size_t i = 0; i < table_name.size(); i ++ ){
+    std::string sql = "DELETE FROM " + table_name[i] + ";";
+    std::cout << sql << std::endl;
+    executeSQL(c, sql);
+  }
 }
 
 bool Database::initialize_inventory(const int wh_id, const int p_id, const int quantity){
@@ -199,7 +205,7 @@ bool Database::insert_package(const int package_id, const int owner_id, const in
   string sql;
   try
   {
-    sql = "INSERT INTO \"amazonSite_package\" (package_id, owner_id, warehouse_id, dest_x, dest_y, pack_time, ups_id, track_num) ";
+    sql = "INSERT INTO \"amazonSite_package\" (package_id, owner_id, warehouse_id, dest_x, dest_y, pack_time, ups_id, truck_id) ";
     sql += string("VALUES (");
     sql += std::to_string(package_id) + ",";
     sql += std::to_string(owner_id) + ",";
@@ -232,7 +238,7 @@ bool Database::insert_and_update_inventory(const int wh_id, const int p_id, cons
     sql += std::to_string(quantity) + ",";
     sql += std::to_string(wh_id) + ",";
     sql += std::to_string(p_id);
-    sql += string(") ON CONFLICT (warehouse_id,product_id) DO UPDATE SET quantity += EXCLUDED.quantity; ");
+    sql += string(") ON CONFLICT (warehouse_id,product_id) DO UPDATE SET quantity = \"amazonSite_inventory\".quantity + EXCLUDED.quantity; ");
     std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
     std::cout << "finished executing sql" << std::endl;

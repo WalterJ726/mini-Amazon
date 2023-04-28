@@ -11,9 +11,9 @@ Client client_ups(ups_port, ups_host);
 void Server::startRun() {
   std::cout << "start Run server" << std::endl;
   Database& db = Database::getInstance();
-  // db.connect();
-  // db.initialize();
-  // db.disconnect();
+  db.connect();
+  db.initialize();
+  db.disconnect();
   try
   {
     // client = Client(23456, zj78_host);
@@ -22,14 +22,15 @@ void Server::startRun() {
     initWareHouse();
     // initUPS();
     initWorld();
-    
+
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
     // send msg to world simulator
     std::thread t_A2W_request(&Server::sendMsgToWorld, this);
     // t_A2W_request.detach();
     // t_W2A_response.detach();
-
+    initProductsAmount();
+        std::cout << "initialized all successful" << std::endl;
     // recv response from UPS
     std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
 

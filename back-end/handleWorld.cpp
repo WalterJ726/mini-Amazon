@@ -1,45 +1,22 @@
 #include "handleWorld.hpp"
 
-// void initProductsAmount(){
-//   Server& server = Server::getInstance();
-//   // buy some initial products
-//   for (auto const& warehouse : server.WH_list) {
-//     ACommands acommand;
-//     APurchaseMore* apurchase = acommand.add_buy();
-//       Server& server = Server::getInstance();
-//       int seq_num = server.getSeqNum();
-//       apurchase->set_seqnum(seq_num);
-//       apurchase->set_whnum(warehouse.wh_id);
-//     for (auto const& product : warehouse.products) {
-//       AProduct* aproduct = apurchase->add_things();
-//       aproduct->set_id(product.p_id);
-//       aproduct->set_count(product.p_num);
-//       aproduct->set_description(product.p_name);
-//     }
-//     trySendMsgToWorld(acommand, seq_num);
-//   }
-
-
-  // for (auto const& warehouse : server.WH_list) {
-  //     for (auto const& product : warehouse.products) {
-  //         std::cout << "start to purchaseMore: " <<   std::endl;
-  //         std::thread t_purchase(purchaseMore, warehouse.wh_id, product.p_id, product.p_name,
-  //                       product.p_num);
-  //                       t_purchase.detach();
-  //     }
-  // }
-
-
-
-  // auto const& warehouse = server.WH_list[0];
-  // auto const& product = warehouse.products[0];
-  // std::cout << "start to purchaseMore: " <<   std::endl;
-  // purchaseMore(warehouse.wh_id, product.p_id, product.p_name, product.p_num);
-  // std::thread t_purchase(purchaseMore, warehouse.wh_id, product.p_id, product.p_name,
-  //           product.p_num);
-            // t_purchase.detach();
-  // TODO: wait for all threads finishing
-//}
+void initProductsAmount(){
+  Server& server = Server::getInstance();
+  // buy some initial products
+  for (auto const& warehouse : server.WH_list) {
+    ACommands acommand;
+    APurchaseMore* apurchase = acommand.add_buy();
+      Server& server = Server::getInstance();
+      int seq_num = server.getSeqNum();
+      apurchase->set_seqnum(seq_num);
+      apurchase->set_whnum(warehouse.wh_id);
+      AProduct* aproduct = apurchase->add_things();
+      aproduct->set_id(warehouse.products.p_id);
+      aproduct->set_count(warehouse.products.p_num);
+      aproduct->set_description(warehouse.products.p_name);
+      trySendMsgToWorld(acommand, seq_num);
+  }
+}
 
 void handleWorldResponse(AResponses& aresponses){
       Server& server = Server::getInstance();
