@@ -3,13 +3,13 @@
 #include "handleProto.hpp"
 #include "Server.hpp"
 
-void handleUPSResponse(UAcommands& UAresponses);
+void handleUPSResponse(UAcommands UAresponses);
 
 // parse reponse
-void processbindUPSResponse(UAbindUPSResponse& bindreponse);
-void processUAtruckArrived(UAtruckArrived& truckArr);
-void processUAdelivered(UAdelivered& delivered);
-void processUAchangeResp(UAchangeResp& changeResp);
+void processbindUPSResponse(UAbindUPSResponse bindreponse);
+void processUAtruckArrived(UAtruckArrived truckArr);
+void processUAdelivered(UAdelivered delivered);
+void processUAchangeResp(UAchangeResp changeResp);
 
 
 // send msg to UPS

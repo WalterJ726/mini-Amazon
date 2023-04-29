@@ -1,11 +1,11 @@
 #include "handleUPS.h"
 
-void handleUPSResponse(UAcommands& UAresponses){
+void handleUPSResponse(UAcommands UAresponses){
       Server& server = Server::getInstance();
       std::cout << UAresponses.DebugString() << std::endl;
       for (int i = 0; i < UAresponses.acks_size(); i ++ ){
         std::cout << "UAresponses.acks(i) is " << UAresponses.acks(i) << std::endl;
-        server.ups_finished_SeqNum_set.insert(UAresponses.acks(i));
+        server.global_finished_SeqNum_set.insert(UAresponses.acks(i));
       }
 
       // start to parse UAbindUPSResponse
@@ -18,6 +18,7 @@ void handleUPSResponse(UAcommands& UAresponses){
               continue;
           }
           std::cout << "start to parse UAbindUPSResponse" << std::endl;
+          server.ups_finished_SeqNum_set.insert(seqnum);
           UAbindUPSResponse_ack.add_acks(seqnum);
           server.A2U_send_queue.push(UAbindUPSResponse_ack);
           processbindUPSResponse(bindreponse);
@@ -33,6 +34,7 @@ void handleUPSResponse(UAcommands& UAresponses){
           continue;
         }
         std::cout << "start to parse UAtruckArrived" << std::endl;
+        server.ups_finished_SeqNum_set.insert(seqnum);
         UAtruckArrived_ack.add_acks(seqnum);
         server.A2U_send_queue.push(UAtruckArrived_ack);
         processUAtruckArrived(truckArr);
@@ -47,6 +49,7 @@ void handleUPSResponse(UAcommands& UAresponses){
           continue;
         }
         std::cout << "start to parse UAdelivered" << std::endl;
+        server.ups_finished_SeqNum_set.insert(seqnum);
         UAdelivered_ack.add_acks(seqnum);
         server.A2U_send_queue.push(UAdelivered_ack);
         processUAdelivered(delivered);
@@ -61,6 +64,7 @@ void handleUPSResponse(UAcommands& UAresponses){
           continue;
         }
         std::cout << "start to parse UAchangeResp" << std::endl;
+        server.ups_finished_SeqNum_set.insert(seqnum);
         UAchangeResp_ack.add_acks(seqnum);
         server.A2U_send_queue.push(UAchangeResp_ack);
         processUAchangeResp(changeResp);
@@ -68,11 +72,16 @@ void handleUPSResponse(UAcommands& UAresponses){
 
 }
 
-void processbindUPSResponse(UAbindUPSResponse& bindreponse){
-
+void processbindUPSResponse(UAbindUPSResponse bindreponse){
+  Database& db = Database::getInstance();
+  bool isSuccess = bindreponse.status();
+  std::string status_str = isSuccess == true ? "bind Success" : "bind failed";
+  int user_id = bindreponse.ownerid();
+  int ups_id = bindreponse.upsid();
+  db.update_bind_status(user_id, ups_id, status_str);
 }
 
-void processUAtruckArrived(UAtruckArrived& truckArr){
+void processUAtruckArrived(UAtruckArrived truckArr){
   // check whether the package status is packed 
   Database& db = Database::getInstance();
   std::string check_status = "packing";
@@ -94,13 +103,12 @@ void processUAtruckArrived(UAtruckArrived& truckArr){
   load->set_shipid(truckArr.shipid());
 
   // change status to loading
+  trySendMsgToWorld(acommand, seq_num);
   std::string status = "loading";
   db.update_package_status(truckArr.shipid(), status);
-  trySendMsgToWorld(acommand, seq_num);
 }
 
-
-void processUAdelivered(UAdelivered& delivered){
+void processUAdelivered(UAdelivered delivered){
   // update the status of the specific package to delivered
   int ship_id = delivered.shipid();
   Database& db = Database::getInstance();
@@ -108,7 +116,7 @@ void processUAdelivered(UAdelivered& delivered){
   db.update_package_status(ship_id, status);
 }
 
-void processUAchangeResp(UAchangeResp& changeResp){
+void processUAchangeResp(UAchangeResp changeResp){
   // if status == true, then change the destination of the package
 
   // if status == false, then do nothing of the destination
@@ -138,7 +146,7 @@ void trySendMsgToUPS(AUcommands& ac, int seq_num){
       server.A2U_send_queue.push(ac);
       std::cout << ac.DebugString() << std::endl;
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-      if (server.ups_finished_SeqNum_set.find(seq_num) != server.ups_finished_SeqNum_set.end()){
+      if (server.global_finished_SeqNum_set.find(seq_num) != server.global_finished_SeqNum_set.end()){
         break;
       }
   }

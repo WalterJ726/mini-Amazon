@@ -269,6 +269,22 @@ bool Database::update_package_status(const int ship_id, const string status){
   return true;
 }
 
+bool Database::update_bind_status(const int user_id, const int ups_id, std::string bind_status){
+  string sql;
+  try
+  {
+    sql = "UPDATE \"amazonSite_user_ups\" SET bind_status=" + c->quote(bind_status);
+    sql += string("WHERE user_id=") + std::to_string(user_id);
+    sql += string(" AND ups_id=") + std::to_string(ups_id) + ";";
+    executeSQL(c, sql);
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return false;
+  }
+  return true;
+}
 
 bool Database::check_package_status(const int ship_id, const string status){
   string sql;

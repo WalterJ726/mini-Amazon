@@ -18,12 +18,12 @@ void initProductsAmount(){
   }
 }
 
-void handleWorldResponse(AResponses& aresponses){
+void handleWorldResponse(AResponses aresponses){
       Server& server = Server::getInstance();
       std::cout << aresponses.DebugString() << std::endl;
       for (int i = 0; i < aresponses.acks_size(); i ++ ){
         std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
-        server.finished_SeqNum_set.insert(aresponses.acks(i));
+        server.global_finished_SeqNum_set.insert(aresponses.acks(i));
       }
     
       // start to parse APurchaseMore
@@ -36,6 +36,7 @@ void handleWorldResponse(AResponses& aresponses){
           continue;
         }
         std::cout << "start to parse APurchaseMore" << std::endl;
+        server.finished_SeqNum_set.insert(seqnum);
         APurchaseMore_ack.add_acks(seqnum);
         server.A2W_send_queue.push(APurchaseMore_ack);
         processPurchaseMore(arrived);
@@ -50,6 +51,7 @@ void handleWorldResponse(AResponses& aresponses){
           continue;
         }
         std::cout << "start to parse APacked" << std::endl;
+        server.finished_SeqNum_set.insert(seqnum);
         APacked_ack.add_acks(seqnum);
         server.A2W_send_queue.push(APacked_ack);
         processPacked(ready);
@@ -64,6 +66,7 @@ void handleWorldResponse(AResponses& aresponses){
           continue;
         }
         std::cout << "start to parse ALoaded" << std::endl;
+        server.finished_SeqNum_set.insert(seqnum);
         ALoaded_ack.add_acks(seqnum);
         server.A2W_send_queue.push(ALoaded_ack);
         processLoaded(loaded);
@@ -85,7 +88,7 @@ void purchaseMore(const int wh_id, const int p_id, const std::string p_name, con
   trySendMsgToWorld(acommand, seq_num);
 }
 
-void processPurchaseMore(APurchaseMore& apurchasemore){
+void processPurchaseMore(APurchaseMore apurchasemore){
     // parse whnum, products
     Database& db = Database::getInstance();
     std::cout << "start to processPurchaseMore" << std::endl;
@@ -101,7 +104,7 @@ void processPurchaseMore(APurchaseMore& apurchasemore){
     std::cout << "success add products into warehouse" << std::endl;
 }
 
-void processPacked(APacked& apacked){
+void processPacked(APacked apacked){
   std::cout << "start to processPacked" << std::endl;
   int ship_id = apacked.shipid();
   Database& db = Database::getInstance();
@@ -109,7 +112,7 @@ void processPacked(APacked& apacked){
   db.update_package_status(ship_id, status);
 }
 
-void processLoaded(ALoaded& aloaded){
+void processLoaded(ALoaded aloaded){
   std::cout << "start to processLoaded" << std::endl;
   int ship_id = aloaded.shipid();
   Database& db = Database::getInstance();
@@ -128,7 +131,7 @@ void trySendMsgToWorld(ACommands& ac, int seq_num){
       server.A2W_send_queue.push(ac);
       std::cout << ac.DebugString() << std::endl;
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-      if (server.finished_SeqNum_set.find(seq_num) != server.finished_SeqNum_set.end()){
+      if (server.global_finished_SeqNum_set.find(seq_num) != server.global_finished_SeqNum_set.end()){
         break;
       }
   }

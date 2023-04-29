@@ -26,29 +26,23 @@ void ServerRequest::parseHeaderFields(){
     size_t headerEnd = serverRequest.find("\n\n");
     std::string headers = serverRequest.substr(requestLineEnd + 1, headerEnd - requestLineEnd - 1);
     size_t pos = 0;
-    if (actionLine == "bind"){
-        bindUpsName = headers;
-        return;
-    } else {
-        while (true){
-            size_t end = headers.find("\n", pos);
-            std::string line = headers.substr(pos, end - pos);
-            pos = end + 1;
-
-            size_t colon_pos = line.find(":");
-            if (colon_pos != std::string::npos)
-            {
-                std::string key = line.substr(0, colon_pos);
-                std::transform(key.begin(), key.end(), key.begin(),
-                            [](unsigned char c)
-                            { return std::tolower(c); });
-                std::string value = line.substr(colon_pos + 1); // +2 to skip ": "
-                headerMap[key].push_back(value);
-            }
-            if (end == std::string::npos)
-            {
-                break;
-            }
+    while (true){
+        size_t end = headers.find("\n", pos);
+        std::string line = headers.substr(pos, end - pos);
+        pos = end + 1;
+        size_t colon_pos = line.find(":");
+        if (colon_pos != std::string::npos)
+        {
+            std::string key = line.substr(0, colon_pos);
+            std::transform(key.begin(), key.end(), key.begin(),
+                        [](unsigned char c)
+                        { return std::tolower(c); });
+            std::string value = line.substr(colon_pos + 1); // +2 to skip ": "
+            headerMap[key].push_back(value);
+        }
+        if (end == std::string::npos)
+        {
+            break;
         }
     }
 }
