@@ -1,8 +1,6 @@
 #include "ServerRequest.hpp"
 
-
 ServerRequest::ServerRequest(const std::string &rawRequest) : serverRequest(rawRequest){
-    // requestTime = Time::getLocalUTC();
     hasError = false;
     try
     {
@@ -17,7 +15,7 @@ ServerRequest::ServerRequest(const std::string &rawRequest) : serverRequest(rawR
 }
 
 void ServerRequest::parseStartLine(){
-    size_t requestLineEnd = serverRequest.find("\n"); // TODO: there is no \r\n in request header
+    size_t requestLineEnd = serverRequest.find("\n");
     actionLine = serverRequest.substr(0, requestLineEnd);
 }
 
@@ -37,7 +35,7 @@ void ServerRequest::parseHeaderFields(){
             std::transform(key.begin(), key.end(), key.begin(),
                         [](unsigned char c)
                         { return std::tolower(c); });
-            std::string value = line.substr(colon_pos + 1); // +2 to skip ": "
+            std::string value = line.substr(colon_pos + 1); // +1 to skip ": "
             headerMap[key].push_back(value);
         }
         if (end == std::string::npos)

@@ -1,3 +1,5 @@
+#ifndef _DATABASE_HPP
+#define _DATABASE_HPP
 #include <assert.h>
 #include <iostream>
 #include <pqxx/pqxx>
@@ -11,9 +13,6 @@ using namespace pqxx;
 using std::pair;
 using std::set;
 using std::string;
-
-#ifndef _QUERY_FUNCS_
-#define _QUERY_FUNCS_
 
 class Database {
  private:
@@ -64,4 +63,4 @@ class Database {
   void disconnect();
 };
 
-#endif  //_QUERY_FUNCS_
+#endif  //_DATABASE_HPP

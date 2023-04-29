@@ -57,7 +57,7 @@ private:
   std::unordered_set<int> finished_SeqNum_set;
   std::unordered_set<int> ups_finished_SeqNum_set;
   std::unordered_set<int> global_finished_SeqNum_set;
-
+  std::string ups_host;
   void startRun();
 
   // create a socket to listen

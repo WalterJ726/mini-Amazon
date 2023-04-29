@@ -1,14 +1,12 @@
 #include "Server.hpp"
 
-int main()
+int main(int argc, char** args)
 {
-    // if(daemon(1, 0) == -1){
-    //     std::cout<<"error\n"<<std::endl;
-    //     exit(-1);
-    // }
+
     try
     {
         Server& server_daemon = Server::getInstance();
+        server_daemon.ups_host = std::string(args[1]);
         if (server_daemon.getErrorSign()){
             std::cout << "fail to initialize server" << std::endl;
         }

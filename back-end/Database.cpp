@@ -239,9 +239,7 @@ bool Database::insert_and_update_inventory(const int wh_id, const int p_id, cons
     sql += std::to_string(wh_id) + ",";
     sql += std::to_string(p_id);
     sql += string(") ON CONFLICT (warehouse_id,product_id) DO UPDATE SET quantity = \"amazonSite_inventory\".quantity + EXCLUDED.quantity; ");
-    // std::cout << "start to execute sql" << std::endl;
     executeSQL(c, sql);
-    // std::cout << "finished executing sql" << std::endl;
   }
   catch(const std::exception& e)
   {
@@ -316,7 +314,6 @@ int Database::check_ups_id(const int user_id, int& ups_id){
   {
     sql = "SELECT ups_id, bind_status  FROM \"amazonSite_user_ups\"";
     sql += string("WHERE user_id=") + std::to_string(user_id) + ";";
-    // std::cout << "start to execute sql" << std::endl;
     result r = executeSQL(c, sql);
     if (r.begin() == r.end()){
       // package id does not exist 
@@ -383,9 +380,3 @@ void Database::disconnect() {
   }
 }
 
-// Database::~Database() {
-//   if (this->c != NULL) {
-//     c->disconnect();
-//     delete this->c;
-//   }
-// }

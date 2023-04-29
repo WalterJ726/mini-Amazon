@@ -195,7 +195,7 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
       long order_num = server.getOrderNum();
       // send message to user: order placed successfully!
       send_to_user("Order placed successfully!", client_connection_fd);
-      // warehouse_id, <product_info1, product_info2>
+      // warehouse_id, <product_info1, product_info2, ...>
       for(std::map<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>>::const_iterator curr_warehouse = warehouse_products.begin(); curr_warehouse != warehouse_products.end(); ++curr_warehouse){
         long package_id = server.getPackageID();
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);

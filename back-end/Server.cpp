@@ -2,11 +2,7 @@
 std::mutex mtx;
 #define zj78_host "vcm-30576.vm.duke.edu"
 #define amazon_world_port 23456
-#define ups_host "vcm-30576.vm.duke.edu" // 32254 33562
 #define ups_port 34567
-
-Client client(amazon_world_port, zj78_host);
-Client client_ups(ups_port, ups_host);
 
 void Server::startRun() {
   std::cout << "start Run server" << std::endl;
@@ -16,15 +12,16 @@ void Server::startRun() {
   db.disconnect();
   try
   {
+    Client client(amazon_world_port, ups_host);
     // client = Client(23456, zj78_host);
     world_fd = client.getSockfd();
     // recv msg from UPS (their hostname)
     initWareHouse();
     
     // UPS mode
-    // initUPS();
+    initUPS();
     // own test mode
-    initWorld();
+    // initWorld();
 
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
@@ -56,6 +53,8 @@ void Server::startRun() {
 void Server::initUPS(){
   GOOGLE_PROTOBUF_VERIFY_VERSION;  // use macro to check environment
   // connect to UPS
+  Server& server = Server::getInstance();
+  Client client_ups(ups_port, server.ups_host);
   ups_fd = client_ups.getSockfd();
   while (1){
     // get UAinitWorld from UPS

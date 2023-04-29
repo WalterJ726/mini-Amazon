@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  db: # change the host from vcm-30819 to db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: passw0rd
+      POSTGRES_USER: postgres
+      POSTGRES_DB: miniamazon
+    restart: always
+    ports:
+      - 5433:5432
+  web-init:
+    build: ./front-end/miniAmazon
+    command: bash -c "./initserver.sh"
+    volumes:
+      - ./front-end/miniAmazon:/code
+    depends_on:
+      - db
+  web:
+    build: ./front-end/miniAmazon
+    user: nobody
+    # command: ./wait-for-it.sh db:5432
+    command: /code/runserver.sh
+    volumes:
+      - ./front-end/miniAmazon:/code
+    expose:
+      - "8000"
+    depends_on:
+      - web-init
+  server:
+    build:
+      context: ./back-end
+      args:
+        - HOST_UPS=vcm-33562.vm.duke.edu
+    user: root
+    environment:
+      - UPS_HOST_NAME=vcm-33562.vm.duke.edu
+    volumes:
+      - ./back-end:/code
+    command: "./run.sh"
+    # command: "./server vcm-24273.vm.duke.edu"
+    ports:
+      - "23456:23456"
+      - "34567:34567" # ups
+      - "6969:6969" # front end
+    expose:
+      - "23456"
+      - "34567"
+      - "6969"
+    depends_on:
+      - web
+
+volumes:
+  data-volume:

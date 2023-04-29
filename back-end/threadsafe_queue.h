@@ -8,8 +8,6 @@
 
 using namespace std;
 
-//Problem: push and pop will copy the object multiple times.
-
 template<typename T>
 class ThreadSafe_queue {
  private:
