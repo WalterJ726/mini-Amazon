@@ -58,3 +58,8 @@ class Inventory(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['warehouse', 'product'], name='warehouse_product_pk'),
         ]
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey("Product",null=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField()

@@ -50,3 +50,6 @@ def try_bind_ups(user_ups, new_ups_id):
     except Exception as ex:
         print(f'Error: {ex}')
         return f'Error: {ex}'
+    
+def add_to_cart(user, product_quantity):
+    return None

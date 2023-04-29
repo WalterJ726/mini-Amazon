@@ -6,6 +6,7 @@ from .models import Inventory, Product, user_ups, Order, Package
 from django.db.models import Q
 from .utils import try_place_order
 from .utils import try_bind_ups
+from .utils import add_to_cart
 # Create your views here.
 
 @login_required
@@ -93,16 +94,22 @@ def shopping_mall(request):
                 quantity = int(field_value)
                 if quantity > 0:
                     product_quantities.append((product_id, product_name, quantity))
-
         print(product_quantities)
-        feedback = try_place_order(request.user, product_quantities, dest_x=dest_x, dest_y=dest_y)
 
-        if feedback == "Order placed successfully!" :
-            messages.success(request, 'Order placed successfully!')
-        else:
-            messages.error(request, feedback)
+        if "sumbit_order_button" in request.POST:   # click submit button
+            feedback = try_place_order(request.user, product_quantities, dest_x=dest_x, dest_y=dest_y)
 
-        return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
+            if feedback == "Order placed successfully!" :
+                messages.success(request, 'Order placed successfully!')
+            else:
+                messages.error(request, feedback)
+
+            return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
+        
+        elif 'add_to_cart_button' in request.POST:   # click add to cart button
+            add_to_cart(user=request.user, product_quantity=product_quantities)
+            messages.info(request, "Add to cart successfully!")
+            return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
 
     return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
 
