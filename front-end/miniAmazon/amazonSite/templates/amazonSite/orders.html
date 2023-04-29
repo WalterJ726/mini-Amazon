@@ -1,0 +1,141 @@
+{% extends './base.html' %}
+
+
+{% block sidebar %}
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/amazonSite/dashboard/">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/amazonSite/shopping_mall/">
+              <span data-feather="slack" class="align-text-bottom"></span>
+              Shopping mall
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ride/rideReq/">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Shopping cart
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/amazonSite/orders/">
+              <span data-feather="file" class="align-text-bottom"></span>
+              My orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/amazonSite/inventory/">
+              <span data-feather="database" class="align-text-bottom"></span>
+              Inventory
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/amazonSite/profile/">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Profile
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>>
+</div>>
+{% endblock %}
+
+{% block content %}
+
+<style>
+.btn-toggle {
+  padding: .25rem .5rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, .65);
+  background-color: transparent;
+}
+.btn-toggle:hover,
+.btn-toggle:focus {
+  color: rgba(0, 0, 0, .85);
+  background-color: #d2f4ea;
+}
+
+.btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform .35s ease;
+  transform-origin: .5em 50%;
+}
+
+.btn-toggle[aria-expanded="true"] {
+  color: rgba(0, 0, 0, .85);
+}
+.btn-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+  padding: .1875rem .5rem;
+  margin-top: .125rem;
+  margin-left: 1.25rem;
+}
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+  background-color: #d2f4ea;
+}
+</style>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h1">My orders</h1>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Order Num</th>
+          <th>Create Time</th>
+          <th>Package ID</th>
+          <th>Owner</th>
+          <th>Warehouse ID</th>
+          <th>Dest X</th>
+          <th>Dest Y</th>
+          <th>Pack Time</th>
+          <th>UPS ID</th>
+          <th>Truck ID</th>
+          <th>Package Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_key, package_list in orders_dict.items %}
+        <tr>
+          <td rowspan="{{ package_list|length }}">{{ order_key.0 }}</td>
+          <td rowspan="{{ package_list|length }}">{{ order_key.1 }}</td>
+          {% for package in package_list %}
+          <td>{{ package.package_id }}</td>
+          <td>{{ package.owner }}</td>
+          <td>{{ package.warehouse_id }}</td>
+          <td>{{ package.dest_x }}</td>
+          <td>{{ package.dest_y }}</td>
+          <td>{{ package.pack_time }}</td>
+          <td>{{ package.ups_id }}</td>
+          <td>{{ package.truck_id }}</td>
+          <td>{{ package.package_status }}</td>
+        </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+
+</main>
+
+{% endblock %}
+

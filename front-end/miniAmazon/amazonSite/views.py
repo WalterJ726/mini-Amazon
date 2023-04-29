@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
-from .models import Inventory, Product, user_ups
+from .models import Inventory, Product, user_ups, Order, Package
 from django.db.models import Q
 from .utils import try_place_order
 from .utils import try_bind_ups
@@ -200,3 +200,50 @@ def userProfile(request):
     return render(request, 'amazonSite/profile.html', context)
 
 
+@login_required
+def orders(request):
+    current_user = request.user
+    orders = Order.objects.filter(user=current_user).order_by('-create_time')
+    
+    # create a dictionary to store orders and their associated packages
+    order_packages_dict = {}
+    
+    # iterate through each order and add its packages to the dictionary
+    for order in orders:
+        key = (order.order_num, order.create_time)
+        
+        # check if the order already exists in the dictionary
+        if key in order_packages_dict:
+            order_packages_dict[key]['packages'].append({
+                'package_id': order.package_id,
+                'owner': order.owner,
+                'warehouse_id': order.warehouse_id,
+                'dest_x': order.dest_x,
+                'dest_y': order.dest_y,
+                'pack_time': order.pack_time,
+                'ups_id': order.ups_id,
+                'truck_id': order.truck_id,
+                'package_status': order.package_status
+            })
+        else:
+            order_packages_dict[key] = {
+                'order_num': order.order_num,
+                'create_time': order.create_time,
+                'packages': [{
+                    'package_id': order.package_id,
+                    'owner': order.owner,
+                    'warehouse_id': order.warehouse_id,
+                    'dest_x': order.dest_x,
+                    'dest_y': order.dest_y,
+                    'pack_time': order.pack_time,
+                    'ups_id': order.ups_id,
+                    'truck_id': order.truck_id,
+                    'package_status': order.package_status
+                }]
+            }
+    
+    context = {
+        'order_packages_dict': order_packages_dict
+    }
+    
+    return render(request, 'amazonSite/orders.html', context)
