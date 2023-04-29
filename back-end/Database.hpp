@@ -35,10 +35,9 @@ class Database {
 	}
   connection * connect();
 
-  //drop tables if already exist, and create tables
+  // delete data in table
   void initialize();
   bool initialize_inventory(const int wh_id, const int p_id, const int quantity);
-  // ~Database();
 
   // update warehouse and product
   bool insert_and_update_warehouse(const int wh_id, const int loc_x, const int loc_y);
@@ -49,10 +48,14 @@ class Database {
   bool insert_and_update_inventory(const int wh_id, const int p_id, const int quantity);
   bool insert_package(const int package_id, const int owner_id, const int warehouse_id,const int dest_x, const int dest_y, const string & package_status);
 
+  // bind account and check bind
   bool update_bind_status(const int user_id, const int ups_id, std::string bind_status);
+  int check_ups_id(const int user_id, int& ups_id);
+
   // update and check package status
   bool update_package_status(const int ship_id, const string status);
   bool check_package_status(const int ship_id, const string status);
+  
   // query inventory and update if quantity matches 
   // NOTE USING SELECT FOR UPDATE, FUTURE MODIFICATION MAY NEEDED
   int match_inventory(const int product_id, const int quantity);

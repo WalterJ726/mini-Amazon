@@ -96,7 +96,7 @@
       <h1 class="h1">My orders</h1>
     </div>
     <ul class="list-unstyled ps-0">
-    {% for order_key, package_list in orders_dict.items %}
+    {% for order_key, package_list in order_packages_dict.items %}
       <li class="mb-1">
         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#open-rides-collapse" aria-expanded="false">
         Order num: {{ order_key.0 }}, Created time: {{ order_key.1 }}

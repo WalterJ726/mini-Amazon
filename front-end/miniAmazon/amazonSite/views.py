@@ -247,4 +247,6 @@ def orders(request):
         'order_packages_dict': order_packages_dict
     }
     
+    print(context)
+    
     return render(request, 'amazonSite/orders.html', context)

@@ -2,10 +2,10 @@
 std::mutex mtx;
 #define zj78_host "vcm-30576.vm.duke.edu"
 #define amazon_world_port 23456
-#define ups_host "vcm-32254.vm.duke.edu" // 32254 33562
+#define ups_host "vcm-30576.vm.duke.edu" // 32254 33562
 #define ups_port 34567
 
-Client client(amazon_world_port, ups_host);
+Client client(amazon_world_port, zj78_host);
 Client client_ups(ups_port, ups_host);
 
 void Server::startRun() {
@@ -22,9 +22,9 @@ void Server::startRun() {
     initWareHouse();
     
     // UPS mode
-    initUPS();
+    // initUPS();
     // own test mode
-    // initWorld();
+    initWorld();
 
     // recv response from world simulator
     std::thread t_W2A_response(&Server::recvMsgFromWorld, this);
@@ -32,7 +32,7 @@ void Server::startRun() {
     std::thread t_A2W_request(&Server::sendMsgToWorld, this);
     // initlize products
     initProductsAmount();
-        std::cout << "initialized all successful" << std::endl;
+    std::cout << "initialized all successful" << std::endl;
     // recv response from UPS
     std::thread t_U2A_response(&Server::recvMsgFromUPS, this);
     // send msg to UPS

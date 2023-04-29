@@ -310,6 +310,35 @@ bool Database::check_package_status(const int ship_id, const string status){
   return true;
 }
 
+int Database::check_ups_id(const int user_id, int& ups_id){
+  string sql;
+  try
+  {
+    sql = "SELECT ups_id, bind_status  FROM \"amazonSite_user_ups\"";
+    sql += string("WHERE user_id=") + std::to_string(user_id) + ";";
+    // std::cout << "start to execute sql" << std::endl;
+    result r = executeSQL(c, sql);
+    if (r.begin() == r.end()){
+      // package id does not exist 
+      // or package status does not match given status
+      return false;
+    }
+    result::const_iterator c = r.begin();
+    int temp_ups_id = c[0].as<int>();
+    std::string temp_bind_status = c[1].as<string>();
+    if (temp_bind_status != "bind Success"){
+      return false;
+    }
+    ups_id = temp_ups_id;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+    return false;
+  }
+  return true;
+}
+
 int Database::match_inventory(const int product_id, const int quantity){
   try
   {

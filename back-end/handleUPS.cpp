@@ -142,7 +142,6 @@ void trySendMsgToUPS(AUcommands& ac, int seq_num){
   std::cout << "try to send MSG to UPS, for at least once: " <<  std::endl;
   Server& server = Server::getInstance();
   while (1){
-      // std::cout << "start to periodically thread" <<  std::endl;
       server.A2U_send_queue.push(ac);
       std::cout << ac.DebugString() << std::endl;
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));

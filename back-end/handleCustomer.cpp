@@ -82,17 +82,20 @@ void send_to_world_pack(long package_id, const std::pair<size_t, std::vector<std
   trySendMsgToWorld(pack, seq_num);
 }
 
-void send_to_ups_pack(long package_id, const std::pair<int, int> & dest_x_y, const std::pair<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> & warehouse_products){
+void send_to_ups_pack(long package_id, size_t user_id, const std::pair<int, int> & dest_x_y, const std::pair<size_t, std::vector<std::pair<std::pair<size_t, std::string>, size_t>>> & warehouse_products){
   AUcommands aucommands;
   AUreqPickup* pickup = aucommands.add_pickup();
   Server& server = Server::getInstance();
   int seq_num = server.getSeqNum();
   size_t warehouse_id = warehouse_products.first;
+  int ups_id;
   pickup->set_seqnum(seq_num);
   pickup->set_whid(warehouse_id);
   pickup->set_shipid(package_id);
   pickup->set_destinationx(dest_x_y.first);
   pickup->set_destinationy(dest_x_y.second);
+  Database& db = Database::getInstance();
+  if (db.check_ups_id(user_id, ups_id)) pickup->set_upsid(ups_id);
   for (std::vector<std::pair<std::pair<size_t, std::string>, size_t>>::const_iterator curr_product = warehouse_products.second.begin(); curr_product != warehouse_products.second.end(); ++curr_product){
     size_t product_id = curr_product->first.first;
     size_t quantity = curr_product->second;
@@ -198,7 +201,7 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
         send_to_world_pack(package_id, *curr_warehouse);
         // send pickup request to UPS;
-        send_to_ups_pack(package_id, dest_x_y, *curr_warehouse);
+        send_to_ups_pack(package_id, user_id, dest_x_y, *curr_warehouse);
       }
     }
   }
