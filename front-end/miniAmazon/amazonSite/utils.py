@@ -1,4 +1,5 @@
 import socket
+from .models import Cart, Product
 
 serverName = 'vcm-30576.vm.duke.edu'
 serverPort = 6969
@@ -52,4 +53,12 @@ def try_bind_ups(user_ups, new_ups_id):
         return f'Error: {ex}'
     
 def add_to_cart(user, product_quantity):
-    return None
+    for id_name_quantity in product_quantity:
+        product = Product.objects.get(product_id=id_name_quantity[0])
+        try:
+            cart = Cart.objects.get(user=user, product=product)
+            cart.quantity += id_name_quantity[2]
+            cart.save()
+        except Cart.DoesNotExist:
+            cart = Cart(user=user, product=product, quantity=id_name_quantity[2])
+            cart.save()

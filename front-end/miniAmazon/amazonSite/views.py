@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
-from .models import Inventory, Product, user_ups, Order, Package
+from .models import Inventory, Product, user_ups, Order, Package, Cart
 from django.db.models import Q
 from .utils import try_place_order
 from .utils import try_bind_ups
@@ -111,6 +111,7 @@ def shopping_mall(request):
             messages.info(request, "Add to cart successfully!")
             return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
 
+    
     return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
 
 
@@ -232,3 +233,58 @@ def orders(request):
     print(context)
     
     return render(request, 'amazonSite/orders.html', context)
+
+
+@login_required
+def cart(request):
+    product_quantity_set = Cart.objects.filter(user=request.user)
+    
+    product_quantity = {}
+    for item in product_quantity_set:
+        product_quantity[item.product] = item.quantity
+        
+    if request.method == 'POST':
+        for key, value in request.POST.items():
+            if '_cancel' in key:
+                product_id, product_name = key.split('_')[:2]
+                product = Product.objects.get(product_id=product_id)
+                Cart.objects.filter(user=request.user, product=product).delete()
+                messages.info(request, f"{product_name} has been removed from your cart.")
+                # delete the key , value pair where product = product in product_quantity
+                product_quantity.pop(product)
+                render(request, 'amazonSite/cart.html', {'product_quantity': product_quantity})               
+
+        if "clear_button" in request.POST:   # click clear cart button
+            Cart.objects.filter(user=request.user).delete()
+            messages.info(request, "Clear successfully!")
+            # clean dictionary product_quantity
+            product_quantity = {}
+            render(request, 'amazonSite/cart.html', {'product_quantity': product_quantity})
+        
+        elif "sumbit_order_button" in request.POST:   # click submit order button
+            dest_x = request.POST['dest_x']
+            dest_y = request.POST['dest_y']
+            product_quantities = []
+            for field_name, field_value in request.POST.items():
+                if field_name.endswith('_quantity') and len(field_value) != 0:
+                    product_id = int(field_name.split('_')[0])
+                    product_name = field_name.split('_')[1]
+                    quantity = int(field_value)
+                    if quantity > 0:
+                        product_quantities.append((product_id, product_name, quantity))
+            print(product_quantities)
+            feedback = try_place_order(request.user, product_quantities, dest_x=dest_x, dest_y=dest_y)
+
+            if feedback == "Order placed successfully!" :
+                messages.success(request, 'Order placed successfully!')
+                Cart.objects.filter(user=request.user).delete() #on placed success, clear cart
+                product_quantity = {}
+            else:
+                messages.error(request, feedback)
+
+            return render(request, 'amazonSite/cart.html', {'product_quantity': product_quantity})
+        
+
+
+    return render(request, 'amazonSite/cart.html', {'product_quantity': product_quantity})
+
