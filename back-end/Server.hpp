@@ -56,6 +56,7 @@ private:
   ThreadSafe_queue<AUcommands> A2U_send_queue;
   std::unordered_set<int> finished_SeqNum_set;
   std::unordered_set<int> ups_finished_SeqNum_set;
+  std::unordered_set<int> global_finished_SeqNum_set;
 
   void startRun();
 

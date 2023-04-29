@@ -49,6 +49,7 @@ class Database {
   bool insert_and_update_inventory(const int wh_id, const int p_id, const int quantity);
   bool insert_package(const int package_id, const int owner_id, const int warehouse_id,const int dest_x, const int dest_y, const string & package_status);
 
+  bool update_bind_status(const int user_id, const int ups_id, std::string bind_status);
   // update and check package status
   bool update_package_status(const int ship_id, const string status);
   bool check_package_status(const int ship_id, const string status);

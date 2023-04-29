@@ -105,6 +105,34 @@ void send_to_ups_pack(long package_id, const std::pair<int, int> & dest_x_y, con
   trySendMsgToUPS(aucommands, seq_num);
 }
 
+void handleBind(const std::map<std::string, std::vector<std::string>> & headerMap){
+  int user_id;
+  int ups_id;
+  try
+  {
+    user_id = std::stoi(headerMap.at("user_id").at(0));
+    ups_id = std::stoi(headerMap.at("ups_id").at(0));  
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+  }
+  std::cout << "user_id" << user_id << std::endl;
+  std::cout << "ups_id" << ups_id << std::endl;
+      // change status to checking
+  Database& db = Database::getInstance();
+  std::string status_str = "checking";
+  db.update_bind_status(user_id, ups_id, status_str);
+  AUcommands aucommands;
+  AUbindUPS* bind = aucommands.add_bind();
+  Server& server = Server::getInstance();
+  int seq_num = server.getSeqNum();
+  bind->set_seqnum(seq_num);
+  bind->set_ownerid(user_id);
+  bind->set_upsid(ups_id);
+  trySendMsgToUPS(aucommands, seq_num);
+}
+
 void send_to_user(std::string message, int client_connection_fd){
   Server& server = Server::getInstance();
   server.sendAllData(client_connection_fd, message.c_str(), message.length());
@@ -169,7 +197,7 @@ void handleOrder(const std::map<std::string, std::vector<std::string>> & headerM
         long package_id = server.getPackageID();
         generate_insert_order_package(user_id, order_num, package_id, dest_x_y, *curr_warehouse);
         send_to_world_pack(package_id, *curr_warehouse);
-        //    send pickup request to UPS;
+        // send pickup request to UPS;
         send_to_ups_pack(package_id, dest_x_y, *curr_warehouse);
       }
     }
@@ -195,6 +223,15 @@ void listenFrontEndRequest(){
     std::string action = customer_request.getAction();
     if (action == "bind"){
       // start to process bind
+      const std::map<std::string, std::vector<std::string>> headerMap = customer_request.getHeaderMap();
+      for (auto it = headerMap.begin(); it != headerMap.end(); ++it) {
+          std::cout << it->first << std::endl;
+          for (size_t i = 0; i < it->second.size(); i ++ ){
+              std::cout << it->second[i] << " ";
+          }
+          std::cout << std::endl;
+      }
+      handleBind(headerMap);
     } else {
       // start to process order
      const std::map<std::string, std::vector<std::string>> headerMap = customer_request.getHeaderMap();
