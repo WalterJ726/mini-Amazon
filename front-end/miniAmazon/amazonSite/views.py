@@ -210,38 +210,13 @@ def orders(request):
     
     # iterate through each order and add its packages to the dictionary
     for order in orders:
-        key = (order.order_num, order.create_time)
+        key = order
+        if key not in order_packages_dict:
+            order_packages_dict[key] = []
         packages = Package.objects.filter(package_id = order.package_id)
         for package in packages:
-            # check if the order already exists in the dictionary
-            if key in order_packages_dict:
-                order_packages_dict[key]['packages'].append({
-                    'package_id': package.package_id,
-                    'owner': package.owner,
-                    'warehouse_id': package.warehouse_id,
-                    'dest_x': package.dest_x,
-                    'dest_y': package.dest_y,
-                    'pack_time': package.pack_time,
-                    'ups_id': package.ups_id,
-                    'truck_id': package.truck_id,
-                    'package_status': package.package_status
-                })
-            else:
-                order_packages_dict[key] = {
-                    'order_num': order.order_num,
-                    'create_time': order.create_time,
-                    'packages': [{
-                        'package_id': package.package_id,
-                        'owner': package.owner,
-                        'warehouse_id': package.warehouse_id,
-                        'dest_x': package.dest_x,
-                        'dest_y': package.dest_y,
-                        'pack_time': package.pack_time,
-                        'ups_id': package.ups_id,
-                        'truck_id': package.truck_id,
-                        'package_status': package.package_status
-                    }]
-                }
+            order_packages_dict[key].append(package)
+
     
     context = {
         'order_packages_dict': order_packages_dict
