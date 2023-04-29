@@ -95,46 +95,51 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h1">My orders</h1>
     </div>
+    <ul class="list-unstyled ps-0">
+    {% for order_key, package_list in orders_dict.items %}
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#open-rides-collapse" aria-expanded="false">
+        Order num: {{ order_key.0 }}, Created time: {{ order_key.1 }}
+        </button>
+        <div class="collapse show" id="open-rides-collapse">
+          <div class="table-responsive">
+            <table class="table table-striped table-sm" style="vertical-align: middle;">
+              <thead>
+                  <tr>
+                    <th scope="col">Package ID</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Warehouse ID</th>
+                    <th scope="col">Dest X</th>
+                    <th scope="col">Dest Y</th> 
+                    <th scope="col">Pack Time</th>
+                    <th scope="col">UPS ID</th>
+                    <th scope="col">Truck ID</th>
+                    <th scope="col">Package Status</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for package in package_list %}
+                <tr>
+                  <td>{{ package.package_id }}</td>
+                  <td>{{ package.owner.id }}</td>
+                  <td>{{ package.warehouse_id }}</td>
+                  <td>{{ package.dest_x }}</td>
+                  <td>{{ package.dest_y }}</td>
+                  <td>{{ package.pack_time }}</td>
+                  <td>{{ package.ups_id }}</td>
+                  <td>{{ package.truck_id }}</td>
+                  <td>{{ package.package_status }}</td>
+                </tr>             
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </li>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Order Num</th>
-          <th>Create Time</th>
-          <th>Package ID</th>
-          <th>Owner</th>
-          <th>Warehouse ID</th>
-          <th>Dest X</th>
-          <th>Dest Y</th>
-          <th>Pack Time</th>
-          <th>UPS ID</th>
-          <th>Truck ID</th>
-          <th>Package Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for order_key, package_list in orders_dict.items %}
-        <tr>
-          <td rowspan="{{ package_list|length }}">{{ order_key.0 }}</td>
-          <td rowspan="{{ package_list|length }}">{{ order_key.1 }}</td>
-          {% for package in package_list %}
-          <td>{{ package.package_id }}</td>
-          <td>{{ package.owner }}</td>
-          <td>{{ package.warehouse_id }}</td>
-          <td>{{ package.dest_x }}</td>
-          <td>{{ package.dest_y }}</td>
-          <td>{{ package.pack_time }}</td>
-          <td>{{ package.ups_id }}</td>
-          <td>{{ package.truck_id }}</td>
-          <td>{{ package.package_status }}</td>
-        </tr>
-          {% endfor %}
-        {% endfor %}
-      </tbody>
-    </table>
-
-
-
+      <li class="border-top my-3"></li>
+    {% endfor %}
+    </ul>
 </main>
 
 {% endblock %}
