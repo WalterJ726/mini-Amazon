@@ -181,12 +181,17 @@
               <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="{{ last_name }}" readonly="true">
             </div>
 
-            <div class="col-sm-6">
-              <label for="ups_account" class="form-label">Your ups account</label>
-              <input type="text" class="form-control" id="ups_account" name="ups_account"  placeholder="" value="{{ ups_account }}">
+            <div class="col-sm-4">
+              <label for="ups_id" class="form-label">Your UPS ID</label>
+              <input type="number" class="form-control" id="ups_id" name="ups_id"  placeholder="" value="{{ ups_id }}">
+            </div>
+
+            <div class="col-sm-4">
+              <label for="bind_status" class="form-label">UPS ID binding status</label>
+              <input type="text" class="form-control" id="bind_status" name="bind_status"  placeholder="" value="{{ bind_status }}" readonly="true">
             </div>
             
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label for="email" class="form-label">Email address</label>
               <input type="email" class="form-control" id="email" name="email"  placeholder="" value="{{ user_email }}">
             </div>

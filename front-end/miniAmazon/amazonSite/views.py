@@ -2,8 +2,10 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages, auth
-from .models import Inventory, Product
+from .models import Inventory, Product, user_ups
+from django.db.models import Q
 from .utils import try_place_order
+from .utils import try_bind_ups
 # Create your views here.
 
 @login_required
@@ -52,6 +54,8 @@ def register(request):
                     #user_ex = UserEx.objects.create(user=user)
                     #/user_ex.save()
                     messages.success(request, 'Registration successful!')
+                    new_user_ups = user_ups(user_id=user.pk, ups_id=None) #create an object that is a new user with Null ups_id
+                    new_user_ups.save() #insert it to user_ups table
                     return render(request, 'amazonSite/login.html', locals())
 
         else:
@@ -126,13 +130,16 @@ def inventory(request):
 @login_required
 def userProfile(request):   
     user = request.user
-    context = {'user_name':user.username, 'user_email':user.email,'last_name':user.last_name, 'first_name': user.first_name, 'ups_account': 10086}
+    curr_user_ups = user_ups.objects.filter(user_id = user.id).first()
+    context = {'user_name':user.username, 'user_email':user.email,'last_name':user.last_name, 'first_name': user.first_name, 'ups_id': curr_user_ups.ups_id, 'bind_status': curr_user_ups.bind_status}
         
     if request.method == 'POST':
-        password_old = request.POST['password1']
-        password_new1 = request.POST['password2']
-        password_new2 = request.POST['password3']
-        email = request.POST['email']
+        password_old = request.POST.get('password1', '')   # use POST.get() to avoid CSRF attack
+        password_new1 = request.POST.get('password2', '')
+        password_new2 = request.POST.get('password3', '')
+        email = request.POST.get('email', '')
+        ups_id = request.POST.get('ups_id', None)
+
         if password_old != '' and (password_new1 == '' or password_new2 == ''):
             messages.info(request, 'Please input new password!')
             return render(request, 'amazonSite/profile.html', context)
@@ -151,19 +158,42 @@ def userProfile(request):
             user.set_password(password_new1) # old password is correct and new passwords match
                  
             if email != '':    
-                if User.objects.filter(email=email).exists():
+                if User.objects.filter(Q(email=email) & ~Q(username=user.username)).exists():
                     messages.info(request, 'The email address is used, please use another one!')
                     return render(request, 'amazonSite/profile.html', context) 
                 user.email = email
                 context['user_email'] = email
+
+            if ups_id != None:
+                if user_ups.objects.filter(Q(ups_id=ups_id) & ~Q(user_id=user.id)).exists():
+                    messages.info(request, 'The UPS ID is used, please use another one!')
+                    return render(request, 'amazonSite/profile.html', context) 
+                curr_user_ups.ups_id = ups_id
+                context['ups_id'] = ups_id
+                feedback = try_bind_ups(user_ups=curr_user_ups, new_ups_id=ups_id)
+                if (feedback != None):
+                    messages.info(request, feedback)
+
         if password_old == '' and password_new1 == '' and password_new2 == '':        
             if email != '':    
-                if User.objects.filter(email=email).exists():
+                if User.objects.filter(Q(email=email) & ~Q(username=user.username)).exists():
                     messages.info(request, 'The email address is used, please use another one!')
                     return render(request, 'amazonSite/profile.html', context) 
                 user.email = email
                 context['user_email'] = email
+
+            if ups_id != None:
+                if user_ups.objects.filter(Q(ups_id=ups_id) & ~Q(user_id=user.id)).exists():
+                    messages.info(request, 'The UPS ID is used, please use another one!')
+                    return render(request, 'amazonSite/profile.html', context) 
+                curr_user_ups.ups_id = ups_id
+                context['ups_id'] = ups_id
+                feedback = try_bind_ups(user_ups=curr_user_ups, new_ups_id=ups_id)
+                if (feedback != None):
+                    messages.info(request, feedback)
+
         user.save()
+        curr_user_ups.save()
         messages.info(request, 'Changes saved!')
         return render(request, 'amazonSite/profile.html', context)
         

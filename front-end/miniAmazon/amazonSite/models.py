@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class user_ups(models.Model):
     user_id = models.IntegerField(primary_key=True)
     ups_id = models.IntegerField(null=True, blank=True)
+    bind_status = models.CharField(max_length=100, null=True, blank=True, default='checking')
 
 class Warehouse(models.Model):
     warehouse_id = models.AutoField(primary_key=True, default=0)
@@ -29,6 +30,7 @@ class Order(models.Model):
     quantity = models.IntegerField()
     package_id = models.IntegerField(null=True, blank=True)
     create_time = models.TimeField(null=True, blank=True)
+    order_status = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -45,7 +47,7 @@ class Package(models.Model):
     pack_time = models.TimeField(null=True, blank=True)
     ups_id = models.IntegerField(null=True, blank=True) # TODO: add foreign key
     truck_id = models.IntegerField(null=True, blank=True)
-    package_status = models.CharField(max_length=100)
+    package_status = models.CharField(max_length=100, null=True, blank=True)
 
 class Inventory(models.Model):
     warehouse = models.ForeignKey("Warehouse", on_delete=models.CASCADE)

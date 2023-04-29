@@ -29,3 +29,24 @@ def try_place_order(user, product_quantity, dest_x, dest_y):
     except Exception as ex:
         print(f'Error: {ex}')
         return f'Error: {ex}'
+    
+def construct_bind_message(user_ups, new_ups_id):
+    message = f'bind\nuser_id:{user_ups.user_id}\nups_id:{new_ups_id}\n'
+    message += "\n"
+    return message
+
+def try_bind_ups(user_ups, new_ups_id):
+    try:
+        message = construct_bind_message(user_ups=user_ups, new_ups_id=new_ups_id)
+        print(message)
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.connect((serverName, serverPort))
+        s.sendall(message.encode())
+        s.close()
+
+    except socket.error as e:
+        print(f'Socket error: {e}')
+        return f'Socket error: {e}'
+    except Exception as ex:
+        print(f'Error: {ex}')
+        return f'Error: {ex}'
