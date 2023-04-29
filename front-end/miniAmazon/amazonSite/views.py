@@ -73,8 +73,20 @@ def logout(request):
 
 @login_required
 def shopping_mall(request):
-    inventories = Inventory.objects.all()  # Fetch all inventories from the Inventory model
     product_stock = {}
+    if 'sumbit_search_button' in request.POST: # click search button
+        # Fetch the product with name 'Product Name'
+        product_name = request.POST['product_name']
+        product = Product.objects.filter(name=product_name).first()
+        if product:
+            # If the product exists, fetch the inventory for that product
+            inventories = Inventory.objects.filter(product_id=product.product_id)
+        else:
+            # If the product doesn't exist, handle the error
+            inventories = None
+
+    else:
+        inventories = Inventory.objects.all()  # Fetch all inventories from the Inventory model
     for inventory in inventories:
         product_id = inventory.product.product_id
         quantity = inventory.quantity
@@ -82,11 +94,14 @@ def shopping_mall(request):
             product = Product.objects.get(product_id=product_id)  # Fetch the related product
             product_stock[product_id] = {'name': product.name, 'description': product.description, 'stock': 0}
         product_stock[product_id]['stock'] += quantity
-
+    if 'sumbit_search_button' in request.POST:
+        return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
+    
     if request.method == "POST":
         dest_x = request.POST['dest_x']
         dest_y = request.POST['dest_y']
         product_quantities = []
+            
         for field_name, field_value in request.POST.items():
             if field_name.endswith('_quantity') and len(field_value) != 0:
                 product_id = int(field_name.split('_')[0])
@@ -110,8 +125,7 @@ def shopping_mall(request):
             add_to_cart(user=request.user, product_quantity=product_quantities)
             messages.info(request, "Add to cart successfully!")
             return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
-
-    
+            
     return render(request, 'amazonSite/shopping_mall.html', {'product_stock': product_stock})
 
 

@@ -144,11 +144,17 @@
     <link href="/static/css/checkout.css" rel="stylesheet">
   </head>
   <body class="bg-light">
+
+<div class="input-group mb-3">
+  <form class="needs-validation" action="/amazonSite/shopping_mall/" method="post" validate>
+    {% csrf_token %}
+    <input type="text" name="product_name" class="form-control" placeholder="Search products" aria-label="Search products" aria-describedby="search-button">
+    <button class="btn btn-outline-secondary" type="submit" name="sumbit_search_button">Search</button>
+  </form>
+</div>
     
 <div class="container">
 <main>
-
-
     <div class="row g-5">
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Products</h4>
