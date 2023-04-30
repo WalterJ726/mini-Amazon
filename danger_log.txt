@@ -1,0 +1,24 @@
+04/20/2023
+1. Resource contention and allocation issues could result in performance degradation.
+Since our backend server is using select for update statement to query the inventory table 
+when processing the order request sent by the front-end user, it will cause the corresponding 
+entry to be locked until the end of the update to be accessed, so it may lead to the problem 
+of some users waiting for a longer time when multiple users place orders or query orders at the same time.
+
+04/21/2023
+Authentication: The code uses Django's built-in authentication system, 
+which is generally considered safe. However, the security of the authentication system 
+depends on how it is configured and implemented.
+
+04/23/2023
+Since our front end is using the Django framework, the database is created in models.py 
+instead of the back-end server, which may lead to insecure data
+
+04/25/2023
+1. If there are too many clients trying to place orders on our site, the time of waiting the response of the world 
+and the UPS side may be very long and cause inpleasant user experience.
+
+04/27/2023
+1. When the packet loss rate of worldworld increases, e.g. 25, users who place multiple orders will 
+experience a significant increase in waiting time, which seriously affects the user experience.
+

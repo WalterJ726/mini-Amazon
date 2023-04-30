@@ -2,6 +2,8 @@ CFLAGS=-std=gnu++11 -pedantic -Wall -ggdb3
 PROGS=testServerRequest daemon 
 OBJS=$(patsubst %,%.o,$(PROGS)) *.o
 EXTRAFLAGS=-lpqxx -lpq -pthread
+PROTO_LIB_DIR = ./protobuf/lib
+PROTO_HEADER_DIR = ./protobuf/include
 GPB = `pkg-config --cflags --libs protobuf`
 PROTO_CC = ./protobuf/world_amazon.pb.cc
 PROTO_H = ./protobuf/world_amazon.pb.h

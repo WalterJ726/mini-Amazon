@@ -1,0 +1,17 @@
+1. Account system:
+	user can register an Amazon account with specific name, email, password
+2. Bind UPS account:
+	specify a UPS account name to associate the order with.
+3. Display personal profile
+4. Change personal information
+	User could change password, username etc. information.
+5. A beautiful welcome page 
+6. A friendly user interface
+7. A searchable function
+8. Order History
+	List all the past order of the user
+9. Shopping cart
+	A shopping cart has many features: 
+	(1) specify a new destination
+	(2) change the quantity of product
+	(3) cancel a specific product

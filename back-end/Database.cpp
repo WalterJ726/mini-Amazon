@@ -100,7 +100,7 @@ void dropTables(connection * c, const vector<string> & tables) {
 
 void Database::initialize() {
   // initialize the products item and amounts
-  std::vector<std::string> table_name = {"\"amazonSite_inventory\"", "\"amazonSite_order\"", "\"amazonSite_package\"", "\"amazonSite_product\"", "\"amazonSite_warehouse\""};
+  std::vector<std::string> table_name = {"\"amazonSite_inventory\"", "\"amazonSite_order\"", "\"amazonSite_package\"", "\"amazonSite_product\"", "\"amazonSite_warehouse\"", "\"amazonSite_cart\""};
   for (size_t i = 0; i < table_name.size(); i ++ ){
     std::string sql = "DELETE FROM " + table_name[i] + ";";
     std::cout << sql << std::endl;
