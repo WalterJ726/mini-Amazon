@@ -167,9 +167,8 @@ void Server::recvMsgFromWorld(){
         continue;
       }
       std::cout << "recv msg from world successful in recvMsgFromWorld()" << std::endl;
-      handleWorldResponse(aresponses);
-      // std::thread t_handleWorld(handleWorldResponse, aresponses);
-      // t_handleWorld.detach();
+      HandleWorld h_world(aresponses);
+      h_world.handleWorldResponse();
     }
 }
 
@@ -200,7 +199,8 @@ void Server::recvMsgFromUPS(){
         continue;
       }
       std::cout << "recv msg from world successful in recvMsgFromUPS()" << std::endl;
-      handleUPSResponse(UAresponses);
+      HandleUPS h_ups(UAresponses);
+      h_ups.handleUPSResponse();
       // std::thread t_handleUPS(handleUPSResponse, UAresponses);
       // t_handleUPS.detach();
     }

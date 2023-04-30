@@ -1,73 +1,92 @@
-#include "handleUPS.h"
+#include "handleUPS.hpp"
 
-void handleUPSResponse(UAcommands UAresponses){
+HandleUPS::HandleUPS(const UAcommands& UAresponses){
+  for (int i = 0; i < UAresponses.bindupsresponse_size(); i++) {
+    uabindreponses.push_back(std::move(UAresponses.bindupsresponse(i)));
+    seqNums.push_back(UAresponses.bindupsresponse(i).seqnum());
+  }
+
+  for (int i = 0; i < UAresponses.truckarr_size(); i++) {
+    uatruckArrs.push_back(std::move(UAresponses.truckarr(i)));
+    seqNums.push_back(UAresponses.truckarr(i).seqnum());
+  }
+
+  for (int i = 0; i < UAresponses.delivered_size(); i++) {
+    uadelivereds.push_back(std::move(UAresponses.delivered(i)));
+    seqNums.push_back(UAresponses.delivered(i).seqnum());
+  }
+
+  for (int i = 0; i < UAresponses.changeresp_size(); i++) {
+    uachangeResps.push_back(std::move(UAresponses.changeresp(i)));
+    seqNums.push_back(UAresponses.changeresp(i).seqnum());
+  }
+  
+  Server& server = Server::getInstance();
+  // record acks from world
+  for (int i = 0; i < UAresponses.acks_size(); i ++ ){
+    std::cout << "UAresponses.acks(i) is " << UAresponses.acks(i) << std::endl;
+    server.global_finished_SeqNum_set.insert(UAresponses.acks(i));
+  }
+}
+
+bool checkUPSHasHandled(int seqnum){
+  Server& server = Server::getInstance();
+  std::cout << "seqnum() is " << seqnum << std::endl;
+  if (server.ups_finished_SeqNum_set.find(seqnum) != server.ups_finished_SeqNum_set.end()){
+    return true;
+  }
+  server.ups_finished_SeqNum_set.insert(seqnum);
+  return false;
+}
+
+void HandleUPS::handleUPSResponse(){
       Server& server = Server::getInstance();
-      std::cout << UAresponses.DebugString() << std::endl;
-      for (int i = 0; i < UAresponses.acks_size(); i ++ ){
-        std::cout << "UAresponses.acks(i) is " << UAresponses.acks(i) << std::endl;
-        server.global_finished_SeqNum_set.insert(UAresponses.acks(i));
+      // ACK responses to world.
+      AUcommands all_acks;
+      for (size_t i = 0; i < seqNums.size(); i++) {
+        all_acks.add_acks(i);
+        all_acks.set_acks(i, seqNums[i]);
       }
+      server.A2U_send_queue.push(all_acks);
 
       // start to parse UAbindUPSResponse
-      for (int i = 0; i < UAresponses.bindupsresponse_size(); i ++ ){
-          AUcommands UAbindUPSResponse_ack;
-          UAbindUPSResponse bindreponse = UAresponses.bindupsresponse(i);
+      for (size_t i = 0; i < uabindreponses.size(); i ++ ){
+          UAbindUPSResponse bindreponse = uabindreponses[i];
           int seqnum = bindreponse.seqnum();
-          std::cout << "bindreponse.seqnum() is " << seqnum << std::endl;
-          if (server.ups_finished_SeqNum_set.find(seqnum) != server.ups_finished_SeqNum_set.end()){
-              continue;
+          if (!checkUPSHasHandled(seqnum)){
+            std::cout << "start to parse UAbindUPSResponse" << std::endl;
+            processbindUPSResponse(bindreponse);
           }
-          std::cout << "start to parse UAbindUPSResponse" << std::endl;
-          server.ups_finished_SeqNum_set.insert(seqnum);
-          UAbindUPSResponse_ack.add_acks(seqnum);
-          server.A2U_send_queue.push(UAbindUPSResponse_ack);
-          processbindUPSResponse(bindreponse);
       }
 
       // start to parse UAtruckArrived
-      for (int i = 0; i < UAresponses.truckarr_size(); i ++ ){
-        AUcommands UAtruckArrived_ack;
-        UAtruckArrived truckArr = UAresponses.truckarr(i);
+      for (size_t i = 0; i < uatruckArrs.size(); i ++ ){
+        UAtruckArrived truckArr = uatruckArrs[i];
         int seqnum = truckArr.seqnum();
-        std::cout << "truckArr.seqnum() is " << seqnum << std::endl;
-        if (server.ups_finished_SeqNum_set.find(seqnum) != server.ups_finished_SeqNum_set.end()){
-          continue;
+        if (!checkUPSHasHandled(seqnum)){
+          std::cout << "start to parse UAtruckArrived" << std::endl;
+          processUAtruckArrived(truckArr);
         }
-        std::cout << "start to parse UAtruckArrived" << std::endl;
-        server.ups_finished_SeqNum_set.insert(seqnum);
-        UAtruckArrived_ack.add_acks(seqnum);
-        server.A2U_send_queue.push(UAtruckArrived_ack);
-        processUAtruckArrived(truckArr);
       }
 
       // start to parse UAdelivered
-      for (int i = 0; i < UAresponses.delivered_size(); i ++ ){
-        AUcommands UAdelivered_ack;
-        UAdelivered delivered = UAresponses.delivered(i);
+      for (size_t i = 0; i < uadelivereds.size(); i ++ ){
+        UAdelivered delivered = uadelivereds[i];
         int seqnum = delivered.seqnum();
-        if (server.ups_finished_SeqNum_set.find(seqnum) != server.ups_finished_SeqNum_set.end()){
-          continue;
+        if (!checkUPSHasHandled(seqnum)){
+          std::cout << "start to parse UAdelivered" << std::endl;
+          processUAdelivered(delivered);
         }
-        std::cout << "start to parse UAdelivered" << std::endl;
-        server.ups_finished_SeqNum_set.insert(seqnum);
-        UAdelivered_ack.add_acks(seqnum);
-        server.A2U_send_queue.push(UAdelivered_ack);
-        processUAdelivered(delivered);
       }
 
       // start to parse UAchangeResp
-      for (int i = 0; i < UAresponses.changeresp_size(); i ++ ){
-        AUcommands UAchangeResp_ack;
-        UAchangeResp changeResp = UAresponses.changeresp(i);
+      for (size_t i = 0; i < uachangeResps.size(); i ++ ){
+        UAchangeResp changeResp = uachangeResps[i];
         int seqnum = changeResp.seqnum();
-        if (server.ups_finished_SeqNum_set.find(seqnum) != server.ups_finished_SeqNum_set.end()){
-          continue;
+        if (!checkUPSHasHandled(seqnum)){
+          std::cout << "start to parse UAchangeResp" << std::endl;
+          processUAchangeResp(changeResp);
         }
-        std::cout << "start to parse UAchangeResp" << std::endl;
-        server.ups_finished_SeqNum_set.insert(seqnum);
-        UAchangeResp_ack.add_acks(seqnum);
-        server.A2U_send_queue.push(UAchangeResp_ack);
-        processUAchangeResp(changeResp);
       }
 
 }

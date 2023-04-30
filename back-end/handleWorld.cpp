@@ -1,5 +1,29 @@
 #include "handleWorld.hpp"
 
+HandleWorld::HandleWorld(const AResponses & aresponses){
+  for (int i = 0; i < aresponses.arrived_size(); i++) {
+    apurchasemores.push_back(std::move(aresponses.arrived(i)));
+    seqNums.push_back(aresponses.arrived(i).seqnum());
+  }
+
+  for (int i = 0; i < aresponses.ready_size(); i++) {
+    apackeds.push_back(std::move(aresponses.ready(i)));
+    seqNums.push_back(aresponses.ready(i).seqnum());
+  }
+
+  for (int i = 0; i < aresponses.loaded_size(); i++) {
+    aloadeds.push_back(std::move(aresponses.loaded(i)));
+    seqNums.push_back(aresponses.loaded(i).seqnum());
+  }
+  
+  Server& server = Server::getInstance();
+  // record acks from world
+  for (int i = 0; i < aresponses.acks_size(); i ++ ){
+    std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
+    server.global_finished_SeqNum_set.insert(aresponses.acks(i));
+  }
+}
+
 void initProductsAmount(){
   Server& server = Server::getInstance();
   // buy some initial products
@@ -18,58 +42,54 @@ void initProductsAmount(){
   }
 }
 
-void handleWorldResponse(AResponses aresponses){
+bool checkWorldHasHandled(int seqnum){
+  Server& server = Server::getInstance();
+  std::cout << "seqnum() is " << seqnum << std::endl;
+  if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
+    return true;
+  }
+  server.finished_SeqNum_set.insert(seqnum);
+  return false;
+}
+
+void HandleWorld::handleWorldResponse(){
       Server& server = Server::getInstance();
-      std::cout << aresponses.DebugString() << std::endl;
-      for (int i = 0; i < aresponses.acks_size(); i ++ ){
-        std::cout << "aresponses.acks(i) is " << aresponses.acks(i) << std::endl;
-        server.global_finished_SeqNum_set.insert(aresponses.acks(i));
+      // ACK responses to world.
+      ACommands all_acks;
+      for (size_t i = 0; i < seqNums.size(); i++) {
+        all_acks.add_acks(i);
+        all_acks.set_acks(i, seqNums[i]);
       }
-    
+      server.A2W_send_queue.push(all_acks);
+
       // start to parse APurchaseMore
-      for (int i = 0; i < aresponses.arrived_size(); i ++ ){
-        ACommands APurchaseMore_ack;
-        APurchaseMore arrived = aresponses.arrived(i);
+      for (size_t i = 0; i < apurchasemores.size(); i ++ ){
+        APurchaseMore arrived = apurchasemores[i];
         int seqnum = arrived.seqnum();
-        std::cout << "arrived.seqnum() is " << seqnum << std::endl;
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
+        if (!checkWorldHasHandled(seqnum)){
+          std::cout << "start to parse APurchaseMore" << std::endl;
+          processPurchaseMore(arrived);
         }
-        std::cout << "start to parse APurchaseMore" << std::endl;
-        server.finished_SeqNum_set.insert(seqnum);
-        APurchaseMore_ack.add_acks(seqnum);
-        server.A2W_send_queue.push(APurchaseMore_ack);
-        processPurchaseMore(arrived);
       }
 
       // start to parse APacked
-      for (int i = 0; i < aresponses.ready_size(); i ++ ){
-        ACommands APacked_ack;
-        APacked ready = aresponses.ready(i);
+      for (size_t i = 0; i < apackeds.size(); i ++ ){
+        APacked ready = apackeds[i];
         int seqnum = ready.seqnum();
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
+        if (!checkWorldHasHandled(seqnum)){
+          std::cout << "start to parse APacked" << std::endl;
+          processPacked(ready);
         }
-        std::cout << "start to parse APacked" << std::endl;
-        server.finished_SeqNum_set.insert(seqnum);
-        APacked_ack.add_acks(seqnum);
-        server.A2W_send_queue.push(APacked_ack);
-        processPacked(ready);
       }
 
       // start to parse ALoaded
-      for (int i = 0; i < aresponses.loaded_size(); i ++ ){
-        ACommands ALoaded_ack;
-        ALoaded loaded = aresponses.loaded(i);
+      for (size_t i = 0; i < aloadeds.size(); i ++ ){
+        ALoaded loaded = aloadeds[i];
         int seqnum = loaded.seqnum();
-        if (server.finished_SeqNum_set.find(seqnum) != server.finished_SeqNum_set.end()){
-          continue;
+        if (!checkWorldHasHandled(seqnum)){
+          std::cout << "start to parse ALoaded" << std::endl;
+          processLoaded(loaded);
         }
-        std::cout << "start to parse ALoaded" << std::endl;
-        server.finished_SeqNum_set.insert(seqnum);
-        ALoaded_ack.add_acks(seqnum);
-        server.A2W_send_queue.push(ALoaded_ack);
-        processLoaded(loaded);
       }
 }
 

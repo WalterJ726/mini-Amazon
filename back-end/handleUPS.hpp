@@ -3,8 +3,19 @@
 #include "handleProto.hpp"
 #include "Server.hpp"
 
-void handleUPSResponse(UAcommands UAresponses);
+class HandleUPS{
+    private:
+        std::vector<UAbindUPSResponse> uabindreponses;
+        std::vector<UAtruckArrived> uatruckArrs;
+        std::vector<UAdelivered> uadelivereds;
+        std::vector<UAchangeResp> uachangeResps;
+        std::vector<int> seqNums;
 
+    public:
+        HandleUPS(const UAcommands& UAresponses);
+        ~HandleUPS() {}
+        void handleUPSResponse();
+};
 // parse reponse
 void processbindUPSResponse(UAbindUPSResponse bindreponse);
 void processUAtruckArrived(UAtruckArrived truckArr);
