@@ -20,7 +20,6 @@ services:
   web:
     build: ./front-end/miniAmazon
     user: nobody
-    # command: ./wait-for-it.sh db:5432
     command: /code/runserver.sh
     volumes:
       - ./front-end/miniAmazon:/code
@@ -29,17 +28,11 @@ services:
     depends_on:
       - web-init
   server:
-    build:
-      context: ./back-end
-      args:
-        - HOST_UPS=vcm-33562.vm.duke.edu
+    build: ./back-end
     user: root
-    environment:
-      - UPS_HOST_NAME=vcm-33562.vm.duke.edu
     volumes:
       - ./back-end:/code
-    command: "./run.sh"
-    # command: "./server vcm-24273.vm.duke.edu"
+    command: bash -c "./run.sh"
     ports:
       - "23456:23456"
       - "34567:34567" # ups
