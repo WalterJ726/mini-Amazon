@@ -100,14 +100,21 @@ void processbindUPSResponse(UAbindUPSResponse bindreponse){
   db.update_bind_status(user_id, ups_id, status_str);
 }
 
+bool checkPackageIsPacked(int ship_id){
+    Database& db = Database::getInstance();
+    std::string check_status = "packing";
+    if (!db.check_package_status(ship_id, check_status)){
+      // status is packed
+      return true;
+    }
+    return false;
+}
+
 void processUAtruckArrived(UAtruckArrived truckArr){
   // check whether the package status is packed 
-  Database& db = Database::getInstance();
-  std::string check_status = "packing";
   while (1){
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    if (!db.check_package_status(truckArr.shipid(), check_status)){
-      // status is packed
+    if (checkPackageIsPacked(truckArr.shipid())){
       break;
     }
   }
@@ -123,6 +130,7 @@ void processUAtruckArrived(UAtruckArrived truckArr){
 
   // change status to loading
   trySendMsgToWorld(acommand, seq_num);
+  Database& db = Database::getInstance();
   std::string status = "loading";
   db.update_package_status(truckArr.shipid(), status);
 }

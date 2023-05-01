@@ -41,7 +41,7 @@ std::vector<std::pair<std::pair<size_t, std::string>, size_t>> get_products_orde
     std::vector<std::pair<std::pair<size_t, std::string>, size_t>> products;
     
     for (size_t i = 0; i < product_types; i++){
-      std::pair<size_t, std::string> id_name(std::stoul(headerMap.at("product_id").at(i)), headerMap.at("product_id").at(i));
+      std::pair<size_t, std::string> id_name(std::stoul(headerMap.at("product_id").at(i)), headerMap.at("product_name").at(i));
       size_t quantity = std::stoul(headerMap.at("quantity").at(i));
       products.push_back(std::pair<std::pair<size_t, std::string>, size_t>(id_name, quantity));
     }
